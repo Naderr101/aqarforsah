@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
@@ -21,6 +20,7 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as RentRouteImport } from './routes/rent'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SaleRouteImport } from './routes/sale'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as DashboardInquiriesRouteImport } from './routes/dashboard.inquiries'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
 import { Route as DashboardPropertiesRouteImport } from './routes/dashboard.properties'
@@ -32,6 +32,16 @@ import { Route as ProjectOpportunitiesIndexRouteImport } from './routes/project-
 import { Route as ProjectOpportunitiesSlugRouteImport } from './routes/project-opportunities.$slug'
 import { Route as PropertySlugRouteImport } from './routes/property/$slug'
 import { Route as SellExitIndexRouteImport } from './routes/sell-exit.index'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminCatalogRouteImport } from './routes/_authenticated/admin.catalog'
+import { Route as AuthenticatedAdminCitiesRouteImport } from './routes/_authenticated/admin.cities'
+import { Route as AuthenticatedAdminContentRouteImport } from './routes/_authenticated/admin.content'
+import { Route as AuthenticatedAdminCrmRouteImport } from './routes/_authenticated/admin.crm'
+import { Route as AuthenticatedAdminFormsRouteImport } from './routes/_authenticated/admin.forms'
+import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authenticated/admin.media'
+import { Route as AuthenticatedAdminNavRouteImport } from './routes/_authenticated/admin.nav'
+import { Route as AuthenticatedAdminNewUnitsRouteImport } from './routes/_authenticated/admin.new-units'
+import { Route as AuthenticatedAdminProjectOpportunitiesRouteImport } from './routes/_authenticated/admin.project-opportunities'
 import { Route as AuthenticatedDashboardExitRequestsRouteImport } from './routes/_authenticated/dashboard.exit-requests'
 import { Route as AuthenticatedSellExitNewRouteImport } from './routes/_authenticated/sell-exit.new'
 import { Route as AuthenticatedSellExitStatusRouteImport } from './routes/_authenticated/sell-exit.status'
@@ -48,11 +58,6 @@ const IndexRoute = IndexRouteImport.update({
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -99,6 +104,11 @@ const SaleRoute = SaleRouteImport.update({
   id: '/sale',
   path: '/sale',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const DashboardInquiriesRoute = DashboardInquiriesRouteImport.update({
   id: '/inquiries',
@@ -157,6 +167,61 @@ const SellExitIndexRoute = SellExitIndexRouteImport.update({
   path: '/sell-exit/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminCatalogRoute =
+  AuthenticatedAdminCatalogRouteImport.update({
+    id: '/catalog',
+    path: '/catalog',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCitiesRoute =
+  AuthenticatedAdminCitiesRouteImport.update({
+    id: '/cities',
+    path: '/cities',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentRoute =
+  AuthenticatedAdminContentRouteImport.update({
+    id: '/content',
+    path: '/content',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCrmRoute = AuthenticatedAdminCrmRouteImport.update({
+  id: '/crm',
+  path: '/crm',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminFormsRoute = AuthenticatedAdminFormsRouteImport.update({
+  id: '/forms',
+  path: '/forms',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminMediaRoute = AuthenticatedAdminMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminNavRoute = AuthenticatedAdminNavRouteImport.update({
+  id: '/nav',
+  path: '/nav',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminNewUnitsRoute =
+  AuthenticatedAdminNewUnitsRouteImport.update({
+    id: '/new-units',
+    path: '/new-units',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminProjectOpportunitiesRoute =
+  AuthenticatedAdminProjectOpportunitiesRouteImport.update({
+    id: '/project-opportunities',
+    path: '/project-opportunities',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedDashboardExitRequestsRoute =
   AuthenticatedDashboardExitRequestsRouteImport.update({
     id: '/dashboard/exit-requests',
@@ -206,7 +271,6 @@ const AuthenticatedStaffVerificationIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/favorites': typeof FavoritesRoute
   '/forgot-password': typeof ForgotPasswordRoute
@@ -216,6 +280,7 @@ export interface FileRoutesByFullPath {
   '/rent': typeof RentRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sale': typeof SaleRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/properties': typeof DashboardPropertiesRoute
@@ -227,18 +292,27 @@ export interface FileRoutesByFullPath {
   '/new-units/': typeof NewUnitsIndexRoute
   '/project-opportunities/': typeof ProjectOpportunitiesIndexRoute
   '/sell-exit/': typeof SellExitIndexRoute
+  '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
+  '/admin/cities': typeof AuthenticatedAdminCitiesRoute
+  '/admin/content': typeof AuthenticatedAdminContentRoute
+  '/admin/crm': typeof AuthenticatedAdminCrmRoute
+  '/admin/forms': typeof AuthenticatedAdminFormsRoute
+  '/admin/media': typeof AuthenticatedAdminMediaRoute
+  '/admin/nav': typeof AuthenticatedAdminNavRoute
+  '/admin/new-units': typeof AuthenticatedAdminNewUnitsRoute
+  '/admin/project-opportunities': typeof AuthenticatedAdminProjectOpportunitiesRoute
   '/dashboard/exit-requests': typeof AuthenticatedDashboardExitRequestsRoute
   '/sell-exit/new': typeof AuthenticatedSellExitNewRoute
   '/sell-exit/status': typeof AuthenticatedSellExitStatusRoute
   '/staff/audit': typeof AuthenticatedStaffAuditRoute
   '/staff/settings': typeof AuthenticatedStaffSettingsRoute
   '/staff/users': typeof AuthenticatedStaffUsersRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
   '/staff/verification/$id': typeof AuthenticatedStaffVerificationIdRoute
   '/staff/verification/': typeof AuthenticatedStaffVerificationIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/favorites': typeof FavoritesRoute
   '/forgot-password': typeof ForgotPasswordRoute
@@ -259,12 +333,22 @@ export interface FileRoutesByTo {
   '/new-units': typeof NewUnitsIndexRoute
   '/project-opportunities': typeof ProjectOpportunitiesIndexRoute
   '/sell-exit': typeof SellExitIndexRoute
+  '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
+  '/admin/cities': typeof AuthenticatedAdminCitiesRoute
+  '/admin/content': typeof AuthenticatedAdminContentRoute
+  '/admin/crm': typeof AuthenticatedAdminCrmRoute
+  '/admin/forms': typeof AuthenticatedAdminFormsRoute
+  '/admin/media': typeof AuthenticatedAdminMediaRoute
+  '/admin/nav': typeof AuthenticatedAdminNavRoute
+  '/admin/new-units': typeof AuthenticatedAdminNewUnitsRoute
+  '/admin/project-opportunities': typeof AuthenticatedAdminProjectOpportunitiesRoute
   '/dashboard/exit-requests': typeof AuthenticatedDashboardExitRequestsRoute
   '/sell-exit/new': typeof AuthenticatedSellExitNewRoute
   '/sell-exit/status': typeof AuthenticatedSellExitStatusRoute
   '/staff/audit': typeof AuthenticatedStaffAuditRoute
   '/staff/settings': typeof AuthenticatedStaffSettingsRoute
   '/staff/users': typeof AuthenticatedStaffUsersRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
   '/staff/verification/$id': typeof AuthenticatedStaffVerificationIdRoute
   '/staff/verification': typeof AuthenticatedStaffVerificationIndexRoute
 }
@@ -272,7 +356,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/admin': typeof AdminRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/favorites': typeof FavoritesRoute
   '/forgot-password': typeof ForgotPasswordRoute
@@ -282,6 +365,7 @@ export interface FileRoutesById {
   '/rent': typeof RentRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sale': typeof SaleRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/properties': typeof DashboardPropertiesRoute
@@ -293,12 +377,22 @@ export interface FileRoutesById {
   '/new-units/': typeof NewUnitsIndexRoute
   '/project-opportunities/': typeof ProjectOpportunitiesIndexRoute
   '/sell-exit/': typeof SellExitIndexRoute
+  '/_authenticated/admin/catalog': typeof AuthenticatedAdminCatalogRoute
+  '/_authenticated/admin/cities': typeof AuthenticatedAdminCitiesRoute
+  '/_authenticated/admin/content': typeof AuthenticatedAdminContentRoute
+  '/_authenticated/admin/crm': typeof AuthenticatedAdminCrmRoute
+  '/_authenticated/admin/forms': typeof AuthenticatedAdminFormsRoute
+  '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
+  '/_authenticated/admin/nav': typeof AuthenticatedAdminNavRoute
+  '/_authenticated/admin/new-units': typeof AuthenticatedAdminNewUnitsRoute
+  '/_authenticated/admin/project-opportunities': typeof AuthenticatedAdminProjectOpportunitiesRoute
   '/_authenticated/dashboard/exit-requests': typeof AuthenticatedDashboardExitRequestsRoute
   '/_authenticated/sell-exit/new': typeof AuthenticatedSellExitNewRoute
   '/_authenticated/sell-exit/status': typeof AuthenticatedSellExitStatusRoute
   '/_authenticated/staff/audit': typeof AuthenticatedStaffAuditRoute
   '/_authenticated/staff/settings': typeof AuthenticatedStaffSettingsRoute
   '/_authenticated/staff/users': typeof AuthenticatedStaffUsersRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/staff/verification/$id': typeof AuthenticatedStaffVerificationIdRoute
   '/_authenticated/staff/verification/': typeof AuthenticatedStaffVerificationIndexRoute
 }
@@ -306,7 +400,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/admin'
     | '/dashboard'
     | '/favorites'
     | '/forgot-password'
@@ -316,6 +409,7 @@ export interface FileRouteTypes {
     | '/rent'
     | '/reset-password'
     | '/sale'
+    | '/admin'
     | '/dashboard/inquiries'
     | '/dashboard/profile'
     | '/dashboard/properties'
@@ -327,18 +421,27 @@ export interface FileRouteTypes {
     | '/new-units/'
     | '/project-opportunities/'
     | '/sell-exit/'
+    | '/admin/catalog'
+    | '/admin/cities'
+    | '/admin/content'
+    | '/admin/crm'
+    | '/admin/forms'
+    | '/admin/media'
+    | '/admin/nav'
+    | '/admin/new-units'
+    | '/admin/project-opportunities'
     | '/dashboard/exit-requests'
     | '/sell-exit/new'
     | '/sell-exit/status'
     | '/staff/audit'
     | '/staff/settings'
     | '/staff/users'
+    | '/admin/'
     | '/staff/verification/$id'
     | '/staff/verification/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
     | '/dashboard'
     | '/favorites'
     | '/forgot-password'
@@ -359,19 +462,28 @@ export interface FileRouteTypes {
     | '/new-units'
     | '/project-opportunities'
     | '/sell-exit'
+    | '/admin/catalog'
+    | '/admin/cities'
+    | '/admin/content'
+    | '/admin/crm'
+    | '/admin/forms'
+    | '/admin/media'
+    | '/admin/nav'
+    | '/admin/new-units'
+    | '/admin/project-opportunities'
     | '/dashboard/exit-requests'
     | '/sell-exit/new'
     | '/sell-exit/status'
     | '/staff/audit'
     | '/staff/settings'
     | '/staff/users'
+    | '/admin'
     | '/staff/verification/$id'
     | '/staff/verification'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
-    | '/admin'
     | '/dashboard'
     | '/favorites'
     | '/forgot-password'
@@ -381,6 +493,7 @@ export interface FileRouteTypes {
     | '/rent'
     | '/reset-password'
     | '/sale'
+    | '/_authenticated/admin'
     | '/dashboard/inquiries'
     | '/dashboard/profile'
     | '/dashboard/properties'
@@ -392,12 +505,22 @@ export interface FileRouteTypes {
     | '/new-units/'
     | '/project-opportunities/'
     | '/sell-exit/'
+    | '/_authenticated/admin/catalog'
+    | '/_authenticated/admin/cities'
+    | '/_authenticated/admin/content'
+    | '/_authenticated/admin/crm'
+    | '/_authenticated/admin/forms'
+    | '/_authenticated/admin/media'
+    | '/_authenticated/admin/nav'
+    | '/_authenticated/admin/new-units'
+    | '/_authenticated/admin/project-opportunities'
     | '/_authenticated/dashboard/exit-requests'
     | '/_authenticated/sell-exit/new'
     | '/_authenticated/sell-exit/status'
     | '/_authenticated/staff/audit'
     | '/_authenticated/staff/settings'
     | '/_authenticated/staff/users'
+    | '/_authenticated/admin/'
     | '/_authenticated/staff/verification/$id'
     | '/_authenticated/staff/verification/'
   fileRoutesById: FileRoutesById
@@ -405,7 +528,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  AdminRoute: typeof AdminRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   FavoritesRoute: typeof FavoritesRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
@@ -439,13 +561,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -510,6 +625,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/sale'
       preLoaderRoute: typeof SaleRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/dashboard/inquiries': {
       id: '/dashboard/inquiries'
@@ -588,6 +710,76 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellExitIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/catalog': {
+      id: '/_authenticated/admin/catalog'
+      path: '/catalog'
+      fullPath: '/admin/catalog'
+      preLoaderRoute: typeof AuthenticatedAdminCatalogRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/cities': {
+      id: '/_authenticated/admin/cities'
+      path: '/cities'
+      fullPath: '/admin/cities'
+      preLoaderRoute: typeof AuthenticatedAdminCitiesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content': {
+      id: '/_authenticated/admin/content'
+      path: '/content'
+      fullPath: '/admin/content'
+      preLoaderRoute: typeof AuthenticatedAdminContentRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/crm': {
+      id: '/_authenticated/admin/crm'
+      path: '/crm'
+      fullPath: '/admin/crm'
+      preLoaderRoute: typeof AuthenticatedAdminCrmRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/forms': {
+      id: '/_authenticated/admin/forms'
+      path: '/forms'
+      fullPath: '/admin/forms'
+      preLoaderRoute: typeof AuthenticatedAdminFormsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/media': {
+      id: '/_authenticated/admin/media'
+      path: '/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AuthenticatedAdminMediaRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/nav': {
+      id: '/_authenticated/admin/nav'
+      path: '/nav'
+      fullPath: '/admin/nav'
+      preLoaderRoute: typeof AuthenticatedAdminNavRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/new-units': {
+      id: '/_authenticated/admin/new-units'
+      path: '/new-units'
+      fullPath: '/admin/new-units'
+      preLoaderRoute: typeof AuthenticatedAdminNewUnitsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/project-opportunities': {
+      id: '/_authenticated/admin/project-opportunities'
+      path: '/project-opportunities'
+      fullPath: '/admin/project-opportunities'
+      preLoaderRoute: typeof AuthenticatedAdminProjectOpportunitiesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/dashboard/exit-requests': {
       id: '/_authenticated/dashboard/exit-requests'
       path: '/dashboard/exit-requests'
@@ -647,7 +839,38 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminCatalogRoute: typeof AuthenticatedAdminCatalogRoute
+  AuthenticatedAdminCitiesRoute: typeof AuthenticatedAdminCitiesRoute
+  AuthenticatedAdminContentRoute: typeof AuthenticatedAdminContentRoute
+  AuthenticatedAdminCrmRoute: typeof AuthenticatedAdminCrmRoute
+  AuthenticatedAdminFormsRoute: typeof AuthenticatedAdminFormsRoute
+  AuthenticatedAdminMediaRoute: typeof AuthenticatedAdminMediaRoute
+  AuthenticatedAdminNavRoute: typeof AuthenticatedAdminNavRoute
+  AuthenticatedAdminNewUnitsRoute: typeof AuthenticatedAdminNewUnitsRoute
+  AuthenticatedAdminProjectOpportunitiesRoute: typeof AuthenticatedAdminProjectOpportunitiesRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminCatalogRoute: AuthenticatedAdminCatalogRoute,
+  AuthenticatedAdminCitiesRoute: AuthenticatedAdminCitiesRoute,
+  AuthenticatedAdminContentRoute: AuthenticatedAdminContentRoute,
+  AuthenticatedAdminCrmRoute: AuthenticatedAdminCrmRoute,
+  AuthenticatedAdminFormsRoute: AuthenticatedAdminFormsRoute,
+  AuthenticatedAdminMediaRoute: AuthenticatedAdminMediaRoute,
+  AuthenticatedAdminNavRoute: AuthenticatedAdminNavRoute,
+  AuthenticatedAdminNewUnitsRoute: AuthenticatedAdminNewUnitsRoute,
+  AuthenticatedAdminProjectOpportunitiesRoute:
+    AuthenticatedAdminProjectOpportunitiesRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedDashboardExitRequestsRoute: typeof AuthenticatedDashboardExitRequestsRoute
   AuthenticatedSellExitNewRoute: typeof AuthenticatedSellExitNewRoute
   AuthenticatedSellExitStatusRoute: typeof AuthenticatedSellExitStatusRoute
@@ -659,6 +882,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedDashboardExitRequestsRoute:
     AuthenticatedDashboardExitRequestsRoute,
   AuthenticatedSellExitNewRoute: AuthenticatedSellExitNewRoute,
@@ -693,7 +917,6 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  AdminRoute: AdminRoute,
   DashboardRoute: DashboardRouteWithChildren,
   FavoritesRoute: FavoritesRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,

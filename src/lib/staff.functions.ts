@@ -5,13 +5,16 @@ import { MONEY_RE, normalizeMoney } from "./money";
 
 const uuid = z.string().uuid();
 const money = z.string().max(24).transform(normalizeMoney).refine((v) => MONEY_RE.test(v), "مبلغ غير صحيح");
-type Ctx = { supabase: import("@supabase/supabase-js").SupabaseClient<import("@/integrations/supabase/types").Database>; userId: string };
+type Ctx = { supabase: import("@supabase/supabase-js").SupabaseClient<import("@/integrations/supabase/types").Database>; userId: string; claims: unknown };
+function requireMfa(ctx: Ctx) { if ((ctx.claims as { aal?: string } | null)?.aal !== "aal2") throw new Error("MFA_REQUIRED"); }
 
 async function requireStaff(ctx: Ctx) {
+  requireMfa(ctx);
   const { data } = await ctx.supabase.rpc("is_staff", { _user_id: ctx.userId });
   if (!data) throw new Error("FORBIDDEN");
 }
 async function requireAdmin(ctx: Ctx) {
+  requireMfa(ctx);
   const { data } = await ctx.supabase.rpc("is_admin", { _user_id: ctx.userId });
   if (!data) throw new Error("FORBIDDEN");
 }
@@ -25,6 +28,7 @@ const friendly = (m: string) => {
     SELF_REVIEW_FORBIDDEN: "مش ممكن تراجع طلبك الشخصي.",
     VERIFIED_AMOUNT_REQUIRED: "أدخل المبلغ الموثق.",
     CANNOT_REMOVE_OWN_ADMIN: "مش ممكن تشيل صلاحية الإدارة من نفسك.",
+    MFA_REQUIRED: "افتح لوحة التحكم وأكمل التحقق بخطوتين الأول.",
     FORBIDDEN: "غير مسموح.",
   };
   const k = Object.keys(map).find((x) => m.includes(x));

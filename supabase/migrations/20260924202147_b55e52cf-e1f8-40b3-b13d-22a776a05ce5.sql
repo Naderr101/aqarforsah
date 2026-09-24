@@ -1,0 +1,4 @@
+create policy "site media admin read" on storage.objects for select to authenticated using (bucket_id = 'site-media' and public.is_admin_mfa());
+create policy "site media admin insert" on storage.objects for insert to authenticated with check (bucket_id = 'site-media' and public.is_admin_mfa() and lower(storage.extension(name)) in ('png','jpg','jpeg','webp','svg','ico'));
+create policy "site media admin update" on storage.objects for update to authenticated using (bucket_id = 'site-media' and public.is_admin_mfa());
+create policy "site media admin delete" on storage.objects for delete to authenticated using (bucket_id = 'site-media' and public.is_admin_mfa());

@@ -12,3 +12,6 @@
 - [x] Roles + account states, verification queue (8 checks), private documents with versions, payment verification, exit amount engine, market valuation, seller confirm + publish, audit log, settings (brief 3: sections 1-7, 27, 29)
 - [ ] Brief 3 sections 8-26, 28: buyer profile, favorites/saved searches, interest + leads, matching, CRM, notifications, purchase request, reservation, transaction workflow, snapshot, offline payment, developer approval, fees, disputes, new units, project opportunities, full admin, analytics, privacy
 - [ ] First admin account: user must register, then ask to be granted SUPER_ADMIN
+- [x] Admin control panel /admin with 2FA, idle logout, content/branding/images, nav, cities, catalog, new units, project opportunities, forms, CRM
+- [ ] Public new-units / project-opportunities pages still show demo data; switch to admin-managed tables
+- [ ] Footer text wiring to site content

@@ -7,6 +7,7 @@ import { ExitExample, HowExitWorks } from "@/components/aqar/opportunity/HowExit
 import { DemoNotice } from "@/components/aqar/opportunity/DemoNotice";
 import { exitOpportunities, newUnits, projectOpportunities } from "@/data/opportunities";
 import hero from "@/assets/aqar-hero.jpg";
+import { useSiteContent } from "@/lib/site-content";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
@@ -31,15 +32,16 @@ function SectionHead({ title, to }: { title: string; to: "/exit-opportunities" |
 }
 
 function Index() {
+  const t = useSiteContent();
   return (
     <main>
       <section className="relative min-h-[430px] overflow-hidden">
-        <img src={hero} width={1920} height={900} alt="إطلالة عقارية حديثة في القاهرة الجديدة" className="absolute inset-0 h-full w-full object-cover object-center" />
+        <img src={t("home.hero_image") || hero} width={1920} height={900} alt="إطلالة عقارية حديثة في القاهرة الجديدة" className="absolute inset-0 h-full w-full object-cover object-center" />
         <div className="hero-wash absolute inset-0" />
         <div className="relative mx-auto flex min-h-[430px] max-w-7xl items-center px-4 py-12 lg:px-8">
           <div className="w-full max-w-2xl">
-            <h1 className="text-3xl font-black leading-tight text-primary md:text-5xl">إنت مش بتدور على عقار..<br />إنت بتدور على <span className="text-brand-blue">فرصة</span></h1>
-            <p className="mt-3 font-bold text-foreground/80 md:text-lg">فرص خروج من عقود تقسيط بمبلغ خروج قائم على المدفوع فعلياً — بدون أوفر برايس.</p>
+            <h1 className="text-3xl font-black leading-tight text-primary md:text-5xl">{t("home.hero_title")}</h1>
+            <p className="mt-3 font-bold text-foreground/80 md:text-lg">{t("home.hero_subtitle")}</p>
             <div className="mt-6"><SearchBar /></div>
           </div>
         </div>
@@ -49,14 +51,14 @@ function Index() {
         <div className="grid gap-3 md:grid-cols-[1.4fr_1fr_1fr]">
           <Link to="/exit-opportunities" className="grid min-h-32 grid-cols-[auto_1fr_auto] items-center gap-4 rounded-lg bg-primary p-5 text-primary-foreground shadow-card">
             <LogOut className="size-10 text-brand-green" />
-            <div><span className="text-[11px] font-bold text-primary-foreground/70">القسم الأساسي</span><h2 className="text-xl font-black">فرص الخروج</h2><p className="mt-1 text-sm leading-6 text-primary-foreground/80">فرص لوحدات أصحابها عايزين يخرجوا من عقودهم.</p></div>
+            <div><span className="text-[11px] font-bold text-primary-foreground/70">القسم الأساسي</span><h2 className="text-xl font-black">{t("home.exit_title")}</h2><p className="mt-1 text-sm leading-6 text-primary-foreground/80">{t("home.exit_text")}</p></div>
             <ArrowLeft className="size-5" />
           </Link>
           <Link to="/new-units" className="grid min-h-32 grid-cols-[auto_1fr_auto] items-center gap-4 rounded-lg bg-secondary p-5">
-            <Building2 className="size-9 text-brand-pink" /><div><h2 className="text-lg font-black text-primary">الوحدات الجديدة</h2><p className="mt-1 text-sm leading-6 text-foreground/75">وحدات مباشرة من المطورين والمشروعات.</p></div><ArrowLeft className="size-5 text-primary" />
+            <Building2 className="size-9 text-brand-pink" /><div><h2 className="text-lg font-black text-primary">{t("home.units_title")}</h2><p className="mt-1 text-sm leading-6 text-foreground/75">{t("home.units_text")}</p></div><ArrowLeft className="size-5 text-primary" />
           </Link>
           <Link to="/project-opportunities" className="grid min-h-32 grid-cols-[auto_1fr_auto] items-center gap-4 rounded-lg bg-accent p-5">
-            <Construction className="size-9 text-brand-blue" /><div><h2 className="text-lg font-black text-primary">فرص المشاريع</h2><p className="mt-1 text-sm leading-6 text-foreground/75">فرص تطوير واستثمار ومشروعات عقارية.</p></div><ArrowLeft className="size-5 text-primary" />
+            <Construction className="size-9 text-brand-blue" /><div><h2 className="text-lg font-black text-primary">{t("home.projects_title")}</h2><p className="mt-1 text-sm leading-6 text-foreground/75">{t("home.projects_text")}</p></div><ArrowLeft className="size-5 text-primary" />
           </Link>
         </div>
       </section>
@@ -73,7 +75,7 @@ function Index() {
 
       <section className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         <div className="flex flex-col items-start justify-between gap-4 rounded-lg border bg-card p-6 shadow-card md:flex-row md:items-center">
-          <div><h2 className="text-xl font-black text-primary">عايز تخرج من وحدتك؟</h2><p className="mt-1 text-sm text-muted-foreground">ضيف بيانات عقدك ومدفوعاتك، ومبلغ الخروج بيتحدد بعد مراجعة المستندات.</p></div>
+          <div><h2 className="text-xl font-black text-primary">{t("home.sell_title")}</h2><p className="mt-1 text-sm text-muted-foreground">{t("home.sell_text")}</p></div>
           <Button asChild size="lg"><Link to="/sell-exit">ابدأ طلب الخروج <ArrowLeft /></Link></Button>
         </div>
       </section>
