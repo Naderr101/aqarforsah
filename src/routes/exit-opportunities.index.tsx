@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { OpportunityListing, RangeFilter } from "@/components/aqar/opportunity/OpportunityListing";
 import { ExitOpportunityCard } from "@/components/aqar/opportunity/OpportunityCards";
 import { Button } from "@/components/ui/button";
+import { PublishedExits } from "@/components/aqar/opportunity/PublishedExits";
 import { exitOpportunities } from "@/data/opportunities";
 
 export const Route = createFileRoute("/exit-opportunities/")({
@@ -25,7 +26,7 @@ function Page() {
       items={exitOpportunities}
       q={q}
       render={(o) => <ExitOpportunityCard o={o} />}
-      heroExtra={<div className="flex flex-wrap items-center gap-3 text-sm"><span className="font-bold text-foreground/80">عايز تخرج من وحدتك؟</span><Button asChild size="sm" variant="outline"><Link to="/sell-exit">ابدأ طلب الخروج</Link></Button></div>}
+      heroExtra={<div className="flex flex-wrap items-center gap-3 text-sm"><span className="font-bold text-foreground/80">عايز تخرج من وحدتك؟</span><Button asChild size="sm" variant="outline"><Link to="/sell-exit">ابدأ طلب الخروج</Link></Button><PublishedExits /></div>}
       filters={<><RangeFilter label="مبلغ الخروج" /><RangeFilter label="المتبقي للمطور" /><RangeFilter label="القسط الشهري" /></>}
     />
   );

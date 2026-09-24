@@ -1,0 +1,14 @@
+alter type public.exit_status add value if not exists 'under_verification';
+alter type public.exit_status add value if not exists 'documents_required';
+alter type public.exit_status add value if not exists 'verified';
+alter type public.exit_status add value if not exists 'rejected';
+alter type public.exit_status add value if not exists 'published';
+alter type public.payment_verification_status add value if not exists 'ADJUSTED';
+create type public.app_role as enum ('BUYER','SELLER','DEVELOPER','SALES_AGENT','VERIFICATION_AGENT','ADMIN','SUPER_ADMIN');
+create type public.account_status as enum ('PENDING','ACTIVE','UNDER_REVIEW','SUSPENDED','BLOCKED');
+create type public.document_kind as enum ('CONTRACT','PAYMENT_SCHEDULE','RECEIPT','NATIONAL_ID','AUTHORIZATION','ASSIGNMENT','OTHER');
+create type public.document_status as enum ('UPLOADED','PROCESSING','UNDER_REVIEW','VERIFIED','REJECTED','REPLACEMENT_REQUIRED');
+create type public.verification_check_type as enum ('IDENTITY','CONTRACT','UNIT_PROJECT_DEVELOPER','PAYMENTS','REMAINING_BALANCE','TRANSFER_ELIGIBILITY','CANCELLATION_TERMS','MARKET_VALUE');
+create type public.verification_check_status as enum ('PENDING','PASSED','FAILED','NEEDS_INFO');
+create type public.valuation_source as enum ('DEVELOPER_PRICE','VERIFIED_COMPARABLES','PROFESSIONAL_VALUATION','APPROVED_MARKET_DATA','ADMIN_REVIEW');
+create type public.valuation_status as enum ('DRAFT','VERIFIED','SUPERSEDED');

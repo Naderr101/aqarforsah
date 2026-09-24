@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, Check, CloudOff, FileUp, Loader2, Pencil, Plus, Search, Trash2, UserRound, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, CloudOff, Loader2, Pencil, Plus, Search, Trash2, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,12 +10,13 @@ import { useCatalog, type Catalog } from "@/lib/catalog";
 import { claimedTotals, useServerDraft, type SaveState } from "@/lib/exit-request-store";
 import { submitExitDraft } from "@/lib/exit-drafts.functions";
 import { formatCents, formatMoneyStr } from "@/lib/money";
-import { paymentCategories, paymentCategoryLabel, type ClaimedPayment, type DocumentKind, type ExitRequestDraft } from "@/types/exit-request";
+import { documentKindLabel, documentKinds, paymentCategories, paymentCategoryLabel, type ClaimedPayment, type ExitRequestDraft } from "@/types/exit-request";
+import { DocumentsManager } from "./DocumentsManager";
 import { AreaField, ChoiceField, ClaimedNotice, SelectField, TextField } from "./fields";
 import { steps, validateStep, type Errors, type StepId } from "./steps";
 
 type Upd = <K extends keyof ExitRequestDraft>(k: K, v: ExitRequestDraft[K]) => void;
-type StepProps = { d: ExitRequestDraft; update: Upd; errors: Errors; catalog: Catalog };
+type StepProps = { d: ExitRequestDraft; update: Upd; errors: Errors; catalog: Catalog; oppId: string };
 
 export function ExitWizard({ id }: { id: string }) {
   const { query, record, draft, step: i, maxStep, goStep, update, saveState, flush } = useServerDraft(id);
@@ -54,7 +55,7 @@ export function ExitWizard({ id }: { id: string }) {
     } catch { setSubmitError("تعذر إرسال الطلب. حاول تاني."); }
     finally { setSubmitting(false); }
   };
-  const props: StepProps = { d: draft, update, errors, catalog };
+  const props: StepProps = { d: draft, update, errors, catalog, oppId: id };
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -277,30 +278,12 @@ function PaymentsStep({ d, update, errors }: StepProps) {
   );
 }
 
-const docKinds: Array<[DocumentKind, string, boolean]> = [["contract", "العقد", true], ["schedule", "جدول السداد", false], ["receipts", "إيصالات السداد", true], ["nationalId", "صورة البطاقة", false], ["other", "مستندات أخرى", false]];
-
-function DocumentsStep({ d, update, errors }: StepProps) {
-  const docs = d.documents;
-  const add = (k: DocumentKind, files: FileList | null) => { if (!files) return; update("documents", { ...docs, [k]: [...docs[k], ...Array.from(files).map((f) => ({ name: f.name, size: f.size }))] }); };
-  const remove = (k: DocumentKind, idx: number) => update("documents", { ...docs, [k]: docs[k].filter((_, j) => j !== idx) });
+function DocumentsStep({ d, update, errors, oppId }: StepProps) {
   return (
     <>
       <p className="text-sm text-muted-foreground">المستندات بتتراجع من فريق عقار فرصة ومش بتظهر للمشترين.</p>
-      {docKinds.map(([k, label, required]) => (
-        <div key={k} className="rounded-lg border p-4">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <span className="font-bold">{label}{!required && <span className="mr-1 text-xs font-normal text-muted-foreground">(اختياري)</span>}</span>
-            <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border bg-background px-3 py-2 text-sm font-bold hover:bg-secondary">
-              <FileUp className="size-4" /> رفع ملف
-              <input type="file" multiple accept="image/*,application/pdf" className="sr-only" onChange={(e) => { add(k, e.target.files); e.target.value = ""; }} />
-            </label>
-          </div>
-          {docs[k].length > 0 && <ul className="mt-3 grid gap-1">{docs[k].map((f, idx) => <li key={`${f.name}-${idx}`} className="flex items-center justify-between rounded bg-secondary/60 px-3 py-1.5 text-xs"><span className="truncate">{f.name}</span><button type="button" onClick={() => remove(k, idx)} aria-label="حذف"><X className="size-3.5" /></button></li>)}</ul>}
-          {errors[k] && <p className="mt-2 text-xs font-bold text-destructive">{errors[k]}</p>}
-        </div>
-      ))}
-      <AreaField label="ملاحظات للمراجعة" optional value={docs.notes} onChange={(v) => update("documents", { ...docs, notes: v })} />
-      <p className="text-[11px] text-muted-foreground">ملحوظة: حالياً بنسجل أسماء الملفات بس؛ رفع الملفات نفسها هيتفعّل في مرحلة المراجعة.</p>
+      <DocumentsManager oppId={oppId} docs={d.documents} onChange={(v) => update("documents", v)} errors={errors} mode="draft" />
+      <AreaField label="ملاحظات للمراجعة" optional value={d.documents.notes} onChange={(v) => update("documents", { ...d.documents, notes: v })} />
     </>
   );
 }
@@ -343,7 +326,7 @@ function ReviewStep({ d, catalog, onEdit }: { d: ExitRequestDraft; catalog: Cata
     ["unit", "الوحدة", [["النوع", label(d.unit.unitType)], ["المساحة", d.unit.area ? `${d.unit.area} م²` : "—"], ["المرحلة / المبنى / الوحدة", [phase?.name, bld?.name, d.unit.unitNumber].filter(Boolean).join(" / ") || "—"], ["الغرف / الحمامات", `${label(d.unit.bedrooms)} / ${label(d.unit.bathrooms)}`], ["الاستلام", label(d.unit.deliveryDate)]]],
     ["contract", "العقد", [["رقم العقد", label(d.contract.contractNumber)], ["تاريخ العقد", label(d.contract.contractDate)], ["قيمة العقد", money(d.contract.originalValue)], ["القسط", `${money(d.contract.installmentAmount)} · ${label(d.contract.installmentFrequency, freq)}`], ["القسط القادم", label(d.contract.nextInstallmentDate)]]],
     ["payments", "المدفوعات (حسب البائع — غير موثقة)", [["المقدم", money(d.payments.downPayment.amount)], ["عدد الدفعات الأخرى", d.payments.installments.length.toLocaleString("ar-EG")], ["إجمالي المدفوع", formatCents(t.total, cur)], ["أصل الثمن المدفوع", formatCents(t.principal, cur)], ["المتبقي للمطور", money(d.payments.claimedRemainingBalance)]]],
-    ["documents", "المستندات", docKinds.map(([k, l]) => [l, d.documents[k].length ? `${d.documents[k].length.toLocaleString("ar-EG")} ملف` : "—"])],
+    ["documents", "المستندات", documentKinds.map((k) => [documentKindLabel[k], d.documents[k].length ? `${d.documents[k].length.toLocaleString("ar-EG")} ملف` : "—"] as [string, string])],
     ["transfer", "التنازل", [["قابلة للتنازل", ynMap[d.transfer.eligibility]!], ["موافقة المطور", ynMap[d.transfer.developerApprovalRequired]!], ["رسوم التنازل", d.transfer.transferFee || "غير معروفة"]]],
   ];
   return (

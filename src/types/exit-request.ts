@@ -63,8 +63,13 @@ export interface ClaimedPayments {
   claimedRemainingBalance: string;
 }
 
-export type DocumentKind = "contract" | "schedule" | "receipts" | "nationalId" | "other";
-export interface DocumentFile { name: string; size: number }
+export type DocumentKind = "contract" | "schedule" | "receipts" | "nationalId" | "authorization" | "assignment" | "other";
+export const documentKinds: DocumentKind[] = ["contract", "schedule", "receipts", "nationalId", "authorization", "assignment", "other"];
+export const documentKindDb: Record<DocumentKind, string> = { contract: "CONTRACT", schedule: "PAYMENT_SCHEDULE", receipts: "RECEIPT", nationalId: "NATIONAL_ID", authorization: "AUTHORIZATION", assignment: "ASSIGNMENT", other: "OTHER" };
+export const documentKindLabel: Record<DocumentKind, string> = { contract: "العقد", schedule: "جدول السداد", receipts: "إيصالات السداد", nationalId: "صورة البطاقة", authorization: "توكيل / تفويض", assignment: "مستندات التنازل", other: "مستندات أخرى" };
+export type DocumentStatus = "UPLOADED" | "PROCESSING" | "UNDER_REVIEW" | "VERIFIED" | "REJECTED" | "REPLACEMENT_REQUIRED";
+export const documentStatusLabel: Record<DocumentStatus, string> = { UPLOADED: "تم الرفع", PROCESSING: "جاري المعالجة", UNDER_REVIEW: "قيد المراجعة", VERIFIED: "تمت المراجعة", REJECTED: "مرفوض", REPLACEMENT_REQUIRED: "مطلوب استبدال" };
+export interface DocumentFile { id?: string | undefined; name: string; size: number; status?: DocumentStatus | undefined; version?: number | undefined; notes?: string | undefined }
 export type Documents = Record<DocumentKind, DocumentFile[]> & { notes: string };
 
 export interface TransferInfo {
@@ -90,8 +95,20 @@ export interface ExitRequestDraft {
 }
 
 /** Only states the backend currently supports. */
-export type ExitStatus = "draft" | "pending_review";
-export const exitStatusLabel: Record<ExitStatus, string> = { draft: "مسودة", pending_review: "تم إرسال الطلب" };
+export type ExitStatus = "draft" | "pending_review" | "under_verification" | "documents_required" | "verified" | "rejected" | "published";
+export const exitStatusLabel: Record<ExitStatus, string> = {
+  draft: "مسودة", pending_review: "تم إرسال الطلب", under_verification: "قيد المراجعة", documents_required: "مطلوب مستندات إضافية",
+  verified: "تم التحقق", rejected: "مرفوض", published: "منشورة",
+};
+export type CheckType = "IDENTITY" | "CONTRACT" | "UNIT_PROJECT_DEVELOPER" | "PAYMENTS" | "REMAINING_BALANCE" | "TRANSFER_ELIGIBILITY" | "CANCELLATION_TERMS" | "MARKET_VALUE";
+export const checkTypeLabel: Record<CheckType, string> = {
+  IDENTITY: "الهوية", CONTRACT: "العقد", UNIT_PROJECT_DEVELOPER: "الوحدة / المشروع / المطور", PAYMENTS: "المدفوعات", REMAINING_BALANCE: "المتبقي للمطور",
+  TRANSFER_ELIGIBILITY: "قابلية التنازل", CANCELLATION_TERMS: "شروط الإلغاء", MARKET_VALUE: "سعر السوق",
+};
+export type CheckStatus = "PENDING" | "PASSED" | "FAILED" | "NEEDS_INFO";
+export const checkStatusLabel: Record<CheckStatus, string> = { PENDING: "لم تتم بعد", PASSED: "تم التحقق", FAILED: "لم يجتز", NEEDS_INFO: "مطلوب معلومات" };
+export type PaymentVerification = "CLAIMED" | "VERIFIED" | "ADJUSTED" | "REJECTED";
+export const paymentVerificationLabel: Record<PaymentVerification, string> = { CLAIMED: "مُدّعى — لم يُراجع", VERIFIED: "موثق", ADJUSTED: "معدّل بعد المراجعة", REJECTED: "مرفوض" };
 
 export interface ExitDraftRecord {
   id: string;
