@@ -1,8 +1,5 @@
-// Seller Exit Request — data the seller submits for review.
-// All figures here are CLAIMED by the seller. Verified figures, the final
-// Exit Amount and the review status are set by Aqar Forsah only.
-
-export type Unknownable<T> = T | "unknown";
+// Seller Exit Request — everything here is CLAIMED by the seller.
+// The Exit Amount is never part of this shape: only Aqar Forsah sets it after verification.
 
 export interface SellerInfo {
   fullName: string;
@@ -14,7 +11,8 @@ export interface SellerInfo {
 }
 
 export interface UnitInfo {
-  phase: string;
+  phaseId: string;
+  buildingId: string;
   unitNumber: string;
   unitType: string;
   area: string;
@@ -27,26 +25,36 @@ export interface UnitInfo {
   deliveryDate: string;
 }
 
+export type InstallmentFrequency = "monthly" | "quarterly" | "semiannual" | "annual" | "";
+export type MaintenanceStatus = "paid" | "not_due" | "partially_paid" | "unpaid" | "unknown" | "";
+
 export interface ContractInfo {
   contractNumber: string;
   contractDate: string;
   originalValue: string;
   currency: "EGP" | "USD";
   installmentAmount: string;
-  installmentFrequency: "monthly" | "quarterly" | "semiannual" | "annual" | "";
+  installmentFrequency: InstallmentFrequency;
   remainingInstallments: string;
   nextInstallmentDate: string;
-  maintenanceStatus: "paid" | "not_due" | "partially_paid" | "unpaid" | "unknown" | "";
+  maintenanceStatus: MaintenanceStatus;
   transferNotes: string;
 }
 
+export const paymentCategories = ["PRINCIPAL", "MAINTENANCE", "TRANSFER_FEE", "ADMIN_FEE", "PENALTY", "INTEREST", "OTHER"] as const;
+export type PaymentCategory = (typeof paymentCategories)[number];
+export const paymentCategoryLabel: Record<PaymentCategory, string> = {
+  PRINCIPAL: "أصل الثمن (قسط)", MAINTENANCE: "صيانة", TRANSFER_FEE: "رسوم تنازل", ADMIN_FEE: "مصاريف إدارية", PENALTY: "غرامة تأخير", INTEREST: "فوائد", OTHER: "أخرى",
+};
+
 export interface ClaimedPayment {
   id: string;
+  kind: "installment" | "other_charge";
+  category: PaymentCategory;
   date: string;
   amount: string;
   principal: string; // optional, if known
   reference: string;
-  category: "installment" | "maintenance" | "club" | "other";
 }
 
 export interface ClaimedPayments {
@@ -63,7 +71,7 @@ export interface TransferInfo {
   eligibility: "yes" | "no" | "unknown";
   developerApprovalRequired: "yes" | "no" | "unknown";
   terms: string;
-  transferFee: string; // empty = unknown
+  transferFee: string;
   adminFee: string;
   cancellationTerms: string;
   notes: string;
@@ -81,19 +89,17 @@ export interface ExitRequestDraft {
   updatedAt: string;
 }
 
-/** Customer-facing review states. Set server-side only. */
-export type ExitRequestStatus = "submitted" | "under_review" | "needs_documents" | "verified" | "rejected";
+/** Only states the backend currently supports. */
+export type ExitStatus = "draft" | "pending_review";
+export const exitStatusLabel: Record<ExitStatus, string> = { draft: "مسودة", pending_review: "تم إرسال الطلب" };
 
-export interface SubmittedExitRequest {
+export interface ExitDraftRecord {
   id: string;
-  submittedAt: string;
-  status: ExitRequestStatus;
+  status: ExitStatus;
+  currentStep: number;
+  maxStep: number;
+  createdAt: string;
+  updatedAt: string;
+  submittedAt: string | null;
   draft: ExitRequestDraft;
-  /** Filled by Aqar Forsah after verification. Never editable by the seller. */
-  verified?: {
-    eligiblePrincipalPaid: number;
-    remainingDeveloperBalance: number;
-    exitAmount: number;
-  } | undefined;
-  exitAmountConfirmedAt?: string | undefined;
 }
