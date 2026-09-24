@@ -7,5 +7,6 @@
 - [x] Verify desktop/mobile behavior and build health
 - [x] Re-center product on 3 sections (فرص الخروج / الوحدات الجديدة / فرص المشاريع); legacy sale/rent redirect
 - [x] Exit financial breakdown, verification badges, platform-mediated interest CTA
-- [ ] Seller exit request form (needs backend)
+- [x] Seller exit wizard (saved on device; server storage + real file upload need backend)
 - [ ] Real verification + interest follow-up workflow (needs backend)
+- [ ] Link exit requests to real accounts, upload files, admin review sets verified figures (needs backend)

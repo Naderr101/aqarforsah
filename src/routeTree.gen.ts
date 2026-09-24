@@ -19,7 +19,6 @@ import { Route as PropertiesRouteImport } from './routes/properties'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as RentRouteImport } from './routes/rent'
 import { Route as SaleRouteImport } from './routes/sale'
-import { Route as SellExitRouteImport } from './routes/sell-exit'
 import { Route as DashboardInquiriesRouteImport } from './routes/dashboard.inquiries'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
 import { Route as DashboardPropertiesRouteImport } from './routes/dashboard.properties'
@@ -30,6 +29,9 @@ import { Route as NewUnitsSlugRouteImport } from './routes/new-units.$slug'
 import { Route as ProjectOpportunitiesIndexRouteImport } from './routes/project-opportunities.index'
 import { Route as ProjectOpportunitiesSlugRouteImport } from './routes/project-opportunities.$slug'
 import { Route as PropertySlugRouteImport } from './routes/property/$slug'
+import { Route as SellExitIndexRouteImport } from './routes/sell-exit.index'
+import { Route as SellExitNewRouteImport } from './routes/sell-exit.new'
+import { Route as SellExitStatusRouteImport } from './routes/sell-exit.status'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -79,11 +81,6 @@ const RentRoute = RentRouteImport.update({
 const SaleRoute = SaleRouteImport.update({
   id: '/sale',
   path: '/sale',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SellExitRoute = SellExitRouteImport.update({
-  id: '/sell-exit',
-  path: '/sell-exit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardInquiriesRoute = DashboardInquiriesRouteImport.update({
@@ -138,6 +135,21 @@ const PropertySlugRoute = PropertySlugRouteImport.update({
   path: '/property/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SellExitIndexRoute = SellExitIndexRouteImport.update({
+  id: '/sell-exit/',
+  path: '/sell-exit/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SellExitNewRoute = SellExitNewRouteImport.update({
+  id: '/sell-exit/new',
+  path: '/sell-exit/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SellExitStatusRoute = SellExitStatusRouteImport.update({
+  id: '/sell-exit/status',
+  path: '/sell-exit/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -150,7 +162,6 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/rent': typeof RentRoute
   '/sale': typeof SaleRoute
-  '/sell-exit': typeof SellExitRoute
   '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/properties': typeof DashboardPropertiesRoute
@@ -158,9 +169,12 @@ export interface FileRoutesByFullPath {
   '/new-units/$slug': typeof NewUnitsSlugRoute
   '/project-opportunities/$slug': typeof ProjectOpportunitiesSlugRoute
   '/property/$slug': typeof PropertySlugRoute
+  '/sell-exit/new': typeof SellExitNewRoute
+  '/sell-exit/status': typeof SellExitStatusRoute
   '/exit-opportunities/': typeof ExitOpportunitiesIndexRoute
   '/new-units/': typeof NewUnitsIndexRoute
   '/project-opportunities/': typeof ProjectOpportunitiesIndexRoute
+  '/sell-exit/': typeof SellExitIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -173,7 +187,6 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/rent': typeof RentRoute
   '/sale': typeof SaleRoute
-  '/sell-exit': typeof SellExitRoute
   '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/properties': typeof DashboardPropertiesRoute
@@ -181,9 +194,12 @@ export interface FileRoutesByTo {
   '/new-units/$slug': typeof NewUnitsSlugRoute
   '/project-opportunities/$slug': typeof ProjectOpportunitiesSlugRoute
   '/property/$slug': typeof PropertySlugRoute
+  '/sell-exit/new': typeof SellExitNewRoute
+  '/sell-exit/status': typeof SellExitStatusRoute
   '/exit-opportunities': typeof ExitOpportunitiesIndexRoute
   '/new-units': typeof NewUnitsIndexRoute
   '/project-opportunities': typeof ProjectOpportunitiesIndexRoute
+  '/sell-exit': typeof SellExitIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -197,7 +213,6 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/rent': typeof RentRoute
   '/sale': typeof SaleRoute
-  '/sell-exit': typeof SellExitRoute
   '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/properties': typeof DashboardPropertiesRoute
@@ -205,9 +220,12 @@ export interface FileRoutesById {
   '/new-units/$slug': typeof NewUnitsSlugRoute
   '/project-opportunities/$slug': typeof ProjectOpportunitiesSlugRoute
   '/property/$slug': typeof PropertySlugRoute
+  '/sell-exit/new': typeof SellExitNewRoute
+  '/sell-exit/status': typeof SellExitStatusRoute
   '/exit-opportunities/': typeof ExitOpportunitiesIndexRoute
   '/new-units/': typeof NewUnitsIndexRoute
   '/project-opportunities/': typeof ProjectOpportunitiesIndexRoute
+  '/sell-exit/': typeof SellExitIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -222,7 +240,6 @@ export interface FileRouteTypes {
     | '/register'
     | '/rent'
     | '/sale'
-    | '/sell-exit'
     | '/dashboard/inquiries'
     | '/dashboard/profile'
     | '/dashboard/properties'
@@ -230,9 +247,12 @@ export interface FileRouteTypes {
     | '/new-units/$slug'
     | '/project-opportunities/$slug'
     | '/property/$slug'
+    | '/sell-exit/new'
+    | '/sell-exit/status'
     | '/exit-opportunities/'
     | '/new-units/'
     | '/project-opportunities/'
+    | '/sell-exit/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -245,7 +265,6 @@ export interface FileRouteTypes {
     | '/register'
     | '/rent'
     | '/sale'
-    | '/sell-exit'
     | '/dashboard/inquiries'
     | '/dashboard/profile'
     | '/dashboard/properties'
@@ -253,9 +272,12 @@ export interface FileRouteTypes {
     | '/new-units/$slug'
     | '/project-opportunities/$slug'
     | '/property/$slug'
+    | '/sell-exit/new'
+    | '/sell-exit/status'
     | '/exit-opportunities'
     | '/new-units'
     | '/project-opportunities'
+    | '/sell-exit'
   id:
     | '__root__'
     | '/'
@@ -268,7 +290,6 @@ export interface FileRouteTypes {
     | '/register'
     | '/rent'
     | '/sale'
-    | '/sell-exit'
     | '/dashboard/inquiries'
     | '/dashboard/profile'
     | '/dashboard/properties'
@@ -276,9 +297,12 @@ export interface FileRouteTypes {
     | '/new-units/$slug'
     | '/project-opportunities/$slug'
     | '/property/$slug'
+    | '/sell-exit/new'
+    | '/sell-exit/status'
     | '/exit-opportunities/'
     | '/new-units/'
     | '/project-opportunities/'
+    | '/sell-exit/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -292,14 +316,16 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   RentRoute: typeof RentRoute
   SaleRoute: typeof SaleRoute
-  SellExitRoute: typeof SellExitRoute
   ExitOpportunitiesSlugRoute: typeof ExitOpportunitiesSlugRoute
   NewUnitsSlugRoute: typeof NewUnitsSlugRoute
   ProjectOpportunitiesSlugRoute: typeof ProjectOpportunitiesSlugRoute
   PropertySlugRoute: typeof PropertySlugRoute
+  SellExitNewRoute: typeof SellExitNewRoute
+  SellExitStatusRoute: typeof SellExitStatusRoute
   ExitOpportunitiesIndexRoute: typeof ExitOpportunitiesIndexRoute
   NewUnitsIndexRoute: typeof NewUnitsIndexRoute
   ProjectOpportunitiesIndexRoute: typeof ProjectOpportunitiesIndexRoute
+  SellExitIndexRoute: typeof SellExitIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -374,13 +400,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SaleRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/sell-exit': {
-      id: '/sell-exit'
-      path: '/sell-exit'
-      fullPath: '/sell-exit'
-      preLoaderRoute: typeof SellExitRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/dashboard/inquiries': {
       id: '/dashboard/inquiries'
       path: '/inquiries'
@@ -451,6 +470,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PropertySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sell-exit/': {
+      id: '/sell-exit/'
+      path: '/sell-exit'
+      fullPath: '/sell-exit/'
+      preLoaderRoute: typeof SellExitIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sell-exit/new': {
+      id: '/sell-exit/new'
+      path: '/sell-exit/new'
+      fullPath: '/sell-exit/new'
+      preLoaderRoute: typeof SellExitNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sell-exit/status': {
+      id: '/sell-exit/status'
+      path: '/sell-exit/status'
+      fullPath: '/sell-exit/status'
+      preLoaderRoute: typeof SellExitStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -481,14 +521,16 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   RentRoute: RentRoute,
   SaleRoute: SaleRoute,
-  SellExitRoute: SellExitRoute,
   ExitOpportunitiesSlugRoute: ExitOpportunitiesSlugRoute,
   NewUnitsSlugRoute: NewUnitsSlugRoute,
   ProjectOpportunitiesSlugRoute: ProjectOpportunitiesSlugRoute,
   PropertySlugRoute: PropertySlugRoute,
+  SellExitNewRoute: SellExitNewRoute,
+  SellExitStatusRoute: SellExitStatusRoute,
   ExitOpportunitiesIndexRoute: ExitOpportunitiesIndexRoute,
   NewUnitsIndexRoute: NewUnitsIndexRoute,
   ProjectOpportunitiesIndexRoute: ProjectOpportunitiesIndexRoute,
+  SellExitIndexRoute: SellExitIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
