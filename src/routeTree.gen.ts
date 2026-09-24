@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as FavoritesRouteImport } from './routes/favorites'
@@ -30,10 +31,17 @@ import { Route as ProjectOpportunitiesIndexRouteImport } from './routes/project-
 import { Route as ProjectOpportunitiesSlugRouteImport } from './routes/project-opportunities.$slug'
 import { Route as PropertySlugRouteImport } from './routes/property/$slug'
 import { Route as SellExitIndexRouteImport } from './routes/sell-exit.index'
+import { Route as AuthenticatedDashboardExitRequestsRouteImport } from './routes/_authenticated/dashboard.exit-requests'
+import { Route as AuthenticatedSellExitNewRouteImport } from './routes/_authenticated/sell-exit.new'
+import { Route as AuthenticatedSellExitStatusRouteImport } from './routes/_authenticated/sell-exit.status'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -138,6 +146,24 @@ const SellExitIndexRoute = SellExitIndexRouteImport.update({
   path: '/sell-exit/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedDashboardExitRequestsRoute =
+  AuthenticatedDashboardExitRequestsRouteImport.update({
+    id: '/dashboard/exit-requests',
+    path: '/dashboard/exit-requests',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSellExitNewRoute =
+  AuthenticatedSellExitNewRouteImport.update({
+    id: '/sell-exit/new',
+    path: '/sell-exit/new',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSellExitStatusRoute =
+  AuthenticatedSellExitStatusRouteImport.update({
+    id: '/sell-exit/status',
+    path: '/sell-exit/status',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -161,6 +187,9 @@ export interface FileRoutesByFullPath {
   '/new-units/': typeof NewUnitsIndexRoute
   '/project-opportunities/': typeof ProjectOpportunitiesIndexRoute
   '/sell-exit/': typeof SellExitIndexRoute
+  '/dashboard/exit-requests': typeof AuthenticatedDashboardExitRequestsRoute
+  '/sell-exit/new': typeof AuthenticatedSellExitNewRoute
+  '/sell-exit/status': typeof AuthenticatedSellExitStatusRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -184,10 +213,14 @@ export interface FileRoutesByTo {
   '/new-units': typeof NewUnitsIndexRoute
   '/project-opportunities': typeof ProjectOpportunitiesIndexRoute
   '/sell-exit': typeof SellExitIndexRoute
+  '/dashboard/exit-requests': typeof AuthenticatedDashboardExitRequestsRoute
+  '/sell-exit/new': typeof AuthenticatedSellExitNewRoute
+  '/sell-exit/status': typeof AuthenticatedSellExitStatusRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/admin': typeof AdminRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/favorites': typeof FavoritesRoute
@@ -208,6 +241,9 @@ export interface FileRoutesById {
   '/new-units/': typeof NewUnitsIndexRoute
   '/project-opportunities/': typeof ProjectOpportunitiesIndexRoute
   '/sell-exit/': typeof SellExitIndexRoute
+  '/_authenticated/dashboard/exit-requests': typeof AuthenticatedDashboardExitRequestsRoute
+  '/_authenticated/sell-exit/new': typeof AuthenticatedSellExitNewRoute
+  '/_authenticated/sell-exit/status': typeof AuthenticatedSellExitStatusRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -233,6 +269,9 @@ export interface FileRouteTypes {
     | '/new-units/'
     | '/project-opportunities/'
     | '/sell-exit/'
+    | '/dashboard/exit-requests'
+    | '/sell-exit/new'
+    | '/sell-exit/status'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -256,9 +295,13 @@ export interface FileRouteTypes {
     | '/new-units'
     | '/project-opportunities'
     | '/sell-exit'
+    | '/dashboard/exit-requests'
+    | '/sell-exit/new'
+    | '/sell-exit/status'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/admin'
     | '/dashboard'
     | '/favorites'
@@ -279,10 +322,14 @@ export interface FileRouteTypes {
     | '/new-units/'
     | '/project-opportunities/'
     | '/sell-exit/'
+    | '/_authenticated/dashboard/exit-requests'
+    | '/_authenticated/sell-exit/new'
+    | '/_authenticated/sell-exit/status'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AdminRoute: typeof AdminRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   FavoritesRoute: typeof FavoritesRoute
@@ -309,6 +356,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -451,8 +505,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellExitIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/dashboard/exit-requests': {
+      id: '/_authenticated/dashboard/exit-requests'
+      path: '/dashboard/exit-requests'
+      fullPath: '/dashboard/exit-requests'
+      preLoaderRoute: typeof AuthenticatedDashboardExitRequestsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/sell-exit/new': {
+      id: '/_authenticated/sell-exit/new'
+      path: '/sell-exit/new'
+      fullPath: '/sell-exit/new'
+      preLoaderRoute: typeof AuthenticatedSellExitNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/sell-exit/status': {
+      id: '/_authenticated/sell-exit/status'
+      path: '/sell-exit/status'
+      fullPath: '/sell-exit/status'
+      preLoaderRoute: typeof AuthenticatedSellExitStatusRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardExitRequestsRoute: typeof AuthenticatedDashboardExitRequestsRoute
+  AuthenticatedSellExitNewRoute: typeof AuthenticatedSellExitNewRoute
+  AuthenticatedSellExitStatusRoute: typeof AuthenticatedSellExitStatusRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardExitRequestsRoute:
+    AuthenticatedDashboardExitRequestsRoute,
+  AuthenticatedSellExitNewRoute: AuthenticatedSellExitNewRoute,
+  AuthenticatedSellExitStatusRoute: AuthenticatedSellExitStatusRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface DashboardRouteChildren {
   DashboardInquiriesRoute: typeof DashboardInquiriesRoute
@@ -472,6 +563,7 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AdminRoute: AdminRoute,
   DashboardRoute: DashboardRouteWithChildren,
   FavoritesRoute: FavoritesRoute,
