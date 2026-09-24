@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import propertyStrip from "@/assets/property-strip.jpg";
 import { exitOpportunities } from "@/data/opportunities";
 import { ExitFinancialBreakdown } from "@/components/aqar/opportunity/ExitFinancialBreakdown";
-import { VerificationStatusBadge } from "@/components/aqar/opportunity/VerificationStatusBadge";
+import { VerificationStatusBadge, verificationLabel } from "@/components/aqar/opportunity/VerificationStatusBadge";
 import { InterestPanel } from "@/components/aqar/opportunity/InterestPanel";
 import { ExitOpportunityCard } from "@/components/aqar/opportunity/OpportunityCards";
 import { DemoNotice } from "@/components/aqar/opportunity/DemoNotice";
@@ -84,7 +84,7 @@ function Page() {
           <Section title="بيانات العقد والأقساط" icon={<FileText className="size-5" />}>
             <dl className="divide-y rounded-lg border bg-card px-4">
               <Row k="قيمة العقد الأصلية" v={formatMoney(o.contract.originalContractValue)} />
-              <Row k="المبلغ المدفوع للمطور" v={`${formatMoney(o.exitAmount)}${o.verifiedPaidAmount !== undefined ? " (تمت المراجعة)" : " (قيد المراجعة)"}`} />
+              <Row k="المبلغ المدفوع للمطور" v={`${formatMoney(o.exitAmount)} — ${verificationLabel(o.verification.paidAmount)}`} />
               <Row k="نظام السداد" v={o.contract.installmentPlan} />
               {o.monthlyInstallment !== undefined && <Row k="القسط الشهري التقريبي" v={formatMoney(o.monthlyInstallment)} />}
               {o.contract.nextInstallment && <Row k="القسط القادم" v={`${formatMoney(o.contract.nextInstallment.amount)} — ${o.contract.nextInstallment.dueDate}`} />}
