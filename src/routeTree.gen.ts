@@ -21,6 +21,7 @@ import { Route as RentRouteImport } from './routes/rent'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SaleRouteImport } from './routes/sale'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedDeveloperRouteImport } from './routes/_authenticated/developer'
 import { Route as DashboardInquiriesRouteImport } from './routes/dashboard.inquiries'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
 import { Route as DashboardPropertiesRouteImport } from './routes/dashboard.properties'
@@ -32,15 +33,20 @@ import { Route as ProjectOpportunitiesIndexRouteImport } from './routes/project-
 import { Route as ProjectOpportunitiesSlugRouteImport } from './routes/project-opportunities.$slug'
 import { Route as PropertySlugRouteImport } from './routes/property/$slug'
 import { Route as SellExitIndexRouteImport } from './routes/sell-exit.index'
+import { Route as AuthenticatedAccountPrivacyRouteImport } from './routes/_authenticated/account.privacy'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as AuthenticatedAdminCatalogRouteImport } from './routes/_authenticated/admin.catalog'
 import { Route as AuthenticatedAdminCitiesRouteImport } from './routes/_authenticated/admin.cities'
 import { Route as AuthenticatedAdminContentRouteImport } from './routes/_authenticated/admin.content'
+import { Route as AuthenticatedAdminControlsRouteImport } from './routes/_authenticated/admin.controls'
 import { Route as AuthenticatedAdminCrmRouteImport } from './routes/_authenticated/admin.crm'
+import { Route as AuthenticatedAdminDeveloperAccessRouteImport } from './routes/_authenticated/admin.developer-access'
 import { Route as AuthenticatedAdminFormsRouteImport } from './routes/_authenticated/admin.forms'
 import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authenticated/admin.media'
 import { Route as AuthenticatedAdminNavRouteImport } from './routes/_authenticated/admin.nav'
 import { Route as AuthenticatedAdminNewUnitsRouteImport } from './routes/_authenticated/admin.new-units'
+import { Route as AuthenticatedAdminPoliciesRouteImport } from './routes/_authenticated/admin.policies'
 import { Route as AuthenticatedAdminProjectOpportunitiesRouteImport } from './routes/_authenticated/admin.project-opportunities'
 import { Route as AuthenticatedDashboardExitRequestsRouteImport } from './routes/_authenticated/dashboard.exit-requests'
 import { Route as AuthenticatedSellExitNewRouteImport } from './routes/_authenticated/sell-exit.new'
@@ -111,6 +117,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedDeveloperRoute = AuthenticatedDeveloperRouteImport.update({
+  id: '/developer',
+  path: '/developer',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const DashboardInquiriesRoute = DashboardInquiriesRouteImport.update({
   id: '/inquiries',
   path: '/inquiries',
@@ -168,11 +179,23 @@ const SellExitIndexRoute = SellExitIndexRouteImport.update({
   path: '/sell-exit/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAccountPrivacyRoute =
+  AuthenticatedAccountPrivacyRouteImport.update({
+    id: '/account/privacy',
+    path: '/account/privacy',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminAnalyticsRoute =
+  AuthenticatedAdminAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCatalogRoute =
   AuthenticatedAdminCatalogRouteImport.update({
     id: '/catalog',
@@ -191,11 +214,23 @@ const AuthenticatedAdminContentRoute =
     path: '/content',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminControlsRoute =
+  AuthenticatedAdminControlsRouteImport.update({
+    id: '/controls',
+    path: '/controls',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCrmRoute = AuthenticatedAdminCrmRouteImport.update({
   id: '/crm',
   path: '/crm',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminDeveloperAccessRoute =
+  AuthenticatedAdminDeveloperAccessRouteImport.update({
+    id: '/developer-access',
+    path: '/developer-access',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminFormsRoute = AuthenticatedAdminFormsRouteImport.update({
   id: '/forms',
   path: '/forms',
@@ -215,6 +250,12 @@ const AuthenticatedAdminNewUnitsRoute =
   AuthenticatedAdminNewUnitsRouteImport.update({
     id: '/new-units',
     path: '/new-units',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminPoliciesRoute =
+  AuthenticatedAdminPoliciesRouteImport.update({
+    id: '/policies',
+    path: '/policies',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminProjectOpportunitiesRoute =
@@ -287,6 +328,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/sale': typeof SaleRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/developer': typeof AuthenticatedDeveloperRoute
   '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/properties': typeof DashboardPropertiesRoute
@@ -298,14 +340,19 @@ export interface FileRoutesByFullPath {
   '/new-units/': typeof NewUnitsIndexRoute
   '/project-opportunities/': typeof ProjectOpportunitiesIndexRoute
   '/sell-exit/': typeof SellExitIndexRoute
+  '/account/privacy': typeof AuthenticatedAccountPrivacyRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
+  '/admin/controls': typeof AuthenticatedAdminControlsRoute
   '/admin/crm': typeof AuthenticatedAdminCrmRoute
+  '/admin/developer-access': typeof AuthenticatedAdminDeveloperAccessRoute
   '/admin/forms': typeof AuthenticatedAdminFormsRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/nav': typeof AuthenticatedAdminNavRoute
   '/admin/new-units': typeof AuthenticatedAdminNewUnitsRoute
+  '/admin/policies': typeof AuthenticatedAdminPoliciesRoute
   '/admin/project-opportunities': typeof AuthenticatedAdminProjectOpportunitiesRoute
   '/dashboard/exit-requests': typeof AuthenticatedDashboardExitRequestsRoute
   '/sell-exit/new': typeof AuthenticatedSellExitNewRoute
@@ -329,6 +376,7 @@ export interface FileRoutesByTo {
   '/rent': typeof RentRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sale': typeof SaleRoute
+  '/developer': typeof AuthenticatedDeveloperRoute
   '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/properties': typeof DashboardPropertiesRoute
@@ -340,14 +388,19 @@ export interface FileRoutesByTo {
   '/new-units': typeof NewUnitsIndexRoute
   '/project-opportunities': typeof ProjectOpportunitiesIndexRoute
   '/sell-exit': typeof SellExitIndexRoute
+  '/account/privacy': typeof AuthenticatedAccountPrivacyRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/catalog': typeof AuthenticatedAdminCatalogRoute
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
+  '/admin/controls': typeof AuthenticatedAdminControlsRoute
   '/admin/crm': typeof AuthenticatedAdminCrmRoute
+  '/admin/developer-access': typeof AuthenticatedAdminDeveloperAccessRoute
   '/admin/forms': typeof AuthenticatedAdminFormsRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/nav': typeof AuthenticatedAdminNavRoute
   '/admin/new-units': typeof AuthenticatedAdminNewUnitsRoute
+  '/admin/policies': typeof AuthenticatedAdminPoliciesRoute
   '/admin/project-opportunities': typeof AuthenticatedAdminProjectOpportunitiesRoute
   '/dashboard/exit-requests': typeof AuthenticatedDashboardExitRequestsRoute
   '/sell-exit/new': typeof AuthenticatedSellExitNewRoute
@@ -374,6 +427,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/sale': typeof SaleRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/developer': typeof AuthenticatedDeveloperRoute
   '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/properties': typeof DashboardPropertiesRoute
@@ -385,14 +439,19 @@ export interface FileRoutesById {
   '/new-units/': typeof NewUnitsIndexRoute
   '/project-opportunities/': typeof ProjectOpportunitiesIndexRoute
   '/sell-exit/': typeof SellExitIndexRoute
+  '/_authenticated/account/privacy': typeof AuthenticatedAccountPrivacyRoute
+  '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/catalog': typeof AuthenticatedAdminCatalogRoute
   '/_authenticated/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/_authenticated/admin/content': typeof AuthenticatedAdminContentRoute
+  '/_authenticated/admin/controls': typeof AuthenticatedAdminControlsRoute
   '/_authenticated/admin/crm': typeof AuthenticatedAdminCrmRoute
+  '/_authenticated/admin/developer-access': typeof AuthenticatedAdminDeveloperAccessRoute
   '/_authenticated/admin/forms': typeof AuthenticatedAdminFormsRoute
   '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
   '/_authenticated/admin/nav': typeof AuthenticatedAdminNavRoute
   '/_authenticated/admin/new-units': typeof AuthenticatedAdminNewUnitsRoute
+  '/_authenticated/admin/policies': typeof AuthenticatedAdminPoliciesRoute
   '/_authenticated/admin/project-opportunities': typeof AuthenticatedAdminProjectOpportunitiesRoute
   '/_authenticated/dashboard/exit-requests': typeof AuthenticatedDashboardExitRequestsRoute
   '/_authenticated/sell-exit/new': typeof AuthenticatedSellExitNewRoute
@@ -419,6 +478,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sale'
     | '/admin'
+    | '/developer'
     | '/dashboard/inquiries'
     | '/dashboard/profile'
     | '/dashboard/properties'
@@ -430,14 +490,19 @@ export interface FileRouteTypes {
     | '/new-units/'
     | '/project-opportunities/'
     | '/sell-exit/'
+    | '/account/privacy'
+    | '/admin/analytics'
     | '/admin/catalog'
     | '/admin/cities'
     | '/admin/content'
+    | '/admin/controls'
     | '/admin/crm'
+    | '/admin/developer-access'
     | '/admin/forms'
     | '/admin/media'
     | '/admin/nav'
     | '/admin/new-units'
+    | '/admin/policies'
     | '/admin/project-opportunities'
     | '/dashboard/exit-requests'
     | '/sell-exit/new'
@@ -461,6 +526,7 @@ export interface FileRouteTypes {
     | '/rent'
     | '/reset-password'
     | '/sale'
+    | '/developer'
     | '/dashboard/inquiries'
     | '/dashboard/profile'
     | '/dashboard/properties'
@@ -472,14 +538,19 @@ export interface FileRouteTypes {
     | '/new-units'
     | '/project-opportunities'
     | '/sell-exit'
+    | '/account/privacy'
+    | '/admin/analytics'
     | '/admin/catalog'
     | '/admin/cities'
     | '/admin/content'
+    | '/admin/controls'
     | '/admin/crm'
+    | '/admin/developer-access'
     | '/admin/forms'
     | '/admin/media'
     | '/admin/nav'
     | '/admin/new-units'
+    | '/admin/policies'
     | '/admin/project-opportunities'
     | '/dashboard/exit-requests'
     | '/sell-exit/new'
@@ -505,6 +576,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sale'
     | '/_authenticated/admin'
+    | '/_authenticated/developer'
     | '/dashboard/inquiries'
     | '/dashboard/profile'
     | '/dashboard/properties'
@@ -516,14 +588,19 @@ export interface FileRouteTypes {
     | '/new-units/'
     | '/project-opportunities/'
     | '/sell-exit/'
+    | '/_authenticated/account/privacy'
+    | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/catalog'
     | '/_authenticated/admin/cities'
     | '/_authenticated/admin/content'
+    | '/_authenticated/admin/controls'
     | '/_authenticated/admin/crm'
+    | '/_authenticated/admin/developer-access'
     | '/_authenticated/admin/forms'
     | '/_authenticated/admin/media'
     | '/_authenticated/admin/nav'
     | '/_authenticated/admin/new-units'
+    | '/_authenticated/admin/policies'
     | '/_authenticated/admin/project-opportunities'
     | '/_authenticated/dashboard/exit-requests'
     | '/_authenticated/sell-exit/new'
@@ -646,6 +723,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/developer': {
+      id: '/_authenticated/developer'
+      path: '/developer'
+      fullPath: '/developer'
+      preLoaderRoute: typeof AuthenticatedDeveloperRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/dashboard/inquiries': {
       id: '/dashboard/inquiries'
       path: '/inquiries'
@@ -723,11 +807,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellExitIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/account/privacy': {
+      id: '/_authenticated/account/privacy'
+      path: '/account/privacy'
+      fullPath: '/account/privacy'
+      preLoaderRoute: typeof AuthenticatedAccountPrivacyRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/': {
       id: '/_authenticated/admin/'
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/analytics': {
+      id: '/_authenticated/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/catalog': {
@@ -751,11 +849,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminContentRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/controls': {
+      id: '/_authenticated/admin/controls'
+      path: '/controls'
+      fullPath: '/admin/controls'
+      preLoaderRoute: typeof AuthenticatedAdminControlsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/crm': {
       id: '/_authenticated/admin/crm'
       path: '/crm'
       fullPath: '/admin/crm'
       preLoaderRoute: typeof AuthenticatedAdminCrmRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/developer-access': {
+      id: '/_authenticated/admin/developer-access'
+      path: '/developer-access'
+      fullPath: '/admin/developer-access'
+      preLoaderRoute: typeof AuthenticatedAdminDeveloperAccessRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/forms': {
@@ -784,6 +896,13 @@ declare module '@tanstack/react-router' {
       path: '/new-units'
       fullPath: '/admin/new-units'
       preLoaderRoute: typeof AuthenticatedAdminNewUnitsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/policies': {
+      id: '/_authenticated/admin/policies'
+      path: '/policies'
+      fullPath: '/admin/policies'
+      preLoaderRoute: typeof AuthenticatedAdminPoliciesRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/project-opportunities': {
@@ -860,27 +979,36 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
   AuthenticatedAdminCatalogRoute: typeof AuthenticatedAdminCatalogRoute
   AuthenticatedAdminCitiesRoute: typeof AuthenticatedAdminCitiesRoute
   AuthenticatedAdminContentRoute: typeof AuthenticatedAdminContentRoute
+  AuthenticatedAdminControlsRoute: typeof AuthenticatedAdminControlsRoute
   AuthenticatedAdminCrmRoute: typeof AuthenticatedAdminCrmRoute
+  AuthenticatedAdminDeveloperAccessRoute: typeof AuthenticatedAdminDeveloperAccessRoute
   AuthenticatedAdminFormsRoute: typeof AuthenticatedAdminFormsRoute
   AuthenticatedAdminMediaRoute: typeof AuthenticatedAdminMediaRoute
   AuthenticatedAdminNavRoute: typeof AuthenticatedAdminNavRoute
   AuthenticatedAdminNewUnitsRoute: typeof AuthenticatedAdminNewUnitsRoute
+  AuthenticatedAdminPoliciesRoute: typeof AuthenticatedAdminPoliciesRoute
   AuthenticatedAdminProjectOpportunitiesRoute: typeof AuthenticatedAdminProjectOpportunitiesRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
   AuthenticatedAdminCatalogRoute: AuthenticatedAdminCatalogRoute,
   AuthenticatedAdminCitiesRoute: AuthenticatedAdminCitiesRoute,
   AuthenticatedAdminContentRoute: AuthenticatedAdminContentRoute,
+  AuthenticatedAdminControlsRoute: AuthenticatedAdminControlsRoute,
   AuthenticatedAdminCrmRoute: AuthenticatedAdminCrmRoute,
+  AuthenticatedAdminDeveloperAccessRoute:
+    AuthenticatedAdminDeveloperAccessRoute,
   AuthenticatedAdminFormsRoute: AuthenticatedAdminFormsRoute,
   AuthenticatedAdminMediaRoute: AuthenticatedAdminMediaRoute,
   AuthenticatedAdminNavRoute: AuthenticatedAdminNavRoute,
   AuthenticatedAdminNewUnitsRoute: AuthenticatedAdminNewUnitsRoute,
+  AuthenticatedAdminPoliciesRoute: AuthenticatedAdminPoliciesRoute,
   AuthenticatedAdminProjectOpportunitiesRoute:
     AuthenticatedAdminProjectOpportunitiesRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
@@ -891,6 +1019,8 @@ const AuthenticatedAdminRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+  AuthenticatedDeveloperRoute: typeof AuthenticatedDeveloperRoute
+  AuthenticatedAccountPrivacyRoute: typeof AuthenticatedAccountPrivacyRoute
   AuthenticatedDashboardExitRequestsRoute: typeof AuthenticatedDashboardExitRequestsRoute
   AuthenticatedSellExitNewRoute: typeof AuthenticatedSellExitNewRoute
   AuthenticatedSellExitStatusRoute: typeof AuthenticatedSellExitStatusRoute
@@ -903,6 +1033,8 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+  AuthenticatedDeveloperRoute: AuthenticatedDeveloperRoute,
+  AuthenticatedAccountPrivacyRoute: AuthenticatedAccountPrivacyRoute,
   AuthenticatedDashboardExitRequestsRoute:
     AuthenticatedDashboardExitRequestsRoute,
   AuthenticatedSellExitNewRoute: AuthenticatedSellExitNewRoute,
