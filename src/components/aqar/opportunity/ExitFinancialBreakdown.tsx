@@ -22,9 +22,10 @@ export function ExitFinancialBreakdown({ opportunity, variant = "detailed" }: Pr
           </div>
         </div>
         {f.estimatedSaving !== undefined && (
-          <p className="mt-2 border-t pt-2 text-xs text-muted-foreground">
-            التوفير التقديري: <strong className="text-brand-green">{formatMoney(f.estimatedSaving)}</strong>
-          </p>
+          <div className="mt-2 flex items-center justify-between gap-2 rounded bg-brand-green/10 px-2 py-1.5">
+            <small className="text-[11px] font-bold text-muted-foreground">التوفير التقديري</small>
+            <strong className="font-black text-brand-green">{formatMoney(f.estimatedSaving)}</strong>
+          </div>
         )}
       </div>
     );
