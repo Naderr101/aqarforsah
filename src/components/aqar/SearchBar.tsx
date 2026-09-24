@@ -1,0 +1,7 @@
+import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { MapPin, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cities } from "@/data/properties";
+
+export function SearchBar({compact=false}:{compact?:boolean}){const [q,setQ]=useState("");const navigate=useNavigate();const submit=()=>navigate({to:"/properties",search:{q,page:1,sort:"newest",purpose:"all"}});return <div><div className={`grid overflow-hidden border bg-background p-1 shadow-search ${compact?"rounded-lg md:grid-cols-[1fr_auto]":"rounded-xl md:grid-cols-[1fr_auto]"}`}><label className="flex min-w-0 items-center gap-3 px-4"><MapPin className="size-5 shrink-0 text-primary"/><input value={q} onChange={e=>setQ(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submit()} className="h-12 min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" placeholder="ابحث عن المنطقة أو المدينة أو المشروع..." aria-label="ابحث عن عقار"/></label><Button size="lg" onClick={submit} className="h-12 min-w-28 rounded-lg"><Search/> بحث</Button></div>{!compact&&<div className="mt-3 flex flex-wrap gap-2">{cities.map(c=><button key={c} onClick={()=>{setQ(c);navigate({to:"/properties",search:{q:c,page:1,sort:"newest",purpose:"all"}})}} className="rounded-full border border-background/70 bg-background/90 px-4 py-2 text-xs font-bold text-primary shadow-sm hover:bg-background">{c}</button>)}</div>}</div>}

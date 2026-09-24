@@ -1,0 +1,2 @@
+import { createFileRoute } from "@tanstack/react-router";import { AuthPage } from "@/components/aqar/AuthPage";
+export const Route=createFileRoute("/register")({head:()=>({meta:[{title:"إنشاء حساب | عقار فرصة"},{name:"description",content:"أنشئ حسابك للبحث والنشر وإدارة فرصك العقارية."},{property:"og:title",content:"إنشاء حساب | عقار فرصة"},{property:"og:description",content:"انضم إلى منصة عقار فرصة."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary"}]}),component:()=> <AuthPage mode="register"/>});
