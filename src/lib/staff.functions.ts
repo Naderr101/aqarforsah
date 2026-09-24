@@ -75,8 +75,8 @@ export const getCase = createServerFn({ method: "GET" })
       sb.rpc("exit_financials", { _id: data.id }),
     ]);
     return {
-      opp: e, profile: profile.data, contract: contract.data as Record<string, unknown> | null, payments: payments.data ?? [], documents: docs.data ?? [],
-      checks: checks.data ?? [], valuations: vals.data ?? [], financials: (fin.data as unknown as Record<string, number | string | null>[] | null)?.[0] ?? null,
+      opp: e, profile: profile.data, contract: contract.data as Record<string, string | number | boolean | null> | null, payments: payments.data ?? [], documents: docs.data ?? [],
+      checks: checks.data ?? [], valuations: vals.data ?? [], financials: (fin.data as unknown as Array<Record<string, number | string | null>> | null)?.[0] ?? null,
     };
   });
 
