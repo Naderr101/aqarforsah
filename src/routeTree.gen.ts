@@ -35,6 +35,7 @@ import { Route as SellExitIndexRouteImport } from './routes/sell-exit.index'
 import { Route as AuthenticatedDashboardExitRequestsRouteImport } from './routes/_authenticated/dashboard.exit-requests'
 import { Route as AuthenticatedSellExitNewRouteImport } from './routes/_authenticated/sell-exit.new'
 import { Route as AuthenticatedSellExitStatusRouteImport } from './routes/_authenticated/sell-exit.status'
+import { Route as AuthenticatedStaffVerificationIndexRouteImport } from './routes/_authenticated/staff.verification.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -170,6 +171,12 @@ const AuthenticatedSellExitStatusRoute =
     path: '/sell-exit/status',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedStaffVerificationIndexRoute =
+  AuthenticatedStaffVerificationIndexRouteImport.update({
+    id: '/staff/verification/',
+    path: '/staff/verification/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -197,6 +204,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/exit-requests': typeof AuthenticatedDashboardExitRequestsRoute
   '/sell-exit/new': typeof AuthenticatedSellExitNewRoute
   '/sell-exit/status': typeof AuthenticatedSellExitStatusRoute
+  '/staff/verification/': typeof AuthenticatedStaffVerificationIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -224,6 +232,7 @@ export interface FileRoutesByTo {
   '/dashboard/exit-requests': typeof AuthenticatedDashboardExitRequestsRoute
   '/sell-exit/new': typeof AuthenticatedSellExitNewRoute
   '/sell-exit/status': typeof AuthenticatedSellExitStatusRoute
+  '/staff/verification': typeof AuthenticatedStaffVerificationIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -253,6 +262,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard/exit-requests': typeof AuthenticatedDashboardExitRequestsRoute
   '/_authenticated/sell-exit/new': typeof AuthenticatedSellExitNewRoute
   '/_authenticated/sell-exit/status': typeof AuthenticatedSellExitStatusRoute
+  '/_authenticated/staff/verification/': typeof AuthenticatedStaffVerificationIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -282,6 +292,7 @@ export interface FileRouteTypes {
     | '/dashboard/exit-requests'
     | '/sell-exit/new'
     | '/sell-exit/status'
+    | '/staff/verification/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -309,6 +320,7 @@ export interface FileRouteTypes {
     | '/dashboard/exit-requests'
     | '/sell-exit/new'
     | '/sell-exit/status'
+    | '/staff/verification'
   id:
     | '__root__'
     | '/'
@@ -337,6 +349,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard/exit-requests'
     | '/_authenticated/sell-exit/new'
     | '/_authenticated/sell-exit/status'
+    | '/_authenticated/staff/verification/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -546,6 +559,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSellExitStatusRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/staff/verification/': {
+      id: '/_authenticated/staff/verification/'
+      path: '/staff/verification'
+      fullPath: '/staff/verification/'
+      preLoaderRoute: typeof AuthenticatedStaffVerificationIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -553,6 +573,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardExitRequestsRoute: typeof AuthenticatedDashboardExitRequestsRoute
   AuthenticatedSellExitNewRoute: typeof AuthenticatedSellExitNewRoute
   AuthenticatedSellExitStatusRoute: typeof AuthenticatedSellExitStatusRoute
+  AuthenticatedStaffVerificationIndexRoute: typeof AuthenticatedStaffVerificationIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -560,6 +581,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedDashboardExitRequestsRoute,
   AuthenticatedSellExitNewRoute: AuthenticatedSellExitNewRoute,
   AuthenticatedSellExitStatusRoute: AuthenticatedSellExitStatusRoute,
+  AuthenticatedStaffVerificationIndexRoute:
+    AuthenticatedStaffVerificationIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
