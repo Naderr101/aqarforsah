@@ -5,7 +5,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { Database } from "@/integrations/supabase/types";
 import { MONEY_RE, normalizeMoney } from "./money";
 import { firstInvalidStep, steps } from "./exit-validation";
-import { paymentCategories, type ExitDraftRecord, type ExitRequestDraft, type ExitStatus } from "@/types/exit-request";
+import { documentKindDb, paymentCategories, type DocumentKind, type DocumentStatus, type ExitDraftRecord, type ExitRequestDraft, type ExitStatus } from "@/types/exit-request";
 
 type Db = SupabaseClient<Database>;
 
@@ -14,7 +14,7 @@ const money = z.string().max(24).transform(normalizeMoney).refine((v) => v === "
 const intStr = z.string().max(8).transform(normalizeMoney).refine((v) => v === "" || /^\d{1,6}$/.test(v), "رقم غير صحيح");
 const txt = (n = 500) => z.string().max(n);
 const date = z.string().refine((v) => v === "" || /^\d{4}-\d{2}-\d{2}$/.test(v), "تاريخ غير صحيح");
-const file = z.object({ name: txt(255), size: z.number().int().nonnegative() }).strict();
+const file = z.object({ id: z.string().max(64).optional(), name: txt(255), size: z.number().int().nonnegative(), status: z.string().max(40).optional(), version: z.number().int().optional(), notes: z.string().max(2000).optional() }).strict();
 const yn = z.enum(["yes", "no", "unknown"]);
 const uuid = z.string().uuid();
 
@@ -33,7 +33,7 @@ const draftSchema = z.object({
     installments: z.array(z.object({ id: txt(64), kind: z.enum(["installment", "other_charge"]), category: z.enum(paymentCategories), date, amount: money, principal: money, reference: txt(120) }).strict()).max(300),
     claimedRemainingBalance: money,
   }).strict(),
-  documents: z.object({ contract: z.array(file).max(30), schedule: z.array(file).max(30), receipts: z.array(file).max(100), nationalId: z.array(file).max(10), other: z.array(file).max(30), notes: txt(2000) }).strict(),
+  documents: z.object({ contract: z.array(file).max(50), schedule: z.array(file).max(50), receipts: z.array(file).max(200), nationalId: z.array(file).max(20), authorization: z.array(file).max(20), assignment: z.array(file).max(20), other: z.array(file).max(50), notes: txt(2000) }).strict(),
   transfer: z.object({ eligibility: yn, developerApprovalRequired: yn, terms: txt(2000), transferFee: txt(40), adminFee: txt(40), cancellationTerms: txt(2000), notes: txt(2000) }).strict(),
   updatedAt: txt(40),
 }).strict();
@@ -56,17 +56,19 @@ async function loadDraft(supabase: Db, userId: string, id: string): Promise<Exit
   if (error) throw new Error(error.message);
   if (!e) throw new Error("NOT_FOUND"); // RLS hides other sellers' rows
 
-  const [profile, unit, contract, payments] = await Promise.all([
+  const [profile, unit, contract, payments, docRows] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", userId).maybeSingle(),
     e.unit_id ? supabase.from("units").select("*,area::text").eq("id", e.unit_id).maybeSingle() : Promise.resolve({ data: null, error: null }),
     supabase.from("contracts").select("*,original_value::text,installment_amount::text").eq("exit_opportunity_id", id).maybeSingle(),
     supabase.from("payment_records").select("id,kind,category,paid_on,reference,sort_order,amount_claimed::text,principal_claimed::text").eq("exit_opportunity_id", id).order("sort_order"),
+    supabase.from("exit_documents").select("id,kind,file_name,size_bytes,status,version,review_notes,superseded").eq("exit_opportunity_id", id).eq("superseded", false).order("created_at"),
   ]);
   const p = profile.data, u = unit.data as Record<string, unknown> | null, c = contract.data as Record<string, unknown> | null;
   const rows = (payments.data ?? []) as Array<Record<string, unknown>>;
   const down = rows.find((r) => r["kind"] === "down_payment");
   const t = obj(e.transfer), docs = obj(e.documents);
-  const list = (k: string) => (Array.isArray(docs[k]) ? (docs[k] as { name: string; size: number }[]) : []);
+  const drows = (docRows.data ?? []) as Array<{ id: string; kind: string; file_name: string; size_bytes: number; status: DocumentStatus; version: number; review_notes: string }>;
+  const list = (k: DocumentKind) => drows.filter((r) => r.kind === documentKindDb[k]).map((r) => ({ id: r.id, name: r.file_name, size: Number(r.size_bytes), status: r.status, version: r.version, notes: r.review_notes }));
 
   const draft: ExitRequestDraft = {
     seller: { fullName: s(p?.full_name), phone: s(p?.phone), email: s(p?.email), nationalId: s(p?.national_id), city: s(p?.city), preferredContact: (p?.preferred_contact as "phone") || "phone" },
@@ -89,7 +91,7 @@ async function loadDraft(supabase: Db, userId: string, id: string): Promise<Exit
       })),
       claimedRemainingBalance: s(e.claimed_remaining_balance),
     },
-    documents: { contract: list("contract"), schedule: list("schedule"), receipts: list("receipts"), nationalId: list("nationalId"), other: list("other"), notes: s(docs["notes"]) },
+    documents: { contract: list("contract"), schedule: list("schedule"), receipts: list("receipts"), nationalId: list("nationalId"), authorization: list("authorization"), assignment: list("assignment"), other: list("other"), notes: s(docs["notes"]) },
     transfer: {
       eligibility: (s(t["eligibility"]) || "unknown") as "unknown", developerApprovalRequired: (s(t["developerApprovalRequired"]) || "unknown") as "unknown",
       terms: s(t["terms"]), transferFee: s(t["transferFee"]), adminFee: s(t["adminFee"]), cancellationTerms: s(t["cancellationTerms"]), notes: s(t["notes"]),
@@ -105,7 +107,8 @@ export const createExitDraft = createServerFn({ method: "POST" })
   .handler(async ({ context }) => {
     const { supabase, userId, claims } = context;
     const email = typeof (claims as Record<string, unknown>)["email"] === "string" ? String((claims as Record<string, unknown>)["email"]) : "";
-    await supabase.from("profiles").upsert({ id: userId, email }, { onConflict: "id", ignoreDuplicates: true });
+    await supabase.rpc("ensure_default_roles");
+    await supabase.from("profiles").update({ email }).eq("id", userId).eq("email", "");
     const { data, error } = await supabase.from("exit_opportunities").insert({ seller_id: userId }).select("id").single();
     if (error) throw new Error(error.message);
     return { id: data.id };
@@ -173,7 +176,7 @@ export const saveExitDraft = createServerFn({ method: "POST" })
     const up = await supabase.from("exit_opportunities").update({
       developer_id: developerId, project_id: projectId, unit_id: unitId, current_step: data.currentStep, max_step: data.maxStep,
       claimed_remaining_balance: nn(d.payments.claimedRemainingBalance) as unknown as number | null, claimed_remaining_currency: d.contract.currency,
-      transfer: d.transfer, documents: d.documents,
+      transfer: d.transfer, documents: { notes: d.documents.notes },
     }).eq("id", id).select("updated_at").single();
     if (up.error) throw new Error(up.error.message);
 
@@ -209,12 +212,12 @@ export const submitExitDraft = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => { rejectExitAmount(d); return z.object({ id: uuid }).strict().parse(d); })
   .handler(async ({ data, context }) => {
     const rec = await loadDraft(context.supabase, context.userId, data.id);
-    if (rec.status !== "draft") throw new Error("LOCKED");
+    if (rec.status !== "draft" && rec.status !== "documents_required") throw new Error("LOCKED");
     const bad = firstInvalidStep(rec.draft);
     if (bad >= 0) return { ok: false as const, step: bad };
     const { error } = await context.supabase.from("exit_opportunities").update({ status: "pending_review" }).eq("id", data.id);
     if (error) {
-      if (error.message.includes("SUBMIT_INCOMPLETE")) return { ok: false as const, step: 1 };
+      if (error.message.includes("SUBMIT_INCOMPLETE")) return { ok: false as const, step: 7 };
       throw new Error(error.message);
     }
     return { ok: true as const };
@@ -234,3 +237,25 @@ export const listMyExitRequests = createServerFn({ method: "GET" })
       unit: [r.units?.unit_type, r.units?.unit_number].filter(Boolean).join(" · "),
     }));
   });
+
+async function sellerUpdate(supabase: Db, id: string, patch: Database["public"]["Tables"]["exit_opportunities"]["Update"]) {
+  const { data, error } = await supabase.from("exit_opportunities").update(patch).eq("id", id).select("id").maybeSingle();
+  if (error) {
+    const m = error.message;
+    if (m.includes("CHECKS_INCOMPLETE")) throw new Error("لسه في فحوصات مكتملتش.");
+    if (m.includes("CONFIRM")) throw new Error("لازم تأكيد مبلغ الخروج الأول.");
+    throw new Error("تعذر تنفيذ الطلب.");
+  }
+  if (!data) throw new Error("NOT_FOUND");
+}
+
+/** Seller confirms the platform-calculated Exit Amount. No amount is sent — the database stamps the confirmation. */
+export const confirmExitAmount = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => { rejectExitAmount(d); return z.object({ id: uuid }).strict().parse(d); })
+  .handler(async ({ data, context }) => { await sellerUpdate(context.supabase, data.id, { exit_amount_confirmed_at: new Date().toISOString() }); return { ok: true }; });
+
+export const publishExit = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => { rejectExitAmount(d); return z.object({ id: uuid }).strict().parse(d); })
+  .handler(async ({ data, context }) => { await sellerUpdate(context.supabase, data.id, { status: "published" }); return { ok: true }; });
