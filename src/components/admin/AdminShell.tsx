@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader2, ShieldCheck, LayoutDashboard, FileText, Image, Menu, MapPin, Building2, Home, Construction, ClipboardCheck, ListChecks, Users, Settings, ScrollText, Contact } from "lucide-react";
+import { Loader2, ShieldCheck, LayoutDashboard, FileText, Image, Menu, MapPin, Building2, Home, Construction, ClipboardCheck, ListChecks, Users, Settings, ScrollText, Contact, BarChart3, Power, FileLock2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -20,8 +20,12 @@ const ITEMS: Item[] = [
   { to: "/admin/new-units", label: "الوحدات الجديدة", icon: Home, need: "admin" },
   { to: "/admin/project-opportunities", label: "فرص المشاريع", icon: Construction, need: "admin" },
   { to: "/staff/verification", label: "فرص الخروج والمراجعة", icon: ClipboardCheck, need: "staff" },
+  { to: "/admin/developer-access", label: "حسابات المطورين", icon: Building2, need: "admin" },
   { to: "/admin/forms", label: "النماذج", icon: ListChecks, need: "admin" },
   { to: "/admin/crm", label: "العملاء المحتملين", icon: Contact, need: "sales" },
+  { to: "/admin/analytics", label: "التحليلات والطلب", icon: BarChart3, need: "admin" },
+  { to: "/admin/controls", label: "المفاتيح والطوارئ", icon: Power, need: "admin" },
+  { to: "/admin/policies", label: "السياسات والخصوصية", icon: FileLock2, need: "admin" },
   { to: "/staff/users", label: "المستخدمين", icon: Users, need: "admin" },
   { to: "/staff/settings", label: "الإعدادات", icon: Settings, need: "admin" },
   { to: "/staff/audit", label: "سجل العمليات", icon: ScrollText, need: "admin" },

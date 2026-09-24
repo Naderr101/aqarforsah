@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          created_at: string
+          id: number
+          kind: string
+          meta: Json
+          ref: string
+          section: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          kind: string
+          meta?: Json
+          ref?: string
+          section?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          kind?: string
+          meta?: Json
+          ref?: string
+          section?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       audit_events: {
         Row: {
           action: string
@@ -164,6 +194,38 @@ export type Database = {
             columns: ["exit_opportunity_id"]
             isOneToOne: true
             referencedRelation: "exit_opportunities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      developer_members: {
+        Row: {
+          created_at: string
+          developer_id: string
+          id: string
+          user_id: string
+          verified: boolean
+        }
+        Insert: {
+          created_at?: string
+          developer_id: string
+          id?: string
+          user_id: string
+          verified?: boolean
+        }
+        Update: {
+          created_at?: string
+          developer_id?: string
+          id?: string
+          user_id?: string
+          verified?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "developer_members_developer_id_fkey"
+            columns: ["developer_id"]
+            isOneToOne: false
+            referencedRelation: "developers"
             referencedColumns: ["id"]
           },
         ]
@@ -412,6 +474,27 @@ export type Database = {
           },
         ]
       }
+      feature_flags: {
+        Row: {
+          enabled: boolean
+          key: string
+          label: string
+          updated_at: string
+        }
+        Insert: {
+          enabled?: boolean
+          key: string
+          label?: string
+          updated_at?: string
+        }
+        Update: {
+          enabled?: boolean
+          key?: string
+          label?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       form_fields: {
         Row: {
           field_key: string
@@ -608,70 +691,117 @@ export type Database = {
       new_units: {
         Row: {
           area: number | null
+          availability: string
+          bathrooms: number | null
           bedrooms: number | null
+          building_id: string | null
           city: string
           created_at: string
+          created_by: string | null
+          currency: Database["public"]["Enums"]["currency_code"]
           delivery: string
           description: string
           developer_id: string | null
           down_payment: number | null
+          finishing: string
+          floor: string
           id: string
           image_url: string
+          installment_plan: string
           installment_years: number | null
+          phase_id: string | null
           price: number | null
           project_id: string | null
-          published: boolean
+          review_notes: string
           sort_order: number
+          status: Database["public"]["Enums"]["new_unit_status"]
           title: string
+          unit_code: string
           unit_type: string
           updated_at: string
         }
         Insert: {
           area?: number | null
+          availability?: string
+          bathrooms?: number | null
           bedrooms?: number | null
+          building_id?: string | null
           city?: string
           created_at?: string
+          created_by?: string | null
+          currency?: Database["public"]["Enums"]["currency_code"]
           delivery?: string
           description?: string
           developer_id?: string | null
           down_payment?: number | null
+          finishing?: string
+          floor?: string
           id?: string
           image_url?: string
+          installment_plan?: string
           installment_years?: number | null
+          phase_id?: string | null
           price?: number | null
           project_id?: string | null
-          published?: boolean
+          review_notes?: string
           sort_order?: number
+          status?: Database["public"]["Enums"]["new_unit_status"]
           title: string
+          unit_code?: string
           unit_type?: string
           updated_at?: string
         }
         Update: {
           area?: number | null
+          availability?: string
+          bathrooms?: number | null
           bedrooms?: number | null
+          building_id?: string | null
           city?: string
           created_at?: string
+          created_by?: string | null
+          currency?: Database["public"]["Enums"]["currency_code"]
           delivery?: string
           description?: string
           developer_id?: string | null
           down_payment?: number | null
+          finishing?: string
+          floor?: string
           id?: string
           image_url?: string
+          installment_plan?: string
           installment_years?: number | null
+          phase_id?: string | null
           price?: number | null
           project_id?: string | null
-          published?: boolean
+          review_notes?: string
           sort_order?: number
+          status?: Database["public"]["Enums"]["new_unit_status"]
           title?: string
+          unit_code?: string
           unit_type?: string
           updated_at?: string
         }
         Relationships: [
           {
+            foreignKeyName: "new_units_building_id_fkey"
+            columns: ["building_id"]
+            isOneToOne: false
+            referencedRelation: "buildings"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "new_units_developer_id_fkey"
             columns: ["developer_id"]
             isOneToOne: false
             referencedRelation: "developers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "new_units_phase_id_fkey"
+            columns: ["phase_id"]
+            isOneToOne: false
+            referencedRelation: "phases"
             referencedColumns: ["id"]
           },
           {
@@ -816,6 +946,104 @@ export type Database = {
         }
         Relationships: []
       }
+      policy_acceptances: {
+        Row: {
+          accepted_at: string
+          context: string
+          id: string
+          policy_id: string
+          user_id: string
+        }
+        Insert: {
+          accepted_at?: string
+          context?: string
+          id?: string
+          policy_id: string
+          user_id?: string
+        }
+        Update: {
+          accepted_at?: string
+          context?: string
+          id?: string
+          policy_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "policy_acceptances_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "policy_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      policy_versions: {
+        Row: {
+          body: string
+          created_at: string
+          created_by: string | null
+          id: string
+          kind: Database["public"]["Enums"]["policy_kind"]
+          published: boolean
+          version: number
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          kind: Database["public"]["Enums"]["policy_kind"]
+          published?: boolean
+          version: number
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          kind?: Database["public"]["Enums"]["policy_kind"]
+          published?: boolean
+          version?: number
+        }
+        Relationships: []
+      }
+      privacy_requests: {
+        Row: {
+          created_at: string
+          decision: string
+          details: string
+          id: string
+          kind: Database["public"]["Enums"]["privacy_request_kind"]
+          legal_hold: boolean
+          status: Database["public"]["Enums"]["privacy_request_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          decision?: string
+          details?: string
+          id?: string
+          kind: Database["public"]["Enums"]["privacy_request_kind"]
+          legal_hold?: boolean
+          status?: Database["public"]["Enums"]["privacy_request_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          decision?: string
+          details?: string
+          id?: string
+          kind?: Database["public"]["Enums"]["privacy_request_kind"]
+          legal_hold?: boolean
+          status?: Database["public"]["Enums"]["privacy_request_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           account_status: Database["public"]["Enums"]["account_status"]
@@ -859,42 +1087,69 @@ export type Database = {
         Row: {
           city: string
           created_at: string
+          currency: Database["public"]["Enums"]["currency_code"]
           description: string
           developer_id: string | null
+          development_status: string
           id: string
           image_url: string
+          investment_value: number | null
+          location: string
           min_investment: number | null
-          published: boolean
+          opp_type: Database["public"]["Enums"]["project_opp_type"]
+          owner_id: string | null
+          review_notes: string
+          size_sqm: number | null
           sort_order: number
           stage: string
+          status: Database["public"]["Enums"]["project_opp_status"]
+          terms: string
           title: string
           updated_at: string
         }
         Insert: {
           city?: string
           created_at?: string
+          currency?: Database["public"]["Enums"]["currency_code"]
           description?: string
           developer_id?: string | null
+          development_status?: string
           id?: string
           image_url?: string
+          investment_value?: number | null
+          location?: string
           min_investment?: number | null
-          published?: boolean
+          opp_type?: Database["public"]["Enums"]["project_opp_type"]
+          owner_id?: string | null
+          review_notes?: string
+          size_sqm?: number | null
           sort_order?: number
           stage?: string
+          status?: Database["public"]["Enums"]["project_opp_status"]
+          terms?: string
           title: string
           updated_at?: string
         }
         Update: {
           city?: string
           created_at?: string
+          currency?: Database["public"]["Enums"]["currency_code"]
           description?: string
           developer_id?: string | null
+          development_status?: string
           id?: string
           image_url?: string
+          investment_value?: number | null
+          location?: string
           min_investment?: number | null
-          published?: boolean
+          opp_type?: Database["public"]["Enums"]["project_opp_type"]
+          owner_id?: string | null
+          review_notes?: string
+          size_sqm?: number | null
           sort_order?: number
           stage?: string
+          status?: Database["public"]["Enums"]["project_opp_status"]
+          terms?: string
           title?: string
           updated_at?: string
         }
@@ -1118,6 +1373,7 @@ export type Database = {
         }[]
       }
       exit_is_editable: { Args: { _id: string }; Returns: boolean }
+      flag_on: { Args: { _key: string }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1128,6 +1384,8 @@ export type Database = {
       is_active_account: { Args: { _user_id: string }; Returns: boolean }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
       is_admin_mfa: { Args: never; Returns: boolean }
+      is_developer_of: { Args: { _dev: string }; Returns: boolean }
+      is_reviewer: { Args: never; Returns: boolean }
       is_sales: { Args: never; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
       public_exit_listings: {
@@ -1201,6 +1459,16 @@ export type Database = {
         | "PURCHASE_REQUEST"
         | "WON"
         | "LOST"
+      new_unit_status:
+        | "DRAFT"
+        | "PENDING_APPROVAL"
+        | "APPROVED"
+        | "PUBLISHED"
+        | "RESERVED"
+        | "SOLD"
+        | "REJECTED"
+        | "PAUSED"
+        | "UNAVAILABLE"
       payment_category:
         | "PRINCIPAL"
         | "MAINTENANCE"
@@ -1215,6 +1483,23 @@ export type Database = {
         | "VERIFIED"
         | "REJECTED"
         | "ADJUSTED"
+      policy_kind: "TERMS" | "PRIVACY" | "FEES" | "CANCELLATION"
+      privacy_request_kind: "EXPORT" | "CORRECTION" | "DELETION"
+      privacy_request_status: "OPEN" | "IN_PROGRESS" | "COMPLETED" | "REJECTED"
+      project_opp_status:
+        | "DRAFT"
+        | "PENDING_REVIEW"
+        | "VERIFIED"
+        | "PUBLISHED"
+        | "PAUSED"
+        | "CLOSED"
+        | "REJECTED"
+      project_opp_type:
+        | "DEVELOPMENT_PROJECT"
+        | "LAND_PLUS_DEVELOPMENT"
+        | "BUILDING_PORTFOLIO"
+        | "INVESTMENT_OPPORTUNITY"
+        | "DEVELOPMENT_PARTNERSHIP"
       valuation_source:
         | "DEVELOPER_PRICE"
         | "VERIFIED_COMPARABLES"
@@ -1410,6 +1695,17 @@ export const Constants = {
         "WON",
         "LOST",
       ],
+      new_unit_status: [
+        "DRAFT",
+        "PENDING_APPROVAL",
+        "APPROVED",
+        "PUBLISHED",
+        "RESERVED",
+        "SOLD",
+        "REJECTED",
+        "PAUSED",
+        "UNAVAILABLE",
+      ],
       payment_category: [
         "PRINCIPAL",
         "MAINTENANCE",
@@ -1425,6 +1721,25 @@ export const Constants = {
         "VERIFIED",
         "REJECTED",
         "ADJUSTED",
+      ],
+      policy_kind: ["TERMS", "PRIVACY", "FEES", "CANCELLATION"],
+      privacy_request_kind: ["EXPORT", "CORRECTION", "DELETION"],
+      privacy_request_status: ["OPEN", "IN_PROGRESS", "COMPLETED", "REJECTED"],
+      project_opp_status: [
+        "DRAFT",
+        "PENDING_REVIEW",
+        "VERIFIED",
+        "PUBLISHED",
+        "PAUSED",
+        "CLOSED",
+        "REJECTED",
+      ],
+      project_opp_type: [
+        "DEVELOPMENT_PROJECT",
+        "LAND_PLUS_DEVELOPMENT",
+        "BUILDING_PORTFOLIO",
+        "INVESTMENT_OPPORTUNITY",
+        "DEVELOPMENT_PARTNERSHIP",
       ],
       valuation_source: [
         "DEVELOPER_PRICE",

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { LiveNewUnits } from "@/components/aqar/opportunity/LiveListings";
 import { OpportunityListing, RangeFilter } from "@/components/aqar/opportunity/OpportunityListing";
 import { NewUnitCard } from "@/components/aqar/opportunity/OpportunityCards";
 import { newUnits } from "@/data/opportunities";
@@ -18,6 +19,8 @@ export const Route = createFileRoute("/new-units/")({
 function Page() {
   const { q } = Route.useSearch();
   return (
+    <>
+    <LiveNewUnits q={q} />
     <OpportunityListing
       title="الوحدات الجديدة"
       description="وحدات مباشرة من المطورين والمشروعات، بسعر الوحدة والمقدم وخطة السداد."
@@ -26,5 +29,6 @@ function Page() {
       render={(o) => <NewUnitCard o={o} />}
       filters={<><RangeFilter label="سعر الوحدة" /><RangeFilter label="المقدم" /></>}
     />
+    </>
   );
 }
