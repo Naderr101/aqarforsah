@@ -66,7 +66,7 @@ export function NewUnitCard({ o }: { o: NewUnitOpportunity }) {
           </div>
         </div>
         <p className="mt-3 text-xs font-bold text-brand-green">{o.availability}</p>
-        <Button asChild variant="outline" className="mt-auto w-full pt-0"><Link to="/new-units/$slug" params={{ slug: o.slug }} className="mt-4">تفاصيل الوحدة <ArrowLeft /></Link></Button>
+        <Button asChild variant="outline" className="mt-4 w-full"><Link to="/new-units/$slug" params={{ slug: o.slug }}>تفاصيل الوحدة <ArrowLeft /></Link></Button>
       </div>
     </article>
   );

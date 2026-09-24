@@ -1,11 +1,91 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, BarChart3, Building2, FileCheck2, ShieldCheck, Users, LogOut, Construction, type LucideIcon } from "lucide-react";
+import { ArrowLeft, BarChart3, Building2, FileCheck2, Handshake, Scale, LogOut, Construction, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PropertyCard } from "@/components/aqar/PropertyCard";
 import { SearchBar } from "@/components/aqar/SearchBar";
-import { properties } from "@/data/properties";
+import { ExitOpportunityCard, NewUnitCard, ProjectOpportunityCard } from "@/components/aqar/opportunity/OpportunityCards";
+import { HowExitWorks } from "@/components/aqar/opportunity/HowExitWorks";
+import { DemoNotice } from "@/components/aqar/opportunity/DemoNotice";
+import { exitOpportunities, newUnits, projectOpportunities } from "@/data/opportunities";
 import hero from "@/assets/aqar-hero.jpg";
-export const Route=createFileRoute("/")({head:()=>({meta:[{title:"عقار فرصة | فرص عقارية حقيقية في مصر"},{name:"description",content:"اكتشف أفضل فرص العقارات والمشروعات والوحدات الجديدة للبيع والإيجار في مصر."},{property:"og:title",content:"عقار فرصة | فرص عقارية حقيقية في مصر"},{property:"og:description",content:"فرص الخروج والوحدات الجديدة والمشروعات العقارية في مكان واحد."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:Index});
-const paths=[{title:"فرص المشاريع",text:"استثمر في فرص واعدة من مشروعات مميزة",icon:Construction,tone:"bg-accent text-brand-blue",to:"/properties" as const},{title:"الوحدات الجديدة",text:"اكتشف أحدث الوحدات من المطورين",icon:Building2,tone:"bg-pink-50 text-brand-pink",to:"/properties" as const},{title:"فرص الخروج",text:"آخر من وحدتك وخذ اللي دفعته كاش",icon:LogOut,tone:"bg-emerald-50 text-brand-green",to:"/sale" as const}];
-const benefits: Array<[LucideIcon,string,string]>=[[BarChart3,"توفير أكبر","مقارنة بطريقة أذكى"],[FileCheck2,"فرص موثقة","جميع الوحدات بمستندات حقيقية"],[Users,"مطورون معتمدون","شركاء موثوقون"],[ShieldCheck,"معاملات آمنة","حماية كاملة لكل الأطراف"]];
-function Index(){return <main><section className="relative min-h-[430px] overflow-hidden"><img src={hero} width={1920} height={900} alt="إطلالة عقارية حديثة في القاهرة الجديدة" className="absolute inset-0 h-full w-full object-cover object-center"/><div className="hero-wash absolute inset-0"/><div className="relative mx-auto flex min-h-[430px] max-w-7xl items-center px-4 py-12 lg:px-8"><div className="w-full max-w-2xl"><h1 className="text-3xl font-black leading-tight text-primary md:text-5xl">إنت مش بتدور على عقار..<br/>إنت بتدور على <span className="text-brand-blue">فرصة</span></h1><p className="mt-3 font-bold text-foreground/80 md:text-lg">اكتشف أفضل فرص الخروج والوحدات الجديدة والمشاريع العقارية في مكان واحد</p><div className="mt-6"><SearchBar/></div></div></div></section><section className="mx-auto max-w-7xl px-4 py-4 lg:px-8"><div className="grid gap-3 md:grid-cols-3">{paths.map(({title,text,icon:Icon,tone,to})=><Link to={to} key={title} className={`grid min-h-28 grid-cols-[auto_1fr_auto] items-center gap-4 rounded-lg p-5 ${tone}`}><Icon className="size-10"/><div><h2 className="text-xl font-black">{title}</h2><p className="mt-1 text-sm leading-6 text-foreground/75">{text}</p></div><ArrowLeft className="size-5"/></Link>)}</div></section><section className="mx-auto max-w-7xl px-4 py-6 lg:px-8"><div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4"><h2 className="text-2xl font-black text-primary">أحدث الفرص العقارية</h2><Button variant="link" asChild><Link to="/properties">عرض كل الفرص <ArrowLeft/></Link></Button></div><div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{properties.slice(0,4).map(p=><PropertyCard key={p.id} property={p}/>)}</div></section><section className="mx-auto max-w-7xl px-4 pb-8 lg:px-8"><div className="grid divide-y rounded-lg border bg-card shadow-card sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">{benefits.map(([Icon,title,text])=><div key={title} className="flex items-center gap-3 p-5"><span className="grid size-11 place-items-center rounded-full bg-secondary text-brand-blue"><Icon className="size-6"/></span><div><h3 className="font-extrabold text-primary">{title}</h3><p className="text-xs text-muted-foreground">{text}</p></div></div>)}</div></section></main>}
+
+export const Route = createFileRoute("/")({
+  head: () => ({ meta: [
+    { title: "عقار فرصة | فرص الخروج والوحدات الجديدة وفرص المشاريع" },
+    { name: "description", content: "اكتشف فرص الخروج من عقود التقسيط بمبلغ خروج قائم على المدفوع فعلياً، ووحدات جديدة وفرص مشاريع في مصر." },
+    { property: "og:title", content: "عقار فرصة | إنت بتدور على فرصة" },
+    { property: "og:description", content: "فرص الخروج والوحدات الجديدة وفرص المشاريع ببيانات مالية واضحة." },
+    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
+  ] }),
+  component: Index,
+});
+
+const benefits: Array<[LucideIcon, string, string]> = [
+  [Scale, "مبلغ خروج واضح", "قائم على المدفوع فعلياً للمطور"],
+  [BarChart3, "بيانات أوضح", "لاتخاذ قرار أفضل"],
+  [FileCheck2, "عملية مراجعة منظمة", "المستندات تخضع للمراجعة"],
+  [Handshake, "متابعة من عقار فرصة", "بدون تواصل مباشر مع البائع"],
+];
+
+function SectionHead({ title, to }: { title: string; to: "/exit-opportunities" | "/new-units" | "/project-opportunities" }) {
+  return <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4"><h2 className="text-2xl font-black text-primary">{title}</h2><Button variant="link" asChild><Link to={to}>عرض الكل <ArrowLeft /></Link></Button></div>;
+}
+
+function Index() {
+  return (
+    <main>
+      <section className="relative min-h-[430px] overflow-hidden">
+        <img src={hero} width={1920} height={900} alt="إطلالة عقارية حديثة في القاهرة الجديدة" className="absolute inset-0 h-full w-full object-cover object-center" />
+        <div className="hero-wash absolute inset-0" />
+        <div className="relative mx-auto flex min-h-[430px] max-w-7xl items-center px-4 py-12 lg:px-8">
+          <div className="w-full max-w-2xl">
+            <h1 className="text-3xl font-black leading-tight text-primary md:text-5xl">إنت مش بتدور على عقار..<br />إنت بتدور على <span className="text-brand-blue">فرصة</span></h1>
+            <p className="mt-3 font-bold text-foreground/80 md:text-lg">فرص خروج من عقود تقسيط بمبلغ خروج قائم على المدفوع فعلياً — بدون أوفر برايس.</p>
+            <div className="mt-6"><SearchBar /></div>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-4 lg:px-8">
+        <div className="grid gap-3 md:grid-cols-[1.4fr_1fr_1fr]">
+          <Link to="/exit-opportunities" className="grid min-h-32 grid-cols-[auto_1fr_auto] items-center gap-4 rounded-lg bg-primary p-5 text-primary-foreground shadow-card">
+            <LogOut className="size-10 text-brand-green" />
+            <div><span className="text-[11px] font-bold text-primary-foreground/70">القسم الأساسي</span><h2 className="text-xl font-black">فرص الخروج</h2><p className="mt-1 text-sm leading-6 text-primary-foreground/80">فرص لوحدات أصحابها عايزين يخرجوا من عقودهم.</p></div>
+            <ArrowLeft className="size-5" />
+          </Link>
+          <Link to="/new-units" className="grid min-h-32 grid-cols-[auto_1fr_auto] items-center gap-4 rounded-lg bg-secondary p-5">
+            <Building2 className="size-9 text-brand-pink" /><div><h2 className="text-lg font-black text-primary">الوحدات الجديدة</h2><p className="mt-1 text-sm leading-6 text-foreground/75">وحدات مباشرة من المطورين والمشروعات.</p></div><ArrowLeft className="size-5 text-primary" />
+          </Link>
+          <Link to="/project-opportunities" className="grid min-h-32 grid-cols-[auto_1fr_auto] items-center gap-4 rounded-lg bg-accent p-5">
+            <Construction className="size-9 text-brand-blue" /><div><h2 className="text-lg font-black text-primary">فرص المشاريع</h2><p className="mt-1 text-sm leading-6 text-foreground/75">فرص تطوير واستثمار ومشروعات عقارية.</p></div><ArrowLeft className="size-5 text-primary" />
+          </Link>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
+        <SectionHead title="أحدث فرص الخروج" to="/exit-opportunities" />
+        <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{exitOpportunities.map((o) => <ExitOpportunityCard key={o.id} o={o} />)}</div>
+        <div className="mt-4"><DemoNotice /></div>
+      </section>
+
+      <HowExitWorks />
+
+      <section className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
+        <div className="flex flex-col items-start justify-between gap-4 rounded-lg border bg-card p-6 shadow-card md:flex-row md:items-center">
+          <div><h2 className="text-xl font-black text-primary">عايز تخرج من وحدتك؟</h2><p className="mt-1 text-sm text-muted-foreground">ضيف بيانات عقدك ومدفوعاتك، ومبلغ الخروج بيتحدد بعد مراجعة المستندات.</p></div>
+          <Button asChild size="lg"><Link to="/sell-exit">ابدأ طلب الخروج <ArrowLeft /></Link></Button>
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-7xl gap-8 px-4 py-6 lg:grid-cols-2 lg:px-8">
+        <div><SectionHead title="الوحدات الجديدة" to="/new-units" /><div className="mt-5 grid gap-5 sm:grid-cols-2">{newUnits.slice(0, 2).map((o) => <NewUnitCard key={o.id} o={o} />)}</div></div>
+        <div><SectionHead title="فرص المشاريع" to="/project-opportunities" /><div className="mt-5 grid gap-5 sm:grid-cols-2">{projectOpportunities.slice(0, 2).map((o) => <ProjectOpportunityCard key={o.id} o={o} />)}</div></div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pb-8 lg:px-8">
+        <div className="grid divide-y rounded-lg border bg-card shadow-card sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
+          {benefits.map(([Icon, title, text]) => <div key={title} className="flex items-center gap-3 p-5"><span className="grid size-11 place-items-center rounded-full bg-secondary text-brand-blue"><Icon className="size-6" /></span><div><h3 className="font-extrabold text-primary">{title}</h3><p className="text-xs text-muted-foreground">{text}</p></div></div>)}
+        </div>
+      </section>
+    </main>
+  );
+}
