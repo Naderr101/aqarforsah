@@ -15,3 +15,6 @@
 - [x] Admin control panel /admin with 2FA, idle logout, content/branding/images, nav, cities, catalog, new units, project opportunities, forms, CRM
 - [ ] Public new-units / project-opportunities pages still show demo data; switch to admin-managed tables
 - [ ] Footer text wiring to site content
+- [x] Final brief (4): new units lifecycle + developer portal, project opportunities lifecycle + flag, feature flags/emergency, policies + consent storage, privacy requests + data export, real analytics
+- [ ] Not built (no underlying system yet): buyer profile/saved search/matching, purchase requests, reservations, transactions + 360 views, appointments, fee collections, disputes, notifications, risk flags
+- [ ] Policy acceptance prompt at signup/submit (storage exists; UI prompt not wired)
