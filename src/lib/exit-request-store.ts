@@ -1,71 +1,77 @@
-// Local draft persistence (autosave-ready). Swap these functions for server
-// calls when the backend exists — the wizard only talks to this module.
+// Server-backed draft persistence for the Seller Exit Wizard.
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { ExitRequestDraft, SubmittedExitRequest } from "@/types/exit-request";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { getExitDraft, saveExitDraft } from "./exit-drafts.functions";
+import { toCents } from "./money";
+import type { ExitDraftRecord, ExitRequestDraft } from "@/types/exit-request";
 
-const DRAFT_KEY = "aqar-exit-draft-v1";
-const SUBMITTED_KEY = "aqar-exit-requests-v1";
+export type SaveState = "idle" | "saving" | "saved" | "error";
 
-export const emptyDraft = (): ExitRequestDraft => ({
-  seller: { fullName: "", phone: "", email: "", nationalId: "", city: "", preferredContact: "phone" },
-  developerId: "", projectId: "",
-  unit: { phase: "", unitNumber: "", unitType: "", area: "", bedrooms: "", bathrooms: "", floor: "", view: "", finishing: "", furnished: "", deliveryDate: "" },
-  contract: { contractNumber: "", contractDate: "", originalValue: "", currency: "EGP", installmentAmount: "", installmentFrequency: "", remainingInstallments: "", nextInstallmentDate: "", maintenanceStatus: "", transferNotes: "" },
-  payments: { downPayment: { amount: "", date: "", principal: "", reference: "" }, installments: [], claimedRemainingBalance: "" },
-  documents: { contract: [], schedule: [], receipts: [], nationalId: [], other: [], notes: "" },
-  transfer: { eligibility: "unknown", developerApprovalRequired: "unknown", terms: "", transferFee: "", adminFee: "", cancellationTerms: "", notes: "" },
-  updatedAt: new Date(0).toISOString(),
-});
+export function useServerDraft(id: string) {
+  const load = useServerFn(getExitDraft);
+  const save = useServerFn(saveExitDraft);
+  const q = useQuery({ queryKey: ["exit-draft", id], queryFn: () => load({ data: { id } }), staleTime: Infinity, refetchOnWindowFocus: false, retry: false });
 
-export function useExitDraft() {
-  const [draft, setDraft] = useState<ExitRequestDraft>(emptyDraft);
-  const [loaded, setLoaded] = useState(false);
-  const first = useRef(true);
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(DRAFT_KEY);
-      if (raw) setDraft({ ...emptyDraft(), ...JSON.parse(raw) });
-    } catch { /* ignore corrupt draft */ }
-    setLoaded(true);
-  }, []);
+  const [record, setRecord] = useState<ExitDraftRecord | null>(null);
+  const [draft, setDraft] = useState<ExitRequestDraft | null>(null);
+  const [step, setStep] = useState(0);
+  const [maxStep, setMaxStep] = useState(0);
+  const [saveState, setSaveState] = useState<SaveState>("idle");
+  const dirty = useRef(false);
+  const latest = useRef({ draft, step, maxStep });
+  latest.current = { draft, step, maxStep };
+  const chain = useRef<Promise<unknown>>(Promise.resolve());
 
   useEffect(() => {
-    if (!loaded) return;
-    if (first.current) { first.current = false; return; }
-    const t = setTimeout(() => localStorage.setItem(DRAFT_KEY, JSON.stringify(draft)), 400);
+    if (q.data && !record) {
+      setRecord(q.data); setDraft(q.data.draft); setStep(q.data.currentStep); setMaxStep(Math.max(q.data.maxStep, q.data.currentStep));
+    }
+  }, [q.data, record]);
+
+  const flush = useCallback(() => {
+    const run = async () => {
+      const { draft: d, step: s, maxStep: m } = latest.current;
+      if (!d || !dirty.current || record?.status !== "draft") return;
+      dirty.current = false;
+      setSaveState("saving");
+      try { await save({ data: { id, draft: d, currentStep: s, maxStep: m } }); setSaveState("saved"); }
+      catch { dirty.current = true; setSaveState("error"); }
+    };
+    chain.current = chain.current.then(run, run);
+    return chain.current;
+  }, [id, save, record?.status]);
+
+  useEffect(() => {
+    if (!dirty.current) return;
+    const t = setTimeout(() => void flush(), 800);
     return () => clearTimeout(t);
-  }, [draft, loaded]);
+  }, [draft, step, maxStep, flush]);
+
+  useEffect(() => {
+    const h = () => { if (dirty.current) void flush(); };
+    window.addEventListener("pagehide", h);
+    return () => { window.removeEventListener("pagehide", h); h(); };
+  }, [flush]);
 
   const update = useCallback(<K extends keyof ExitRequestDraft>(key: K, value: ExitRequestDraft[K]) => {
-    setDraft((d) => ({ ...d, [key]: value, updatedAt: new Date().toISOString() }));
+    dirty.current = true;
+    setDraft((d) => (d ? { ...d, [key]: value, updatedAt: new Date().toISOString() } : d));
   }, []);
+  const goStep = useCallback((s: number) => { dirty.current = true; setStep(s); setMaxStep((m) => Math.max(m, s)); }, []);
 
-  const reset = useCallback(() => { localStorage.removeItem(DRAFT_KEY); setDraft(emptyDraft()); }, []);
-
-  return { draft, update, loaded, reset };
+  return { query: q, record, draft, step, maxStep, goStep, update, saveState, flush };
 }
 
-export function submitExitRequest(draft: ExitRequestDraft): SubmittedExitRequest {
-  const req: SubmittedExitRequest = {
-    id: `XR-${Date.now().toString(36).toUpperCase()}`,
-    submittedAt: new Date().toISOString(),
-    status: "submitted",
-    draft,
-  };
-  const all = listExitRequests();
-  localStorage.setItem(SUBMITTED_KEY, JSON.stringify([req, ...all]));
-  localStorage.removeItem(DRAFT_KEY);
-  return req;
-}
-
-export function listExitRequests(): SubmittedExitRequest[] {
-  try { return JSON.parse(localStorage.getItem(SUBMITTED_KEY) ?? "[]"); } catch { return []; }
-}
-
-export const num = (v: string) => { const n = Number(String(v).replace(/[^\d.]/g, "")); return Number.isFinite(n) ? n : 0; };
-
-/** Claimed total paid — display only, never "verified". */
-export function claimedTotalPaid(d: ExitRequestDraft) {
-  return num(d.payments.downPayment.amount) + d.payments.installments.reduce((s, p) => s + num(p.amount), 0);
+/** Claimed figures — display only, always labelled seller-provided / unverified. */
+export function claimedTotals(d: ExitRequestDraft) {
+  const dp = d.payments.downPayment;
+  let total = toCents(dp.amount);
+  let principal = dp.principal ? toCents(dp.principal) : toCents(dp.amount);
+  for (const p of d.payments.installments) {
+    total += toCents(p.amount);
+    if (p.principal) principal += toCents(p.principal);
+    else if (p.category === "PRINCIPAL") principal += toCents(p.amount);
+  }
+  return { total, principal, remaining: toCents(d.payments.claimedRemainingBalance) };
 }
