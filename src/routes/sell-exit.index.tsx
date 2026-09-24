@@ -3,7 +3,7 @@ import { ClipboardList, FileText, Wallet, Building2, UserRound, ArrowLeftRight }
 import { PageHero } from "@/components/aqar/PageHero";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/sell-exit")({
+export const Route = createFileRoute("/sell-exit/")({
   head: () => ({ meta: [
     { title: "عايز تخرج من وحدتك؟ | عقار فرصة" },
     { name: "description", content: "اعرض عقد وحدتك كفرصة خروج. مبلغ الخروج بيتحدد من المدفوع فعلياً للمطور بعد مراجعة المستندات." },
@@ -41,7 +41,8 @@ function Page() {
           ))}
         </ol>
         <div className="mt-8 flex flex-wrap items-center gap-3">
-          <Button size="lg" disabled>نموذج الطلب قريباً</Button>
+          <Button size="lg" asChild><Link to="/sell-exit/new">ابدأ طلب الخروج</Link></Button>
+          <Button size="lg" variant="ghost" asChild><Link to="/sell-exit/status">متابعة طلباتي</Link></Button>
           <Button size="lg" variant="outline" asChild><Link to="/exit-opportunities">شوف فرص الخروج الحالية</Link></Button>
         </div>
       </main>
