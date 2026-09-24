@@ -1,24 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
-
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowLeft, BarChart3, Building2, FileCheck2, ShieldCheck, Users, LogOut, Construction } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { PropertyCard } from "@/components/aqar/PropertyCard";
+import { SearchBar } from "@/components/aqar/SearchBar";
+import { properties } from "@/data/properties";
+import hero from "@/assets/aqar-hero.jpg";
+export const Route=createFileRoute("/")({head:()=>({meta:[{title:"عقار فرصة | فرص عقارية حقيقية في مصر"},{name:"description",content:"اكتشف أفضل فرص العقارات والمشروعات والوحدات الجديدة للبيع والإيجار في مصر."},{property:"og:title",content:"عقار فرصة | فرص عقارية حقيقية في مصر"},{property:"og:description",content:"فرص الخروج والوحدات الجديدة والمشروعات العقارية في مكان واحد."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:Index});
+const paths=[{title:"فرص المشاريع",text:"استثمر في فرص واعدة من مشروعات مميزة",icon:Construction,tone:"bg-accent text-brand-blue",to:"/properties" as const},{title:"الوحدات الجديدة",text:"اكتشف أحدث الوحدات من المطورين",icon:Building2,tone:"bg-pink-50 text-brand-pink",to:"/properties" as const},{title:"فرص الخروج",text:"آخر من وحدتك وخذ اللي دفعته كاش",icon:LogOut,tone:"bg-emerald-50 text-brand-green",to:"/sale" as const}];
+function Index(){return <main><section className="relative min-h-[430px] overflow-hidden"><img src={hero} width={1920} height={900} alt="إطلالة عقارية حديثة في القاهرة الجديدة" className="absolute inset-0 h-full w-full object-cover object-center"/><div className="hero-wash absolute inset-0"/><div className="relative mx-auto flex min-h-[430px] max-w-7xl items-center px-4 py-12 lg:px-8"><div className="w-full max-w-2xl"><h1 className="text-3xl font-black leading-tight text-primary md:text-5xl">إنت مش بتدور على عقار..<br/>إنت بتدور على <span className="text-brand-blue">فرصة</span></h1><p className="mt-3 font-bold text-foreground/80 md:text-lg">اكتشف أفضل فرص الخروج والوحدات الجديدة والمشاريع العقارية في مكان واحد</p><div className="mt-6"><SearchBar/></div></div></div></section><section className="mx-auto max-w-7xl px-4 py-4 lg:px-8"><div className="grid gap-3 md:grid-cols-3">{paths.map(({title,text,icon:Icon,tone,to})=><Link to={to} key={title} className={`grid min-h-28 grid-cols-[auto_1fr_auto] items-center gap-4 rounded-lg p-5 ${tone}`}><Icon className="size-10"/><div><h2 className="text-xl font-black">{title}</h2><p className="mt-1 text-sm leading-6 text-foreground/75">{text}</p></div><ArrowLeft className="size-5"/></Link>)}</div></section><section className="mx-auto max-w-7xl px-4 py-6 lg:px-8"><div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4"><h2 className="text-2xl font-black text-primary">أحدث الفرص العقارية</h2><Button variant="link" asChild><Link to="/properties">عرض كل الفرص <ArrowLeft/></Link></Button></div><div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{properties.slice(0,4).map(p=><PropertyCard key={p.id} property={p}/>)}</div></section><section className="mx-auto max-w-7xl px-4 pb-8 lg:px-8"><div className="grid divide-y rounded-lg border bg-card shadow-card sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">{[[BarChart3,"توفير أكبر","مقارنة بطريقة أذكى"],[FileCheck2,"فرص موثقة","جميع الوحدات بمستندات حقيقية"],[Users,"مطورون معتمدون","شركاء موثوقون"],[ShieldCheck,"معاملات آمنة","حماية كاملة لكل الأطراف"]].map(([Icon,title,text])=><div key={String(title)} className="flex items-center gap-3 p-5"><span className="grid size-11 place-items-center rounded-full bg-secondary text-brand-blue"><Icon className="size-6"/></span><div><h3 className="font-extrabold text-primary">{String(title)}</h3><p className="text-xs text-muted-foreground">{String(text)}</p></div></div>)}</div></section></main>}
