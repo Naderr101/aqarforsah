@@ -83,7 +83,7 @@ function Case() {
         <section className="rounded-lg border bg-card p-4 shadow-card text-sm">
           <h2 className="font-extrabold text-primary">الوحدة والعقد</h2>
           <dl className="mt-2 grid grid-cols-2 gap-1">
-            {[["النوع / المساحة", `${unit?.["unit_type"] ?? "—"} · ${unit?.["area"] ?? "—"} م²`], ["رقم الوحدة", unit?.["unit_number"]], ["رقم العقد", contract?.["contract_number"]], ["تاريخ العقد", contract?.["contract_date"]], ["قيمة العقد", fmtDb(contract?.["original_value"] as string, cur)], ["المتبقي حسب البائع", fmtDb(opp.claimed_remaining_balance, cur)], ["ملاحظات التنازل", contract?.["assignment_notes"]]].map(([k, v]) => <><dt key={`k${k}`} className="text-muted-foreground">{k}</dt><dd key={`v${k}`} className="font-bold">{(v as string) || "—"}</dd></>)}
+            {[["النوع / المساحة", `${unit?.["unit_type"] ?? "—"} · ${unit?.["area"] ?? "—"} م²`], ["رقم الوحدة", unit?.["unit_number"] as string], ["رقم العقد", contract?.["contract_number"]], ["تاريخ العقد", contract?.["contract_date"]], ["قيمة العقد", fmtDb(contract?.["original_value"] as string, cur)], ["المتبقي حسب البائع", fmtDb(opp.claimed_remaining_balance, cur)], ["ملاحظات التنازل", contract?.["assignment_notes"] as string]].map(([k, v]) => <><dt key={`k${k}`} className="text-muted-foreground">{k}</dt><dd key={`v${k}`} className="font-bold">{(v as string) || "—"}</dd></>)}
           </dl>
         </section>
       </div>
