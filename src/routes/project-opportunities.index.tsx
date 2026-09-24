@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { LiveProjectOpps } from "@/components/aqar/opportunity/LiveListings";
 import { OpportunityListing, RangeFilter } from "@/components/aqar/opportunity/OpportunityListing";
 import { ProjectOpportunityCard } from "@/components/aqar/opportunity/OpportunityCards";
 import { projectOpportunities } from "@/data/opportunities";
@@ -18,6 +19,8 @@ export const Route = createFileRoute("/project-opportunities/")({
 function Page() {
   const { q } = Route.useSearch();
   return (
+    <>
+    <LiveProjectOpps />
     <OpportunityListing
       title="فرص المشاريع"
       description="فرص تطوير واستثمار ومشروعات عقارية: أراضي، شراكات تطوير، ومحافظ مباني."
@@ -26,5 +29,6 @@ function Page() {
       render={(o) => <ProjectOpportunityCard o={o} />}
       filters={<RangeFilter label="قيمة الاستثمار" />}
     />
+    </>
   );
 }

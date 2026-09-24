@@ -5,6 +5,7 @@ import { Loader2, MapPin } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { fmtEGP, track } from "@/lib/public-data";
 import { PROJECT_TYPES, label } from "@/components/admin/useOptions";
+import { InterestPanel } from "./InterestPanel";
 
 const UNIT_BADGE: Record<string, string> = { RESERVED: "محجوزة", SOLD: "مباعة" };
 
@@ -79,5 +80,4 @@ export function LiveProjectOpps() {
   );
 }
 
-import { InterestPanel } from "./InterestPanel";
 function InterestInline({ id }: { id: string }) { return <InterestPanel opportunityId={id} section="project" cta="سجّل اهتمامك" />; }

@@ -48,6 +48,7 @@ import { Route as AuthenticatedSellExitStatusRouteImport } from './routes/_authe
 import { Route as AuthenticatedStaffAuditRouteImport } from './routes/_authenticated/staff.audit'
 import { Route as AuthenticatedStaffSettingsRouteImport } from './routes/_authenticated/staff.settings'
 import { Route as AuthenticatedStaffUsersRouteImport } from './routes/_authenticated/staff.users'
+import { Route as NewUnitsLiveIdRouteImport } from './routes/new-units.live.$id'
 import { Route as AuthenticatedStaffVerificationIndexRouteImport } from './routes/_authenticated/staff.verification.index'
 import { Route as AuthenticatedStaffVerificationIdRouteImport } from './routes/_authenticated/staff.verification.$id'
 
@@ -256,6 +257,11 @@ const AuthenticatedStaffUsersRoute = AuthenticatedStaffUsersRouteImport.update({
   path: '/staff/users',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const NewUnitsLiveIdRoute = NewUnitsLiveIdRouteImport.update({
+  id: '/new-units/live/$id',
+  path: '/new-units/live/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedStaffVerificationIndexRoute =
   AuthenticatedStaffVerificationIndexRouteImport.update({
     id: '/staff/verification/',
@@ -307,6 +313,7 @@ export interface FileRoutesByFullPath {
   '/staff/audit': typeof AuthenticatedStaffAuditRoute
   '/staff/settings': typeof AuthenticatedStaffSettingsRoute
   '/staff/users': typeof AuthenticatedStaffUsersRoute
+  '/new-units/live/$id': typeof NewUnitsLiveIdRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/staff/verification/$id': typeof AuthenticatedStaffVerificationIdRoute
   '/staff/verification/': typeof AuthenticatedStaffVerificationIndexRoute
@@ -348,6 +355,7 @@ export interface FileRoutesByTo {
   '/staff/audit': typeof AuthenticatedStaffAuditRoute
   '/staff/settings': typeof AuthenticatedStaffSettingsRoute
   '/staff/users': typeof AuthenticatedStaffUsersRoute
+  '/new-units/live/$id': typeof NewUnitsLiveIdRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/staff/verification/$id': typeof AuthenticatedStaffVerificationIdRoute
   '/staff/verification': typeof AuthenticatedStaffVerificationIndexRoute
@@ -392,6 +400,7 @@ export interface FileRoutesById {
   '/_authenticated/staff/audit': typeof AuthenticatedStaffAuditRoute
   '/_authenticated/staff/settings': typeof AuthenticatedStaffSettingsRoute
   '/_authenticated/staff/users': typeof AuthenticatedStaffUsersRoute
+  '/new-units/live/$id': typeof NewUnitsLiveIdRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/staff/verification/$id': typeof AuthenticatedStaffVerificationIdRoute
   '/_authenticated/staff/verification/': typeof AuthenticatedStaffVerificationIndexRoute
@@ -436,6 +445,7 @@ export interface FileRouteTypes {
     | '/staff/audit'
     | '/staff/settings'
     | '/staff/users'
+    | '/new-units/live/$id'
     | '/admin/'
     | '/staff/verification/$id'
     | '/staff/verification/'
@@ -477,6 +487,7 @@ export interface FileRouteTypes {
     | '/staff/audit'
     | '/staff/settings'
     | '/staff/users'
+    | '/new-units/live/$id'
     | '/admin'
     | '/staff/verification/$id'
     | '/staff/verification'
@@ -520,6 +531,7 @@ export interface FileRouteTypes {
     | '/_authenticated/staff/audit'
     | '/_authenticated/staff/settings'
     | '/_authenticated/staff/users'
+    | '/new-units/live/$id'
     | '/_authenticated/admin/'
     | '/_authenticated/staff/verification/$id'
     | '/_authenticated/staff/verification/'
@@ -545,6 +557,7 @@ export interface RootRouteChildren {
   NewUnitsIndexRoute: typeof NewUnitsIndexRoute
   ProjectOpportunitiesIndexRoute: typeof ProjectOpportunitiesIndexRoute
   SellExitIndexRoute: typeof SellExitIndexRoute
+  NewUnitsLiveIdRoute: typeof NewUnitsLiveIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -822,6 +835,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStaffUsersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/new-units/live/$id': {
+      id: '/new-units/live/$id'
+      path: '/new-units/live/$id'
+      fullPath: '/new-units/live/$id'
+      preLoaderRoute: typeof NewUnitsLiveIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/staff/verification/': {
       id: '/_authenticated/staff/verification/'
       path: '/staff/verification'
@@ -934,6 +954,7 @@ const rootRouteChildren: RootRouteChildren = {
   NewUnitsIndexRoute: NewUnitsIndexRoute,
   ProjectOpportunitiesIndexRoute: ProjectOpportunitiesIndexRoute,
   SellExitIndexRoute: SellExitIndexRoute,
+  NewUnitsLiveIdRoute: NewUnitsLiveIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
