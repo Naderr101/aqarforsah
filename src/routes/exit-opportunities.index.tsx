@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { exitOpportunities } from "@/data/opportunities";
 
 export const Route = createFileRoute("/exit-opportunities/")({
-  validateSearch: (s: Record<string, unknown>): { q?: string } => ({ q: typeof s["q"] === "string" ? s["q"] : undefined }),
+  validateSearch: (s: Record<string, unknown>): { q?: string | undefined } => ({ q: typeof s["q"] === "string" ? s["q"] : undefined }),
   head: () => ({ meta: [
     { title: "فرص الخروج | عقار فرصة" },
     { name: "description", content: "وحدات أصحابها عايزين يخرجوا من عقود التقسيط، بمبلغ خروج قائم على المدفوع فعلياً للمطور." },

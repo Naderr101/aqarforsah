@@ -4,7 +4,7 @@ import { NewUnitCard } from "@/components/aqar/opportunity/OpportunityCards";
 import { newUnits } from "@/data/opportunities";
 
 export const Route = createFileRoute("/new-units/")({
-  validateSearch: (s: Record<string, unknown>): { q?: string } => ({ q: typeof s["q"] === "string" ? s["q"] : undefined }),
+  validateSearch: (s: Record<string, unknown>): { q?: string | undefined } => ({ q: typeof s["q"] === "string" ? s["q"] : undefined }),
   head: () => ({ meta: [
     { title: "الوحدات الجديدة | عقار فرصة" },
     { name: "description", content: "وحدات مباشرة من المطورين والمشروعات بسعر الوحدة والمقدم وخطة التقسيط." },

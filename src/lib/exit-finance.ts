@@ -3,12 +3,12 @@ import type { ExitOpportunity } from "@/types/opportunity";
 
 export interface ExitFinancials {
   exitAmount: number;
-  verifiedPaidAmount?: number;
+  verifiedPaidAmount?: number | undefined;
   remainingDeveloperBalance: number;
   transactionValue: number;
   platformFee: number;
-  marketValue?: number;
-  estimatedSaving?: number;
+  marketValue?: number | undefined;
+  estimatedSaving?: number | undefined;
 }
 
 export function computeExitFinancials(

@@ -27,9 +27,9 @@ export function OpportunityListing<T extends { id: string; title: string; locati
   title, description, items, render, filters, q = "", heroExtra,
 }: {
   title: string; description: string; items: T[]; render: (item: T) => ReactNode;
-  filters?: ReactNode; q?: string; heroExtra?: ReactNode;
+  filters?: ReactNode; q?: string | undefined; heroExtra?: ReactNode;
 }) {
-  const [query, setQuery] = useState(q);
+  const [query, setQuery] = useState(q ?? "");
   const shown = useMemo(() => items.filter((p) => !query || `${p.title} ${p.location} ${p.city}`.includes(query)), [items, query]);
   return (
     <>

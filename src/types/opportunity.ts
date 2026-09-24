@@ -29,10 +29,10 @@ export interface UnitSpecs {
   developer: string;
   unitType: string;
   area: number;
-  bedrooms?: number;
-  bathrooms?: number;
-  floor?: string;
-  delivery?: string;
+  bedrooms?: number | undefined;
+  bathrooms?: number | undefined;
+  floor?: string | undefined;
+  delivery?: string | undefined;
 }
 
 export interface ExitVerification {
@@ -45,7 +45,7 @@ export interface ExitVerification {
 export interface ExitContract {
   originalContractValue: number;
   installmentPlan: string;
-  nextInstallment?: { amount: number; dueDate: string };
+  nextInstallment?: { amount: number | undefined; dueDate: string };
   contractStatus: string;
 }
 
@@ -54,11 +54,11 @@ export interface ExitOpportunity extends OpportunityBase, UnitSpecs {
   /** Verified principal already paid to the developer. Not set by the seller. */
   exitAmount: number;
   /** Amount confirmed by document review, when available. */
-  verifiedPaidAmount?: number;
+  verifiedPaidAmount?: number | undefined;
   remainingDeveloperBalance: number;
   /** Set by the Aqar Forsah valuation process only. */
-  marketValue?: number;
-  monthlyInstallment?: number;
+  marketValue?: number | undefined;
+  monthlyInstallment?: number | undefined;
   contract: ExitContract;
   verification: ExitVerification;
 }

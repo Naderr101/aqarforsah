@@ -4,7 +4,7 @@ import { ProjectOpportunityCard } from "@/components/aqar/opportunity/Opportunit
 import { projectOpportunities } from "@/data/opportunities";
 
 export const Route = createFileRoute("/project-opportunities/")({
-  validateSearch: (s: Record<string, unknown>): { q?: string } => ({ q: typeof s["q"] === "string" ? s["q"] : undefined }),
+  validateSearch: (s: Record<string, unknown>): { q?: string | undefined } => ({ q: typeof s["q"] === "string" ? s["q"] : undefined }),
   head: () => ({ meta: [
     { title: "فرص المشاريع | عقار فرصة" },
     { name: "description", content: "فرص تطوير واستثمار: أراضي، شراكات تطوير، ومحافظ مباني." },
