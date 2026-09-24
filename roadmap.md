@@ -8,7 +8,7 @@
 - [x] Re-center product on 3 sections (فرص الخروج / الوحدات الجديدة / فرص المشاريع); legacy sale/rent redirect
 - [x] Exit financial breakdown, verification badges, platform-mediated interest CTA
 - [x] Seller exit wizard (saved on device; server storage + real file upload need backend)
-- [ ] Real verification + interest follow-up workflow (needs backend)
 - [x] Seller exit flow on real data: accounts, drafts saved in the database, autosave/resume, contract + claimed payments, submit → pending review, "طلبات الخروج" in dashboard, ownership enforced
-- [ ] Real document file uploads (only file names stored now)
-- [ ] Review/verification workflow + exit amount calculation (not in scope yet)
+- [x] Roles + account states, verification queue (8 checks), private documents with versions, payment verification, exit amount engine, market valuation, seller confirm + publish, audit log, settings (brief 3: sections 1-7, 27, 29)
+- [ ] Brief 3 sections 8-26, 28: buyer profile, favorites/saved searches, interest + leads, matching, CRM, notifications, purchase request, reservation, transaction workflow, snapshot, offline payment, developer approval, fees, disputes, new units, project opportunities, full admin, analytics, privacy
+- [ ] First admin account: user must register, then ask to be granted SUPER_ADMIN
