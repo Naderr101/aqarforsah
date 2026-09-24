@@ -1,0 +1,2 @@
+import type { ReactNode } from "react";
+export function PageHero({title,description,children}:{title:string;description:string;children?:ReactNode}){return <section className="border-b bg-secondary"><div className="mx-auto max-w-7xl px-4 py-10 lg:px-8"><h1 className="text-3xl font-black text-primary md:text-4xl">{title}</h1><p className="mt-3 max-w-2xl leading-7 text-muted-foreground">{description}</p>{children&&<div className="mt-6">{children}</div>}</div></section>}
