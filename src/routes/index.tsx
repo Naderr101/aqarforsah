@@ -3,7 +3,7 @@ import { ArrowLeft, BarChart3, Building2, FileCheck2, Handshake, Scale, LogOut, 
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "@/components/aqar/SearchBar";
 import { ExitOpportunityCard, NewUnitCard, ProjectOpportunityCard } from "@/components/aqar/opportunity/OpportunityCards";
-import { HowExitWorks } from "@/components/aqar/opportunity/HowExitWorks";
+import { ExitExample, HowExitWorks } from "@/components/aqar/opportunity/HowExitWorks";
 import { DemoNotice } from "@/components/aqar/opportunity/DemoNotice";
 import { exitOpportunities, newUnits, projectOpportunities } from "@/data/opportunities";
 import hero from "@/assets/aqar-hero.jpg";
@@ -60,6 +60,8 @@ function Index() {
           </Link>
         </div>
       </section>
+
+      <ExitExample />
 
       <section className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         <SectionHead title="أحدث فرص الخروج" to="/exit-opportunities" />
