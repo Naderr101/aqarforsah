@@ -1,0 +1,2 @@
+import { createFileRoute } from "@tanstack/react-router";import { AuthPage } from "@/components/aqar/AuthPage";
+export const Route=createFileRoute("/forgot-password")({head:()=>({meta:[{title:"استعادة كلمة المرور | عقار فرصة"},{name:"description",content:"استعد الوصول إلى حساب عقار فرصة."},{property:"og:title",content:"استعادة كلمة المرور | عقار فرصة"},{property:"og:description",content:"خطوات آمنة لاستعادة حسابك."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary"}]}),component:()=> <AuthPage mode="forgot"/>});
