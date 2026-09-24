@@ -73,6 +73,36 @@ export type Database = {
           },
         ]
       }
+      cities: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          region: string
+          sort_order: number
+          updated_at: string
+          visible: boolean
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          region?: string
+          sort_order?: number
+          updated_at?: string
+          visible?: boolean
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          region?: string
+          sort_order?: number
+          updated_at?: string
+          visible?: boolean
+        }
+        Relationships: []
+      }
       contracts: {
         Row: {
           assignment_notes: string
@@ -382,6 +412,119 @@ export type Database = {
           },
         ]
       }
+      form_fields: {
+        Row: {
+          field_key: string
+          form: string
+          id: string
+          label: string
+          required: boolean
+          sort_order: number
+          updated_at: string
+          visible: boolean
+        }
+        Insert: {
+          field_key: string
+          form: string
+          id?: string
+          label: string
+          required?: boolean
+          sort_order?: number
+          updated_at?: string
+          visible?: boolean
+        }
+        Update: {
+          field_key?: string
+          form?: string
+          id?: string
+          label?: string
+          required?: boolean
+          sort_order?: number
+          updated_at?: string
+          visible?: boolean
+        }
+        Relationships: []
+      }
+      lead_notes: {
+        Row: {
+          author_id: string
+          body: string
+          created_at: string
+          id: string
+          lead_id: string
+        }
+        Insert: {
+          author_id?: string
+          body: string
+          created_at?: string
+          id?: string
+          lead_id: string
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          created_at?: string
+          id?: string
+          lead_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_notes_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leads: {
+        Row: {
+          assigned_to: string | null
+          buyer_id: string | null
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          next_follow_up: string | null
+          opportunity_ref: string
+          phone: string
+          section: string
+          status: Database["public"]["Enums"]["lead_status"]
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          buyer_id?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name: string
+          next_follow_up?: string | null
+          opportunity_ref?: string
+          phone: string
+          section?: string
+          status?: Database["public"]["Enums"]["lead_status"]
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          buyer_id?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          next_follow_up?: string | null
+          opportunity_ref?: string
+          phone?: string
+          section?: string
+          status?: Database["public"]["Enums"]["lead_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       market_valuations: {
         Row: {
           created_at: string
@@ -428,6 +571,114 @@ export type Database = {
             columns: ["exit_opportunity_id"]
             isOneToOne: false
             referencedRelation: "exit_opportunities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      nav_sections: {
+        Row: {
+          created_at: string
+          href: string
+          id: string
+          label: string
+          sort_order: number
+          updated_at: string
+          visible: boolean
+        }
+        Insert: {
+          created_at?: string
+          href: string
+          id?: string
+          label: string
+          sort_order?: number
+          updated_at?: string
+          visible?: boolean
+        }
+        Update: {
+          created_at?: string
+          href?: string
+          id?: string
+          label?: string
+          sort_order?: number
+          updated_at?: string
+          visible?: boolean
+        }
+        Relationships: []
+      }
+      new_units: {
+        Row: {
+          area: number | null
+          bedrooms: number | null
+          city: string
+          created_at: string
+          delivery: string
+          description: string
+          developer_id: string | null
+          down_payment: number | null
+          id: string
+          image_url: string
+          installment_years: number | null
+          price: number | null
+          project_id: string | null
+          published: boolean
+          sort_order: number
+          title: string
+          unit_type: string
+          updated_at: string
+        }
+        Insert: {
+          area?: number | null
+          bedrooms?: number | null
+          city?: string
+          created_at?: string
+          delivery?: string
+          description?: string
+          developer_id?: string | null
+          down_payment?: number | null
+          id?: string
+          image_url?: string
+          installment_years?: number | null
+          price?: number | null
+          project_id?: string | null
+          published?: boolean
+          sort_order?: number
+          title: string
+          unit_type?: string
+          updated_at?: string
+        }
+        Update: {
+          area?: number | null
+          bedrooms?: number | null
+          city?: string
+          created_at?: string
+          delivery?: string
+          description?: string
+          developer_id?: string | null
+          down_payment?: number | null
+          id?: string
+          image_url?: string
+          installment_years?: number | null
+          price?: number | null
+          project_id?: string | null
+          published?: boolean
+          sort_order?: number
+          title?: string
+          unit_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "new_units_developer_id_fkey"
+            columns: ["developer_id"]
+            isOneToOne: false
+            referencedRelation: "developers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "new_units_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
             referencedColumns: ["id"]
           },
         ]
@@ -604,6 +855,59 @@ export type Database = {
         }
         Relationships: []
       }
+      project_opportunities: {
+        Row: {
+          city: string
+          created_at: string
+          description: string
+          developer_id: string | null
+          id: string
+          image_url: string
+          min_investment: number | null
+          published: boolean
+          sort_order: number
+          stage: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          city?: string
+          created_at?: string
+          description?: string
+          developer_id?: string | null
+          id?: string
+          image_url?: string
+          min_investment?: number | null
+          published?: boolean
+          sort_order?: number
+          stage?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          description?: string
+          developer_id?: string | null
+          id?: string
+          image_url?: string
+          min_investment?: number | null
+          published?: boolean
+          sort_order?: number
+          stage?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_opportunities_developer_id_fkey"
+            columns: ["developer_id"]
+            isOneToOne: false
+            referencedRelation: "developers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       projects: {
         Row: {
           created_at: string
@@ -635,6 +939,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      site_content: {
+        Row: {
+          key: string
+          updated_at: string
+          updated_by: string | null
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: Json
+        }
+        Relationships: []
+      }
+      site_content_history: {
+        Row: {
+          changed_at: string
+          changed_by: string | null
+          id: number
+          key: string
+          new_value: Json | null
+          old_value: Json | null
+        }
+        Insert: {
+          changed_at?: string
+          changed_by?: string | null
+          id?: number
+          key: string
+          new_value?: Json | null
+          old_value?: Json | null
+        }
+        Update: {
+          changed_at?: string
+          changed_by?: string | null
+          id?: number
+          key?: string
+          new_value?: Json | null
+          old_value?: Json | null
+        }
+        Relationships: []
       }
       units: {
         Row: {
@@ -775,6 +1127,8 @@ export type Database = {
       }
       is_active_account: { Args: { _user_id: string }; Returns: boolean }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      is_admin_mfa: { Args: never; Returns: boolean }
+      is_sales: { Args: never; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
       public_exit_listings: {
         Args: never
@@ -840,6 +1194,13 @@ export type Database = {
         | "verified"
         | "rejected"
         | "published"
+      lead_status:
+        | "NEW"
+        | "CONTACTED"
+        | "INTERESTED"
+        | "PURCHASE_REQUEST"
+        | "WON"
+        | "LOST"
       payment_category:
         | "PRINCIPAL"
         | "MAINTENANCE"
@@ -1040,6 +1401,14 @@ export const Constants = {
         "verified",
         "rejected",
         "published",
+      ],
+      lead_status: [
+        "NEW",
+        "CONTACTED",
+        "INTERESTED",
+        "PURCHASE_REQUEST",
+        "WON",
+        "LOST",
       ],
       payment_category: [
         "PRINCIPAL",
