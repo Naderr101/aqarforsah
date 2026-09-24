@@ -457,8 +457,44 @@ export type Database = {
       exit_is_editable: { Args: { _id: string }; Returns: boolean }
     }
     Enums: {
+      account_status:
+        | "PENDING"
+        | "ACTIVE"
+        | "UNDER_REVIEW"
+        | "SUSPENDED"
+        | "BLOCKED"
+      app_role:
+        | "BUYER"
+        | "SELLER"
+        | "DEVELOPER"
+        | "SALES_AGENT"
+        | "VERIFICATION_AGENT"
+        | "ADMIN"
+        | "SUPER_ADMIN"
       currency_code: "EGP" | "USD"
-      exit_status: "draft" | "pending_review"
+      document_kind:
+        | "CONTRACT"
+        | "PAYMENT_SCHEDULE"
+        | "RECEIPT"
+        | "NATIONAL_ID"
+        | "AUTHORIZATION"
+        | "ASSIGNMENT"
+        | "OTHER"
+      document_status:
+        | "UPLOADED"
+        | "PROCESSING"
+        | "UNDER_REVIEW"
+        | "VERIFIED"
+        | "REJECTED"
+        | "REPLACEMENT_REQUIRED"
+      exit_status:
+        | "draft"
+        | "pending_review"
+        | "under_verification"
+        | "documents_required"
+        | "verified"
+        | "rejected"
+        | "published"
       payment_category:
         | "PRINCIPAL"
         | "MAINTENANCE"
@@ -468,7 +504,28 @@ export type Database = {
         | "INTEREST"
         | "OTHER"
       payment_kind: "down_payment" | "installment" | "other_charge"
-      payment_verification_status: "CLAIMED" | "VERIFIED" | "REJECTED"
+      payment_verification_status:
+        | "CLAIMED"
+        | "VERIFIED"
+        | "REJECTED"
+        | "ADJUSTED"
+      valuation_source:
+        | "DEVELOPER_PRICE"
+        | "VERIFIED_COMPARABLES"
+        | "PROFESSIONAL_VALUATION"
+        | "APPROVED_MARKET_DATA"
+        | "ADMIN_REVIEW"
+      valuation_status: "DRAFT" | "VERIFIED" | "SUPERSEDED"
+      verification_check_status: "PENDING" | "PASSED" | "FAILED" | "NEEDS_INFO"
+      verification_check_type:
+        | "IDENTITY"
+        | "CONTRACT"
+        | "UNIT_PROJECT_DEVELOPER"
+        | "PAYMENTS"
+        | "REMAINING_BALANCE"
+        | "TRANSFER_ELIGIBILITY"
+        | "CANCELLATION_TERMS"
+        | "MARKET_VALUE"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -596,8 +653,49 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      account_status: [
+        "PENDING",
+        "ACTIVE",
+        "UNDER_REVIEW",
+        "SUSPENDED",
+        "BLOCKED",
+      ],
+      app_role: [
+        "BUYER",
+        "SELLER",
+        "DEVELOPER",
+        "SALES_AGENT",
+        "VERIFICATION_AGENT",
+        "ADMIN",
+        "SUPER_ADMIN",
+      ],
       currency_code: ["EGP", "USD"],
-      exit_status: ["draft", "pending_review"],
+      document_kind: [
+        "CONTRACT",
+        "PAYMENT_SCHEDULE",
+        "RECEIPT",
+        "NATIONAL_ID",
+        "AUTHORIZATION",
+        "ASSIGNMENT",
+        "OTHER",
+      ],
+      document_status: [
+        "UPLOADED",
+        "PROCESSING",
+        "UNDER_REVIEW",
+        "VERIFIED",
+        "REJECTED",
+        "REPLACEMENT_REQUIRED",
+      ],
+      exit_status: [
+        "draft",
+        "pending_review",
+        "under_verification",
+        "documents_required",
+        "verified",
+        "rejected",
+        "published",
+      ],
       payment_category: [
         "PRINCIPAL",
         "MAINTENANCE",
@@ -608,7 +706,31 @@ export const Constants = {
         "OTHER",
       ],
       payment_kind: ["down_payment", "installment", "other_charge"],
-      payment_verification_status: ["CLAIMED", "VERIFIED", "REJECTED"],
+      payment_verification_status: [
+        "CLAIMED",
+        "VERIFIED",
+        "REJECTED",
+        "ADJUSTED",
+      ],
+      valuation_source: [
+        "DEVELOPER_PRICE",
+        "VERIFIED_COMPARABLES",
+        "PROFESSIONAL_VALUATION",
+        "APPROVED_MARKET_DATA",
+        "ADMIN_REVIEW",
+      ],
+      valuation_status: ["DRAFT", "VERIFIED", "SUPERSEDED"],
+      verification_check_status: ["PENDING", "PASSED", "FAILED", "NEEDS_INFO"],
+      verification_check_type: [
+        "IDENTITY",
+        "CONTRACT",
+        "UNIT_PROJECT_DEVELOPER",
+        "PAYMENTS",
+        "REMAINING_BALANCE",
+        "TRANSFER_ELIGIBILITY",
+        "CANCELLATION_TERMS",
+        "MARKET_VALUE",
+      ],
     },
   },
 } as const
