@@ -5,6 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getMyAccess } from "@/lib/staff.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 export function useMyAccess() {
   const fn = useServerFn(getMyAccess);
@@ -17,6 +18,13 @@ export function StaffGate({ admin = false, children }: { admin?: boolean; childr
   if (q.isLoading) return <div className="py-20 text-center"><Loader2 className="mx-auto size-5 animate-spin" /></div>;
   const ok = admin ? q.data?.admin : q.data?.staff;
   if (!ok) return <div className="py-20 text-center"><p className="font-bold">الصفحة دي لفريق عقار فرصة بس.</p><Button asChild className="mt-4"><Link to="/">الرئيسية</Link></Button></div>;
+  return <MfaCheck>{children}</MfaCheck>;
+}
+
+function MfaCheck({ children }: { children: ReactNode }) {
+  const q = useQuery({ queryKey: ["aal"], queryFn: async () => { const { data } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel(); const f = await supabase.auth.mfa.listFactors(); return { current: data?.currentLevel ?? "aal1", hasTotp: (f.data?.totp ?? []).some((x) => x.status === "verified") }; } });
+  if (q.isLoading) return null;
+  if (q.data?.current !== "aal2") return <div className="py-20 text-center"><p className="font-bold">لازم تكمل التحقق بخطوتين الأول.</p><Button asChild className="mt-4"><Link to="/admin">افتح لوحة التحكم</Link></Button></div>;
   return <>{children}</>;
 }
 
@@ -26,6 +34,7 @@ export function StaffNav() {
   const active = { className: "bg-primary text-primary-foreground hover:bg-primary" };
   return (
     <nav className="mb-6 flex flex-wrap gap-2">
+      <Link to="/admin" className={cls}>← لوحة التحكم</Link>
       <Link to="/staff/verification" className={cls} activeProps={active} activeOptions={{ exact: true }}>طابور المراجعة</Link>
       {q.data?.admin && <Link to="/staff/users" className={cls} activeProps={active}>المستخدمين والصلاحيات</Link>}
       {q.data?.admin && <Link to="/staff/settings" className={cls} activeProps={active}>الإعدادات</Link>}

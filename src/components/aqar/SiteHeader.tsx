@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Brand } from "./Brand";
 import { useMyAccess } from "./StaffGate";
-function StaffLink({onClick}:{onClick?:()=>void}){const q=useMyAccess();if(!q.data?.staff)return null;return <Button variant="ghost" asChild><Link to="/staff/verification" onClick={onClick}>لوحة المراجعة</Link></Button>}
+function StaffLink({onClick}:{onClick?:()=>void}){const q=useMyAccess();if(!q.data?.staff&&!q.data?.roles.includes("SALES_AGENT"))return null;return <Button variant="ghost" asChild><Link to="/admin" onClick={onClick}>لوحة التحكم</Link></Button>}
 
 const links = [{to:"/",label:"الرئيسية"},{to:"/exit-opportunities",label:"فرص الخروج"},{to:"/new-units",label:"الوحدات الجديدة"},{to:"/project-opportunities",label:"فرص المشاريع"},{to:"/sell-exit",label:"عايز تخرج من وحدتك؟"} ] as const;
 export function SiteHeader(){
