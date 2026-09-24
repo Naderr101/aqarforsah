@@ -71,7 +71,7 @@ export function CrudTable({ table, fields, orderBy = "sort_order", filter, defau
       <div className="flex justify-end border-b p-3"><Button size="sm" onClick={() => setEdit({ __new: true, ...defaults })}><Plus />إضافة</Button></div>
       {edit && (
         <form className="grid gap-3 border-b bg-secondary/40 p-4 sm:grid-cols-2" onSubmit={(e) => { e.preventDefault(); save.mutate(edit); }}>
-          {textId && edit["__new"] && <label className="grid gap-1 text-sm font-bold">المعرّف (إنجليزي بدون مسافات)<Input dir="ltr" value={String(edit["id"] ?? "")} onChange={(e) => setEdit({ ...edit, id: e.target.value.replace(/[^a-z0-9-]/gi, "").toLowerCase() })} /></label>}
+          {textId && !!edit["__new"] && <label className="grid gap-1 text-sm font-bold">المعرّف (إنجليزي بدون مسافات)<Input dir="ltr" value={String(edit["id"] ?? "")} onChange={(e) => setEdit({ ...edit, id: e.target.value.replace(/[^a-z0-9-]/gi, "").toLowerCase() })} /></label>}
           {fields.map((f) => (
             <label key={f.key} className={`grid gap-1 text-sm font-bold ${f.type === "textarea" || f.type === "image" ? "sm:col-span-2" : ""}`}>
               {f.label}{f.required && " *"}

@@ -10,16 +10,16 @@ const TEN_YEARS = 60 * 60 * 24 * 365 * 10;
 export function ImageUpload({ value, onChange }: { value: string; onChange: (url: string) => void }) {
   const [busy, setBusy] = useState(false);
   async function pick(file: File) {
-    if (!ALLOWED.includes(file.type)) return toast.error("الصور المسموحة: PNG أو JPG أو WEBP");
-    if (file.size > 5 * 1024 * 1024) return toast.error("أقصى حجم 5 ميجا");
+    if (!ALLOWED.includes(file.type)) { toast.error("الصور المسموحة: PNG أو JPG أو WEBP"); return; }
+    if (file.size > 5 * 1024 * 1024) { toast.error("أقصى حجم 5 ميجا"); return; }
     setBusy(true);
     const ext = file.type.split("/")[1]!.replace("jpeg", "jpg");
     const path = `${new Date().toISOString().slice(0, 10)}/${crypto.randomUUID()}.${ext}`;
     const up = await supabase.storage.from("site-media").upload(path, file, { contentType: file.type });
-    if (up.error) { setBusy(false); return toast.error("تعذر الرفع — تأكد من صلاحيتك."); }
+    if (up.error) { setBusy(false); toast.error("تعذر الرفع — تأكد من صلاحيتك."); return; }
     const s = await supabase.storage.from("site-media").createSignedUrl(path, TEN_YEARS);
     setBusy(false);
-    if (s.error || !s.data) return toast.error("تعذر تجهيز رابط الصورة.");
+    if (s.error || !s.data) { toast.error("تعذر تجهيز رابط الصورة."); return; }
     onChange(s.data.signedUrl);
   }
   return (

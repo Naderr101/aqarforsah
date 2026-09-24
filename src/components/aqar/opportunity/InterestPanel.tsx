@@ -30,14 +30,14 @@ export function InterestPanel({ opportunityId, section, cta }: { opportunityId: 
 
   async function submit() {
     const name = (vals["name"] ?? "").trim(), phone = (vals["phone"] ?? "").replace(/[^\d+]/g, "");
-    if (name.length < 2 || phone.length < 6) return toast.error("اكتب الاسم ورقم موبايل صحيح");
+    if (name.length < 2 || phone.length < 6) { toast.error("اكتب الاسم ورقم موبايل صحيح"); return; }
     setBusy(true);
     const { error } = await supabase.from("leads").insert({
       name: name.slice(0, 100), phone: phone.slice(0, 20), email: (vals["email"] ?? "").trim().slice(0, 200),
       message: (vals["message"] ?? "").slice(0, 2000), section, opportunity_ref: opportunityId,
     });
     setBusy(false);
-    if (error) return toast.error("تعذر الإرسال، حاول تاني.");
+    if (error) { toast.error("تعذر الإرسال، حاول تاني."); return; }
     setSent(true);
   }
 
