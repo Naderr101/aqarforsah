@@ -45,7 +45,7 @@ export interface ExitVerification {
 export interface ExitContract {
   originalContractValue: number;
   installmentPlan: string;
-  nextInstallment?: { amount: number | undefined; dueDate: string };
+  nextInstallment?: { amount: number; dueDate: string } | undefined;
   contractStatus: string;
 }
 
