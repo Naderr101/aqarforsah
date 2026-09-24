@@ -19,6 +19,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as PropertiesRouteImport } from './routes/properties'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as RentRouteImport } from './routes/rent'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SaleRouteImport } from './routes/sale'
 import { Route as DashboardInquiriesRouteImport } from './routes/dashboard.inquiries'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
@@ -82,6 +83,11 @@ const RegisterRoute = RegisterRouteImport.update({
 const RentRoute = RentRouteImport.update({
   id: '/rent',
   path: '/rent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SaleRoute = SaleRouteImport.update({
@@ -175,6 +181,7 @@ export interface FileRoutesByFullPath {
   '/properties': typeof PropertiesRoute
   '/register': typeof RegisterRoute
   '/rent': typeof RentRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sale': typeof SaleRoute
   '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
@@ -201,6 +208,7 @@ export interface FileRoutesByTo {
   '/properties': typeof PropertiesRoute
   '/register': typeof RegisterRoute
   '/rent': typeof RentRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sale': typeof SaleRoute
   '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
@@ -229,6 +237,7 @@ export interface FileRoutesById {
   '/properties': typeof PropertiesRoute
   '/register': typeof RegisterRoute
   '/rent': typeof RentRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sale': typeof SaleRoute
   '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
@@ -257,6 +266,7 @@ export interface FileRouteTypes {
     | '/properties'
     | '/register'
     | '/rent'
+    | '/reset-password'
     | '/sale'
     | '/dashboard/inquiries'
     | '/dashboard/profile'
@@ -283,6 +293,7 @@ export interface FileRouteTypes {
     | '/properties'
     | '/register'
     | '/rent'
+    | '/reset-password'
     | '/sale'
     | '/dashboard/inquiries'
     | '/dashboard/profile'
@@ -310,6 +321,7 @@ export interface FileRouteTypes {
     | '/properties'
     | '/register'
     | '/rent'
+    | '/reset-password'
     | '/sale'
     | '/dashboard/inquiries'
     | '/dashboard/profile'
@@ -338,6 +350,7 @@ export interface RootRouteChildren {
   PropertiesRoute: typeof PropertiesRoute
   RegisterRoute: typeof RegisterRoute
   RentRoute: typeof RentRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SaleRoute: typeof SaleRoute
   ExitOpportunitiesSlugRoute: typeof ExitOpportunitiesSlugRoute
   NewUnitsSlugRoute: typeof NewUnitsSlugRoute
@@ -419,6 +432,13 @@ declare module '@tanstack/react-router' {
       path: '/rent'
       fullPath: '/rent'
       preLoaderRoute: typeof RentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sale': {
@@ -572,6 +592,7 @@ const rootRouteChildren: RootRouteChildren = {
   PropertiesRoute: PropertiesRoute,
   RegisterRoute: RegisterRoute,
   RentRoute: RentRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SaleRoute: SaleRoute,
   ExitOpportunitiesSlugRoute: ExitOpportunitiesSlugRoute,
   NewUnitsSlugRoute: NewUnitsSlugRoute,
