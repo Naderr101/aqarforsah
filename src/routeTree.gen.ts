@@ -30,8 +30,6 @@ import { Route as ProjectOpportunitiesIndexRouteImport } from './routes/project-
 import { Route as ProjectOpportunitiesSlugRouteImport } from './routes/project-opportunities.$slug'
 import { Route as PropertySlugRouteImport } from './routes/property/$slug'
 import { Route as SellExitIndexRouteImport } from './routes/sell-exit.index'
-import { Route as SellExitNewRouteImport } from './routes/sell-exit.new'
-import { Route as SellExitStatusRouteImport } from './routes/sell-exit.status'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -140,16 +138,6 @@ const SellExitIndexRoute = SellExitIndexRouteImport.update({
   path: '/sell-exit/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SellExitNewRoute = SellExitNewRouteImport.update({
-  id: '/sell-exit/new',
-  path: '/sell-exit/new',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SellExitStatusRoute = SellExitStatusRouteImport.update({
-  id: '/sell-exit/status',
-  path: '/sell-exit/status',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -169,8 +157,6 @@ export interface FileRoutesByFullPath {
   '/new-units/$slug': typeof NewUnitsSlugRoute
   '/project-opportunities/$slug': typeof ProjectOpportunitiesSlugRoute
   '/property/$slug': typeof PropertySlugRoute
-  '/sell-exit/new': typeof SellExitNewRoute
-  '/sell-exit/status': typeof SellExitStatusRoute
   '/exit-opportunities/': typeof ExitOpportunitiesIndexRoute
   '/new-units/': typeof NewUnitsIndexRoute
   '/project-opportunities/': typeof ProjectOpportunitiesIndexRoute
@@ -194,8 +180,6 @@ export interface FileRoutesByTo {
   '/new-units/$slug': typeof NewUnitsSlugRoute
   '/project-opportunities/$slug': typeof ProjectOpportunitiesSlugRoute
   '/property/$slug': typeof PropertySlugRoute
-  '/sell-exit/new': typeof SellExitNewRoute
-  '/sell-exit/status': typeof SellExitStatusRoute
   '/exit-opportunities': typeof ExitOpportunitiesIndexRoute
   '/new-units': typeof NewUnitsIndexRoute
   '/project-opportunities': typeof ProjectOpportunitiesIndexRoute
@@ -220,8 +204,6 @@ export interface FileRoutesById {
   '/new-units/$slug': typeof NewUnitsSlugRoute
   '/project-opportunities/$slug': typeof ProjectOpportunitiesSlugRoute
   '/property/$slug': typeof PropertySlugRoute
-  '/sell-exit/new': typeof SellExitNewRoute
-  '/sell-exit/status': typeof SellExitStatusRoute
   '/exit-opportunities/': typeof ExitOpportunitiesIndexRoute
   '/new-units/': typeof NewUnitsIndexRoute
   '/project-opportunities/': typeof ProjectOpportunitiesIndexRoute
@@ -247,8 +229,6 @@ export interface FileRouteTypes {
     | '/new-units/$slug'
     | '/project-opportunities/$slug'
     | '/property/$slug'
-    | '/sell-exit/new'
-    | '/sell-exit/status'
     | '/exit-opportunities/'
     | '/new-units/'
     | '/project-opportunities/'
@@ -272,8 +252,6 @@ export interface FileRouteTypes {
     | '/new-units/$slug'
     | '/project-opportunities/$slug'
     | '/property/$slug'
-    | '/sell-exit/new'
-    | '/sell-exit/status'
     | '/exit-opportunities'
     | '/new-units'
     | '/project-opportunities'
@@ -297,8 +275,6 @@ export interface FileRouteTypes {
     | '/new-units/$slug'
     | '/project-opportunities/$slug'
     | '/property/$slug'
-    | '/sell-exit/new'
-    | '/sell-exit/status'
     | '/exit-opportunities/'
     | '/new-units/'
     | '/project-opportunities/'
@@ -320,8 +296,6 @@ export interface RootRouteChildren {
   NewUnitsSlugRoute: typeof NewUnitsSlugRoute
   ProjectOpportunitiesSlugRoute: typeof ProjectOpportunitiesSlugRoute
   PropertySlugRoute: typeof PropertySlugRoute
-  SellExitNewRoute: typeof SellExitNewRoute
-  SellExitStatusRoute: typeof SellExitStatusRoute
   ExitOpportunitiesIndexRoute: typeof ExitOpportunitiesIndexRoute
   NewUnitsIndexRoute: typeof NewUnitsIndexRoute
   ProjectOpportunitiesIndexRoute: typeof ProjectOpportunitiesIndexRoute
@@ -477,20 +451,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellExitIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/sell-exit/new': {
-      id: '/sell-exit/new'
-      path: '/sell-exit/new'
-      fullPath: '/sell-exit/new'
-      preLoaderRoute: typeof SellExitNewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sell-exit/status': {
-      id: '/sell-exit/status'
-      path: '/sell-exit/status'
-      fullPath: '/sell-exit/status'
-      preLoaderRoute: typeof SellExitStatusRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -525,8 +485,6 @@ const rootRouteChildren: RootRouteChildren = {
   NewUnitsSlugRoute: NewUnitsSlugRoute,
   ProjectOpportunitiesSlugRoute: ProjectOpportunitiesSlugRoute,
   PropertySlugRoute: PropertySlugRoute,
-  SellExitNewRoute: SellExitNewRoute,
-  SellExitStatusRoute: SellExitStatusRoute,
   ExitOpportunitiesIndexRoute: ExitOpportunitiesIndexRoute,
   NewUnitsIndexRoute: NewUnitsIndexRoute,
   ProjectOpportunitiesIndexRoute: ProjectOpportunitiesIndexRoute,
