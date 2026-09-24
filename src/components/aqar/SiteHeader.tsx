@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Brand } from "./Brand";
 
-const links = [{to:"/",label:"الرئيسية"},{to:"/sale",label:"فرص الخروج"},{to:"/properties",label:"الوحدات الجديدة"},{to:"/properties",label:"فرص المشاريع"} ] as const;
+const links = [{to:"/",label:"الرئيسية"},{to:"/exit-opportunities",label:"فرص الخروج"},{to:"/new-units",label:"الوحدات الجديدة"},{to:"/project-opportunities",label:"فرص المشاريع"},{to:"/sell-exit",label:"عايز تخرج من وحدتك؟"} ] as const;
 export function SiteHeader(){
  const [open,setOpen]=useState(false);
  return <header className="sticky top-0 z-50 border-b border-border/70 bg-background/95 backdrop-blur">

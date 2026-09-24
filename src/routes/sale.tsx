@@ -1,2 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router"; import { ListingsPage } from "@/components/aqar/ListingsPage";
-export const Route=createFileRoute("/sale")({head:()=>({meta:[{title:"عقارات للبيع | عقار فرصة"},{name:"description",content:"اكتشف شققاً وفيلات وشاليهات للبيع بفرص وأسعار مميزة."},{property:"og:title",content:"عقارات للبيع | عقار فرصة"},{property:"og:description",content:"أفضل فرص الشراء العقاري في مصر."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:()=> <ListingsPage title="عقارات للبيع" description="اختر من فرص البيع الموثقة والوحدات الجديدة في أهم المناطق." initialPurpose="sale"/>});
+import { createFileRoute, redirect } from "@tanstack/react-router";
+// Legacy route kept temporarily; the marketplace is organised by opportunity sections.
+export const Route = createFileRoute("/sale")({ beforeLoad: () => { throw redirect({ to: "/exit-opportunities" }); } });

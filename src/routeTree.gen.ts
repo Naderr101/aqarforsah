@@ -19,9 +19,16 @@ import { Route as PropertiesRouteImport } from './routes/properties'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as RentRouteImport } from './routes/rent'
 import { Route as SaleRouteImport } from './routes/sale'
+import { Route as SellExitRouteImport } from './routes/sell-exit'
 import { Route as DashboardInquiriesRouteImport } from './routes/dashboard.inquiries'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
 import { Route as DashboardPropertiesRouteImport } from './routes/dashboard.properties'
+import { Route as ExitOpportunitiesIndexRouteImport } from './routes/exit-opportunities.index'
+import { Route as ExitOpportunitiesSlugRouteImport } from './routes/exit-opportunities.$slug'
+import { Route as NewUnitsIndexRouteImport } from './routes/new-units.index'
+import { Route as NewUnitsSlugRouteImport } from './routes/new-units.$slug'
+import { Route as ProjectOpportunitiesIndexRouteImport } from './routes/project-opportunities.index'
+import { Route as ProjectOpportunitiesSlugRouteImport } from './routes/project-opportunities.$slug'
 import { Route as PropertySlugRouteImport } from './routes/property/$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -74,6 +81,11 @@ const SaleRoute = SaleRouteImport.update({
   path: '/sale',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SellExitRoute = SellExitRouteImport.update({
+  id: '/sell-exit',
+  path: '/sell-exit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardInquiriesRoute = DashboardInquiriesRouteImport.update({
   id: '/inquiries',
   path: '/inquiries',
@@ -89,6 +101,38 @@ const DashboardPropertiesRoute = DashboardPropertiesRouteImport.update({
   path: '/properties',
   getParentRoute: () => DashboardRoute,
 } as any)
+const ExitOpportunitiesIndexRoute = ExitOpportunitiesIndexRouteImport.update({
+  id: '/exit-opportunities/',
+  path: '/exit-opportunities/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExitOpportunitiesSlugRoute = ExitOpportunitiesSlugRouteImport.update({
+  id: '/exit-opportunities/$slug',
+  path: '/exit-opportunities/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewUnitsIndexRoute = NewUnitsIndexRouteImport.update({
+  id: '/new-units/',
+  path: '/new-units/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewUnitsSlugRoute = NewUnitsSlugRouteImport.update({
+  id: '/new-units/$slug',
+  path: '/new-units/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectOpportunitiesIndexRoute =
+  ProjectOpportunitiesIndexRouteImport.update({
+    id: '/project-opportunities/',
+    path: '/project-opportunities/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ProjectOpportunitiesSlugRoute =
+  ProjectOpportunitiesSlugRouteImport.update({
+    id: '/project-opportunities/$slug',
+    path: '/project-opportunities/$slug',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const PropertySlugRoute = PropertySlugRouteImport.update({
   id: '/property/$slug',
   path: '/property/$slug',
@@ -106,10 +150,17 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/rent': typeof RentRoute
   '/sale': typeof SaleRoute
+  '/sell-exit': typeof SellExitRoute
   '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/properties': typeof DashboardPropertiesRoute
+  '/exit-opportunities/$slug': typeof ExitOpportunitiesSlugRoute
+  '/new-units/$slug': typeof NewUnitsSlugRoute
+  '/project-opportunities/$slug': typeof ProjectOpportunitiesSlugRoute
   '/property/$slug': typeof PropertySlugRoute
+  '/exit-opportunities/': typeof ExitOpportunitiesIndexRoute
+  '/new-units/': typeof NewUnitsIndexRoute
+  '/project-opportunities/': typeof ProjectOpportunitiesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -122,10 +173,17 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/rent': typeof RentRoute
   '/sale': typeof SaleRoute
+  '/sell-exit': typeof SellExitRoute
   '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/properties': typeof DashboardPropertiesRoute
+  '/exit-opportunities/$slug': typeof ExitOpportunitiesSlugRoute
+  '/new-units/$slug': typeof NewUnitsSlugRoute
+  '/project-opportunities/$slug': typeof ProjectOpportunitiesSlugRoute
   '/property/$slug': typeof PropertySlugRoute
+  '/exit-opportunities': typeof ExitOpportunitiesIndexRoute
+  '/new-units': typeof NewUnitsIndexRoute
+  '/project-opportunities': typeof ProjectOpportunitiesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -139,10 +197,17 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/rent': typeof RentRoute
   '/sale': typeof SaleRoute
+  '/sell-exit': typeof SellExitRoute
   '/dashboard/inquiries': typeof DashboardInquiriesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/properties': typeof DashboardPropertiesRoute
+  '/exit-opportunities/$slug': typeof ExitOpportunitiesSlugRoute
+  '/new-units/$slug': typeof NewUnitsSlugRoute
+  '/project-opportunities/$slug': typeof ProjectOpportunitiesSlugRoute
   '/property/$slug': typeof PropertySlugRoute
+  '/exit-opportunities/': typeof ExitOpportunitiesIndexRoute
+  '/new-units/': typeof NewUnitsIndexRoute
+  '/project-opportunities/': typeof ProjectOpportunitiesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -157,10 +222,17 @@ export interface FileRouteTypes {
     | '/register'
     | '/rent'
     | '/sale'
+    | '/sell-exit'
     | '/dashboard/inquiries'
     | '/dashboard/profile'
     | '/dashboard/properties'
+    | '/exit-opportunities/$slug'
+    | '/new-units/$slug'
+    | '/project-opportunities/$slug'
     | '/property/$slug'
+    | '/exit-opportunities/'
+    | '/new-units/'
+    | '/project-opportunities/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -173,10 +245,17 @@ export interface FileRouteTypes {
     | '/register'
     | '/rent'
     | '/sale'
+    | '/sell-exit'
     | '/dashboard/inquiries'
     | '/dashboard/profile'
     | '/dashboard/properties'
+    | '/exit-opportunities/$slug'
+    | '/new-units/$slug'
+    | '/project-opportunities/$slug'
     | '/property/$slug'
+    | '/exit-opportunities'
+    | '/new-units'
+    | '/project-opportunities'
   id:
     | '__root__'
     | '/'
@@ -189,10 +268,17 @@ export interface FileRouteTypes {
     | '/register'
     | '/rent'
     | '/sale'
+    | '/sell-exit'
     | '/dashboard/inquiries'
     | '/dashboard/profile'
     | '/dashboard/properties'
+    | '/exit-opportunities/$slug'
+    | '/new-units/$slug'
+    | '/project-opportunities/$slug'
     | '/property/$slug'
+    | '/exit-opportunities/'
+    | '/new-units/'
+    | '/project-opportunities/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -206,7 +292,14 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   RentRoute: typeof RentRoute
   SaleRoute: typeof SaleRoute
+  SellExitRoute: typeof SellExitRoute
+  ExitOpportunitiesSlugRoute: typeof ExitOpportunitiesSlugRoute
+  NewUnitsSlugRoute: typeof NewUnitsSlugRoute
+  ProjectOpportunitiesSlugRoute: typeof ProjectOpportunitiesSlugRoute
   PropertySlugRoute: typeof PropertySlugRoute
+  ExitOpportunitiesIndexRoute: typeof ExitOpportunitiesIndexRoute
+  NewUnitsIndexRoute: typeof NewUnitsIndexRoute
+  ProjectOpportunitiesIndexRoute: typeof ProjectOpportunitiesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -281,6 +374,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SaleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sell-exit': {
+      id: '/sell-exit'
+      path: '/sell-exit'
+      fullPath: '/sell-exit'
+      preLoaderRoute: typeof SellExitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/inquiries': {
       id: '/dashboard/inquiries'
       path: '/inquiries'
@@ -301,6 +401,48 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/properties'
       preLoaderRoute: typeof DashboardPropertiesRouteImport
       parentRoute: typeof DashboardRoute
+    }
+    '/exit-opportunities/': {
+      id: '/exit-opportunities/'
+      path: '/exit-opportunities'
+      fullPath: '/exit-opportunities/'
+      preLoaderRoute: typeof ExitOpportunitiesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exit-opportunities/$slug': {
+      id: '/exit-opportunities/$slug'
+      path: '/exit-opportunities/$slug'
+      fullPath: '/exit-opportunities/$slug'
+      preLoaderRoute: typeof ExitOpportunitiesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/new-units/': {
+      id: '/new-units/'
+      path: '/new-units'
+      fullPath: '/new-units/'
+      preLoaderRoute: typeof NewUnitsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/new-units/$slug': {
+      id: '/new-units/$slug'
+      path: '/new-units/$slug'
+      fullPath: '/new-units/$slug'
+      preLoaderRoute: typeof NewUnitsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project-opportunities/': {
+      id: '/project-opportunities/'
+      path: '/project-opportunities'
+      fullPath: '/project-opportunities/'
+      preLoaderRoute: typeof ProjectOpportunitiesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project-opportunities/$slug': {
+      id: '/project-opportunities/$slug'
+      path: '/project-opportunities/$slug'
+      fullPath: '/project-opportunities/$slug'
+      preLoaderRoute: typeof ProjectOpportunitiesSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/property/$slug': {
       id: '/property/$slug'
@@ -339,7 +481,14 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   RentRoute: RentRoute,
   SaleRoute: SaleRoute,
+  SellExitRoute: SellExitRoute,
+  ExitOpportunitiesSlugRoute: ExitOpportunitiesSlugRoute,
+  NewUnitsSlugRoute: NewUnitsSlugRoute,
+  ProjectOpportunitiesSlugRoute: ProjectOpportunitiesSlugRoute,
   PropertySlugRoute: PropertySlugRoute,
+  ExitOpportunitiesIndexRoute: ExitOpportunitiesIndexRoute,
+  NewUnitsIndexRoute: NewUnitsIndexRoute,
+  ProjectOpportunitiesIndexRoute: ProjectOpportunitiesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

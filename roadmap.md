@@ -5,3 +5,7 @@
 - [x] Build authentication and favorites pages
 - [x] Build dashboard and admin foundations
 - [x] Verify desktop/mobile behavior and build health
+- [x] Re-center product on 3 sections (فرص الخروج / الوحدات الجديدة / فرص المشاريع); legacy sale/rent redirect
+- [x] Exit financial breakdown, verification badges, platform-mediated interest CTA
+- [ ] Seller exit request form (needs backend)
+- [ ] Real verification + interest follow-up workflow (needs backend)
