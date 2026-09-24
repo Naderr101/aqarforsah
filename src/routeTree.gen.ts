@@ -10,9 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as PropertiesRouteImport } from './routes/properties'
+import { Route as RegisterRouteImport } from './routes/register'
 import { Route as RentRouteImport } from './routes/rent'
 import { Route as SaleRouteImport } from './routes/sale'
+import { Route as DashboardInquiriesRouteImport } from './routes/dashboard.inquiries'
+import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
+import { Route as DashboardPropertiesRouteImport } from './routes/dashboard.properties'
 import { Route as PropertySlugRouteImport } from './routes/property/$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -20,9 +28,34 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PropertiesRoute = PropertiesRouteImport.update({
   id: '/properties',
   path: '/properties',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RentRoute = RentRouteImport.update({
@@ -35,6 +68,21 @@ const SaleRoute = SaleRouteImport.update({
   path: '/sale',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardInquiriesRoute = DashboardInquiriesRouteImport.update({
+  id: '/inquiries',
+  path: '/inquiries',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardProfileRoute = DashboardProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardPropertiesRoute = DashboardPropertiesRouteImport.update({
+  id: '/properties',
+  path: '/properties',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const PropertySlugRoute = PropertySlugRouteImport.update({
   id: '/property/$slug',
   path: '/property/$slug',
@@ -43,37 +91,106 @@ const PropertySlugRoute = PropertySlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/favorites': typeof FavoritesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
   '/properties': typeof PropertiesRoute
+  '/register': typeof RegisterRoute
   '/rent': typeof RentRoute
   '/sale': typeof SaleRoute
+  '/dashboard/inquiries': typeof DashboardInquiriesRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/properties': typeof DashboardPropertiesRoute
   '/property/$slug': typeof PropertySlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/favorites': typeof FavoritesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
   '/properties': typeof PropertiesRoute
+  '/register': typeof RegisterRoute
   '/rent': typeof RentRoute
   '/sale': typeof SaleRoute
+  '/dashboard/inquiries': typeof DashboardInquiriesRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/properties': typeof DashboardPropertiesRoute
   '/property/$slug': typeof PropertySlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/favorites': typeof FavoritesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
   '/properties': typeof PropertiesRoute
+  '/register': typeof RegisterRoute
   '/rent': typeof RentRoute
   '/sale': typeof SaleRoute
+  '/dashboard/inquiries': typeof DashboardInquiriesRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/properties': typeof DashboardPropertiesRoute
   '/property/$slug': typeof PropertySlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/properties' | '/rent' | '/sale' | '/property/$slug'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/favorites'
+    | '/forgot-password'
+    | '/login'
+    | '/properties'
+    | '/register'
+    | '/rent'
+    | '/sale'
+    | '/dashboard/inquiries'
+    | '/dashboard/profile'
+    | '/dashboard/properties'
+    | '/property/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/properties' | '/rent' | '/sale' | '/property/$slug'
-  id: '__root__' | '/' | '/properties' | '/rent' | '/sale' | '/property/$slug'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/favorites'
+    | '/forgot-password'
+    | '/login'
+    | '/properties'
+    | '/register'
+    | '/rent'
+    | '/sale'
+    | '/dashboard/inquiries'
+    | '/dashboard/profile'
+    | '/dashboard/properties'
+    | '/property/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/favorites'
+    | '/forgot-password'
+    | '/login'
+    | '/properties'
+    | '/register'
+    | '/rent'
+    | '/sale'
+    | '/dashboard/inquiries'
+    | '/dashboard/profile'
+    | '/dashboard/properties'
+    | '/property/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
+  FavoritesRoute: typeof FavoritesRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
   PropertiesRoute: typeof PropertiesRoute
+  RegisterRoute: typeof RegisterRoute
   RentRoute: typeof RentRoute
   SaleRoute: typeof SaleRoute
   PropertySlugRoute: typeof PropertySlugRoute
@@ -88,11 +205,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/properties': {
       id: '/properties'
       path: '/properties'
       fullPath: '/properties'
       preLoaderRoute: typeof PropertiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/rent': {
@@ -109,6 +261,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SaleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/inquiries': {
+      id: '/dashboard/inquiries'
+      path: '/inquiries'
+      fullPath: '/dashboard/inquiries'
+      preLoaderRoute: typeof DashboardInquiriesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/profile': {
+      id: '/dashboard/profile'
+      path: '/profile'
+      fullPath: '/dashboard/profile'
+      preLoaderRoute: typeof DashboardProfileRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/properties': {
+      id: '/dashboard/properties'
+      path: '/properties'
+      fullPath: '/dashboard/properties'
+      preLoaderRoute: typeof DashboardPropertiesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/property/$slug': {
       id: '/property/$slug'
       path: '/property/$slug'
@@ -119,9 +292,30 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardInquiriesRoute: typeof DashboardInquiriesRoute
+  DashboardProfileRoute: typeof DashboardProfileRoute
+  DashboardPropertiesRoute: typeof DashboardPropertiesRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardInquiriesRoute: DashboardInquiriesRoute,
+  DashboardProfileRoute: DashboardProfileRoute,
+  DashboardPropertiesRoute: DashboardPropertiesRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRouteWithChildren,
+  FavoritesRoute: FavoritesRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
   PropertiesRoute: PropertiesRoute,
+  RegisterRoute: RegisterRoute,
   RentRoute: RentRoute,
   SaleRoute: SaleRoute,
   PropertySlugRoute: PropertySlugRoute,
