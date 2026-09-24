@@ -35,7 +35,11 @@ import { Route as SellExitIndexRouteImport } from './routes/sell-exit.index'
 import { Route as AuthenticatedDashboardExitRequestsRouteImport } from './routes/_authenticated/dashboard.exit-requests'
 import { Route as AuthenticatedSellExitNewRouteImport } from './routes/_authenticated/sell-exit.new'
 import { Route as AuthenticatedSellExitStatusRouteImport } from './routes/_authenticated/sell-exit.status'
+import { Route as AuthenticatedStaffAuditRouteImport } from './routes/_authenticated/staff.audit'
+import { Route as AuthenticatedStaffSettingsRouteImport } from './routes/_authenticated/staff.settings'
+import { Route as AuthenticatedStaffUsersRouteImport } from './routes/_authenticated/staff.users'
 import { Route as AuthenticatedStaffVerificationIndexRouteImport } from './routes/_authenticated/staff.verification.index'
+import { Route as AuthenticatedStaffVerificationIdRouteImport } from './routes/_authenticated/staff.verification.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -171,10 +175,32 @@ const AuthenticatedSellExitStatusRoute =
     path: '/sell-exit/status',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedStaffAuditRoute = AuthenticatedStaffAuditRouteImport.update({
+  id: '/staff/audit',
+  path: '/staff/audit',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedStaffSettingsRoute =
+  AuthenticatedStaffSettingsRouteImport.update({
+    id: '/staff/settings',
+    path: '/staff/settings',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStaffUsersRoute = AuthenticatedStaffUsersRouteImport.update({
+  id: '/staff/users',
+  path: '/staff/users',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedStaffVerificationIndexRoute =
   AuthenticatedStaffVerificationIndexRouteImport.update({
     id: '/staff/verification/',
     path: '/staff/verification/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStaffVerificationIdRoute =
+  AuthenticatedStaffVerificationIdRouteImport.update({
+    id: '/staff/verification/$id',
+    path: '/staff/verification/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -204,6 +230,10 @@ export interface FileRoutesByFullPath {
   '/dashboard/exit-requests': typeof AuthenticatedDashboardExitRequestsRoute
   '/sell-exit/new': typeof AuthenticatedSellExitNewRoute
   '/sell-exit/status': typeof AuthenticatedSellExitStatusRoute
+  '/staff/audit': typeof AuthenticatedStaffAuditRoute
+  '/staff/settings': typeof AuthenticatedStaffSettingsRoute
+  '/staff/users': typeof AuthenticatedStaffUsersRoute
+  '/staff/verification/$id': typeof AuthenticatedStaffVerificationIdRoute
   '/staff/verification/': typeof AuthenticatedStaffVerificationIndexRoute
 }
 export interface FileRoutesByTo {
@@ -232,6 +262,10 @@ export interface FileRoutesByTo {
   '/dashboard/exit-requests': typeof AuthenticatedDashboardExitRequestsRoute
   '/sell-exit/new': typeof AuthenticatedSellExitNewRoute
   '/sell-exit/status': typeof AuthenticatedSellExitStatusRoute
+  '/staff/audit': typeof AuthenticatedStaffAuditRoute
+  '/staff/settings': typeof AuthenticatedStaffSettingsRoute
+  '/staff/users': typeof AuthenticatedStaffUsersRoute
+  '/staff/verification/$id': typeof AuthenticatedStaffVerificationIdRoute
   '/staff/verification': typeof AuthenticatedStaffVerificationIndexRoute
 }
 export interface FileRoutesById {
@@ -262,6 +296,10 @@ export interface FileRoutesById {
   '/_authenticated/dashboard/exit-requests': typeof AuthenticatedDashboardExitRequestsRoute
   '/_authenticated/sell-exit/new': typeof AuthenticatedSellExitNewRoute
   '/_authenticated/sell-exit/status': typeof AuthenticatedSellExitStatusRoute
+  '/_authenticated/staff/audit': typeof AuthenticatedStaffAuditRoute
+  '/_authenticated/staff/settings': typeof AuthenticatedStaffSettingsRoute
+  '/_authenticated/staff/users': typeof AuthenticatedStaffUsersRoute
+  '/_authenticated/staff/verification/$id': typeof AuthenticatedStaffVerificationIdRoute
   '/_authenticated/staff/verification/': typeof AuthenticatedStaffVerificationIndexRoute
 }
 export interface FileRouteTypes {
@@ -292,6 +330,10 @@ export interface FileRouteTypes {
     | '/dashboard/exit-requests'
     | '/sell-exit/new'
     | '/sell-exit/status'
+    | '/staff/audit'
+    | '/staff/settings'
+    | '/staff/users'
+    | '/staff/verification/$id'
     | '/staff/verification/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -320,6 +362,10 @@ export interface FileRouteTypes {
     | '/dashboard/exit-requests'
     | '/sell-exit/new'
     | '/sell-exit/status'
+    | '/staff/audit'
+    | '/staff/settings'
+    | '/staff/users'
+    | '/staff/verification/$id'
     | '/staff/verification'
   id:
     | '__root__'
@@ -349,6 +395,10 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard/exit-requests'
     | '/_authenticated/sell-exit/new'
     | '/_authenticated/sell-exit/status'
+    | '/_authenticated/staff/audit'
+    | '/_authenticated/staff/settings'
+    | '/_authenticated/staff/users'
+    | '/_authenticated/staff/verification/$id'
     | '/_authenticated/staff/verification/'
   fileRoutesById: FileRoutesById
 }
@@ -559,11 +609,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSellExitStatusRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/staff/audit': {
+      id: '/_authenticated/staff/audit'
+      path: '/staff/audit'
+      fullPath: '/staff/audit'
+      preLoaderRoute: typeof AuthenticatedStaffAuditRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/staff/settings': {
+      id: '/_authenticated/staff/settings'
+      path: '/staff/settings'
+      fullPath: '/staff/settings'
+      preLoaderRoute: typeof AuthenticatedStaffSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/staff/users': {
+      id: '/_authenticated/staff/users'
+      path: '/staff/users'
+      fullPath: '/staff/users'
+      preLoaderRoute: typeof AuthenticatedStaffUsersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/staff/verification/': {
       id: '/_authenticated/staff/verification/'
       path: '/staff/verification'
       fullPath: '/staff/verification/'
       preLoaderRoute: typeof AuthenticatedStaffVerificationIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/staff/verification/$id': {
+      id: '/_authenticated/staff/verification/$id'
+      path: '/staff/verification/$id'
+      fullPath: '/staff/verification/$id'
+      preLoaderRoute: typeof AuthenticatedStaffVerificationIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
@@ -573,6 +651,10 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardExitRequestsRoute: typeof AuthenticatedDashboardExitRequestsRoute
   AuthenticatedSellExitNewRoute: typeof AuthenticatedSellExitNewRoute
   AuthenticatedSellExitStatusRoute: typeof AuthenticatedSellExitStatusRoute
+  AuthenticatedStaffAuditRoute: typeof AuthenticatedStaffAuditRoute
+  AuthenticatedStaffSettingsRoute: typeof AuthenticatedStaffSettingsRoute
+  AuthenticatedStaffUsersRoute: typeof AuthenticatedStaffUsersRoute
+  AuthenticatedStaffVerificationIdRoute: typeof AuthenticatedStaffVerificationIdRoute
   AuthenticatedStaffVerificationIndexRoute: typeof AuthenticatedStaffVerificationIndexRoute
 }
 
@@ -581,6 +663,10 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedDashboardExitRequestsRoute,
   AuthenticatedSellExitNewRoute: AuthenticatedSellExitNewRoute,
   AuthenticatedSellExitStatusRoute: AuthenticatedSellExitStatusRoute,
+  AuthenticatedStaffAuditRoute: AuthenticatedStaffAuditRoute,
+  AuthenticatedStaffSettingsRoute: AuthenticatedStaffSettingsRoute,
+  AuthenticatedStaffUsersRoute: AuthenticatedStaffUsersRoute,
+  AuthenticatedStaffVerificationIdRoute: AuthenticatedStaffVerificationIdRoute,
   AuthenticatedStaffVerificationIndexRoute:
     AuthenticatedStaffVerificationIndexRoute,
 }
