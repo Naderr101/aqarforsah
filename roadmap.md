@@ -9,4 +9,6 @@
 - [x] Exit financial breakdown, verification badges, platform-mediated interest CTA
 - [x] Seller exit wizard (saved on device; server storage + real file upload need backend)
 - [ ] Real verification + interest follow-up workflow (needs backend)
-- [ ] Link exit requests to real accounts, upload files, admin review sets verified figures (needs backend)
+- [x] Seller exit flow on real data: accounts, drafts saved in the database, autosave/resume, contract + claimed payments, submit → pending review, "طلبات الخروج" in dashboard, ownership enforced
+- [ ] Real document file uploads (only file names stored now)
+- [ ] Review/verification workflow + exit amount calculation (not in scope yet)

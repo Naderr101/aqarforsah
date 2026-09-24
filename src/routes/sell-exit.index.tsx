@@ -42,7 +42,7 @@ function Page() {
         </ol>
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <Button size="lg" asChild><Link to="/sell-exit/new">ابدأ طلب الخروج</Link></Button>
-          <Button size="lg" variant="ghost" asChild><Link to="/sell-exit/status">متابعة طلباتي</Link></Button>
+          <Button size="lg" variant="ghost" asChild><Link to="/dashboard/exit-requests">متابعة طلباتي</Link></Button>
           <Button size="lg" variant="outline" asChild><Link to="/exit-opportunities">شوف فرص الخروج الحالية</Link></Button>
         </div>
       </main>
