@@ -7,6 +7,7 @@ import { ExitExample, HowExitWorks } from "@/components/aqar/opportunity/HowExit
 import { DemoNotice } from "@/components/aqar/opportunity/DemoNotice";
 import { exitOpportunities, newUnits, projectOpportunities } from "@/data/opportunities";
 import hero from "@/assets/aqar-hero.jpg";
+import { useSiteContent } from "@/lib/site-content";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
@@ -31,10 +32,11 @@ function SectionHead({ title, to }: { title: string; to: "/exit-opportunities" |
 }
 
 function Index() {
+  const t = useSiteContent();
   return (
     <main>
       <section className="relative min-h-[430px] overflow-hidden">
-        <img src={hero} width={1920} height={900} alt="إطلالة عقارية حديثة في القاهرة الجديدة" className="absolute inset-0 h-full w-full object-cover object-center" />
+        <img src={t("home.hero_image") || hero} width={1920} height={900} alt="إطلالة عقارية حديثة في القاهرة الجديدة" className="absolute inset-0 h-full w-full object-cover object-center" />
         <div className="hero-wash absolute inset-0" />
         <div className="relative mx-auto flex min-h-[430px] max-w-7xl items-center px-4 py-12 lg:px-8">
           <div className="w-full max-w-2xl">
